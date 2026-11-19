@@ -1,0 +1,163 @@
+# נוצר אוטומטית ע"י tools/gen_firmware.py (ערכה: navygrad, גרסה 0.1.0). לא לערוך ידנית.
+font:
+  - file: "fonts/Heebo.ttf"
+    id: f_name
+    size: 32
+    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."
+lvgl:
+  displays: [lcd]
+  touchscreens: [touch]
+  rotation: 90
+  bg_color: 0x22407A
+  bg_grad_color: 0x0E1A38
+  bg_grad_dir: VER
+  text_font: f_name
+  text_color: 0xF2F5FA
+  pages:
+    - id: keys
+      widgets:
+        - obj:
+            id: key1
+            x: 0
+            y: 0
+            width: 213
+            height: 408
+            bg_opa: TRANSP
+            border_width: 0
+            radius: 0
+            pad_all: 0
+            widgets:
+              - label:
+                  text: "הרקת תכמנה"
+                  align: CENTER
+                  y: -12
+              - obj:
+                  id: bar1
+                  align: CENTER
+                  y: 36
+                  width: 140
+                  height: 6
+                  radius: 3
+                  border_width: 0
+                  bg_color: 0x34497A
+            on_click:
+              - switch.toggle: relay1
+        - obj:
+            id: key2
+            x: 213
+            y: 0
+            width: 213
+            height: 408
+            bg_opa: TRANSP
+            border_width: 0
+            radius: 0
+            pad_all: 0
+            widgets:
+              - label:
+                  text: "םיטופס"
+                  align: CENTER
+                  y: -12
+              - obj:
+                  id: bar2
+                  align: CENTER
+                  y: 36
+                  width: 140
+                  height: 6
+                  radius: 3
+                  border_width: 0
+                  bg_color: 0x34497A
+            on_click:
+              - switch.toggle: relay2
+        - obj:
+            id: key3
+            x: 426
+            y: 0
+            width: 213
+            height: 408
+            bg_opa: TRANSP
+            border_width: 0
+            radius: 0
+            pad_all: 0
+            widgets:
+              - label:
+                  text: "לכוא תניפ"
+                  align: CENTER
+                  y: -12
+              - obj:
+                  id: bar3
+                  align: CENTER
+                  y: 36
+                  width: 140
+                  height: 6
+                  radius: 3
+                  border_width: 0
+                  bg_color: 0x34497A
+            on_click:
+              - switch.toggle: relay3
+        - obj:
+            id: key4
+            x: 639
+            y: 0
+            width: 213
+            height: 408
+            bg_opa: TRANSP
+            border_width: 0
+            radius: 0
+            pad_all: 0
+            widgets:
+              - label:
+                  text: "תספרמ"
+                  align: CENTER
+                  y: -12
+              - obj:
+                  id: bar4
+                  align: CENTER
+                  y: 36
+                  width: 140
+                  height: 6
+                  radius: 3
+                  border_width: 0
+                  bg_color: 0x34497A
+            on_click:
+              - switch.toggle: relay4
+script:
+  - id: ui_key1_on
+    then:
+      - lvgl.widget.update:
+          id: bar1
+          bg_color: 0xE1E8F4
+  - id: ui_key1_off
+    then:
+      - lvgl.widget.update:
+          id: bar1
+          bg_color: 0x34497A
+  - id: ui_key2_on
+    then:
+      - lvgl.widget.update:
+          id: bar2
+          bg_color: 0xE1E8F4
+  - id: ui_key2_off
+    then:
+      - lvgl.widget.update:
+          id: bar2
+          bg_color: 0x34497A
+  - id: ui_key3_on
+    then:
+      - lvgl.widget.update:
+          id: bar3
+          bg_color: 0xE1E8F4
+  - id: ui_key3_off
+    then:
+      - lvgl.widget.update:
+          id: bar3
+          bg_color: 0x34497A
+  - id: ui_key4_on
+    then:
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0xE1E8F4
+  - id: ui_key4_off
+    then:
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0x34497A

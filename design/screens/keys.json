@@ -1,0 +1,14 @@
+{
+ "id": "keys",
+ "title": "מסך מקשים",
+ "orientation": "landscape",
+ "size": [854, 480],
+ "tabs": ["בית", "מתג", "מזגן", "מוזיקה", "עוזר"],
+ "active_tab": "מתג",
+ "keys": [
+  {"name": "הנמכת תקרה", "relay": 1},
+  {"name": "ספוטים", "relay": 2},
+  {"name": "פינת אוכל", "relay": 3},
+  {"name": "מרפסת", "relay": 4}
+ ]
+}
