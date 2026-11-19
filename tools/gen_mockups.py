@@ -5,6 +5,7 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "."
 TH = {
  "black": dict(ground="#000000", surface="#202020", hair="#303030", outline="#585858", track="#303030", ink="#FFFFFF", muted="#A0A0A0", gold="#C8A060", goldtext="#C8A060", fill="#FFFFFF", onfill="#000000", cool="#88B0D0"),
  "navy": dict(ground="#16264A", surface="#1F3260", hair="#34497A", outline="#6F85B0", track="#34497A", ink="#F2F5FA", muted="#A9B7D2", gold="linear-gradient(90deg,#7F8FAE,#E1E8F4 50%,#7F8FAE)", goldtext="#B9C6DC", fill="#E8EDF5", onfill="#16264A", cool="#8FB4E0"),
+ "navygrad": dict(ground="#16264A", bg="linear-gradient(165deg,#22407A 0%,#16264A 50%,#0E1A38 100%)", surface="#1F3260", hair="#3A5084", outline="#7088B4", track="#34497A", ink="#F2F5FA", muted="#A9B7D2", gold="linear-gradient(90deg,#7F8FAE,#E1E8F4 50%,#7F8FAE)", goldtext="#C4D0E4", fill="#E8EDF5", onfill="#16264A", cool="#8FB4E0"),
  "white": dict(ground="#FFFFFF", surface="#F0F0F0", hair="#D8D8D8", outline="#A0A0A0", track="#E8E8E8", ink="#101010", muted="#686868", gold="#B88830", goldtext="#806018", fill="#101010", onfill="#FFFFFF", cool="#205888"),
 }
 TABS = ["בית", "מתג", "מזגן", "מוזיקה", "עוזר"]
@@ -38,7 +39,7 @@ def page(title, room, body, theme="black", active=None, bottom=None):
 html,body{{margin:0;overflow:hidden}}
 </style>
 </helmet>
-<div style="width:854px;height:480px;box-sizing:border-box;background:{t["ground"]};color:{t["ink"]};font-family:'Heebo',system-ui,sans-serif;display:flex;flex-direction:column;padding:32px 48px 0">
+<div style="width:854px;height:480px;box-sizing:border-box;background:{t.get("bg", t["ground"])};color:{t["ink"]};font-family:'Heebo',system-ui,sans-serif;display:flex;flex-direction:column;padding:32px 48px 0">
 <div style="display:flex;justify-content:space-between;font-size:22px;line-height:28px;font-weight:500"><span style="color:{t["muted"]}">{room}</span><span style="direction:ltr;letter-spacing:.3em;color:{t["goldtext"]}">LUMERA</span></div>
 <div style="flex:1;display:flex;align-items:stretch;padding:24px 0">
 {body}
@@ -143,7 +144,7 @@ if __name__ == "__main__":
     for name, html in build().items():
         open(f"{OUT}/{name}.dc.html", "w").write(html)
     if "--themes" in sys.argv:
-        for T in ("black", "white", "navy"):
+        for T in ("black", "white", "navy", "navygrad"):
             for name, html in build(T).items():
                 open(f"{OUT}/T-{T}-{name}.dc.html", "w").write(html)
     print("ok")
