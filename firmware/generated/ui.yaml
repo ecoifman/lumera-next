@@ -1,6 +1,6 @@
 # נוצר אוטומטית ע"י tools/gen_firmware.py (ערכה: navygrad, גרסה 0.1.0). לא לערוך ידנית.
 font:
-  - file: "fonts/Heebo.ttf"
+  - file: "gfonts://Heebo"
     id: f_name
     size: 32
     glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."

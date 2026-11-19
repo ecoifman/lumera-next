@@ -5,4 +5,4 @@ cd "$(dirname "$0")/.."
 THEME="${1:-navygrad}"
 python3 tools/gen_mockups.py mockups --themes
 python3 tools/gen_firmware.py --theme "$THEME"
-cd firmware && ${ESPHOME:-esphome} config lumera-bench.yaml >/dev/null && echo "esphome config: OK"
+python3 tools/gen_firmware.py --theme "$THEME" --font-local; cd firmware && ${ESPHOME:-esphome} config lumera-local.yaml >/dev/null && echo "esphome config: OK"; cd ..; python3 tools/gen_firmware.py --theme "$THEME"

@@ -1,0 +1,13 @@
+# לשימוש ב-ESPHome Builder ב-HA: הכל נמשך מ-GitHub. הקובץ היחיד שמעתיקים ל-HA.
+packages:
+  base:
+    url: https://github.com/ecoifman/lumera-next
+    ref: main
+    files: [firmware/lumera-bench.yaml]
+external_components:
+  - source:
+      type: git
+      url: https://github.com/ecoifman/lumera-next
+      ref: main
+      path: firmware/components
+    components: [rpi_dpi_rgb]

@@ -21,7 +21,7 @@ bg = colors(TH.get("bg", TH["ground"]))
 gold = colors(TH["gold"])
 out = [f"# נוצר אוטומטית ע\"י tools/gen_firmware.py (ערכה: {theme_name}, גרסה {VER}). לא לערוך ידנית.",
        "font:",
-       '  - file: "fonts/Heebo.ttf"', "    id: f_name", "    size: 32",
+       ('  - file: "fonts/Heebo.ttf"' if "--font-local" in sys.argv else '  - file: "gfonts://Heebo"'), "    id: f_name", "    size: 32",
        '    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."',
        "lvgl:", "  displays: [lcd]", "  touchscreens: [touch]", "  rotation: 90",
        f"  bg_color: {hexc(bg[0])}"]

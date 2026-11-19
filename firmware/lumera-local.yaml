@@ -1,0 +1,8 @@
+# הרצה/בדיקה מקומית (esphome config): רכיב המסך מהתיקייה המקומית. גופן: tools/gen_firmware.py --font-local
+packages:
+  base: !include lumera-bench.yaml
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [rpi_dpi_rgb]

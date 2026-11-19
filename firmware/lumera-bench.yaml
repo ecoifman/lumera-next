@@ -12,12 +12,6 @@ esphome:
   friendly_name: ${friendly_name}
   name_add_mac_suffix: false
 
-external_components:
-  - source:
-      type: local
-      path: components
-    components: [rpi_dpi_rgb]
-
 esp32:
   board: esp32-s3-devkitc-1
   flash_size: 16MB
