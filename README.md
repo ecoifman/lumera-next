@@ -4,6 +4,7 @@
 
 - `docs/spec.md`: אפיון
 - `mockups/`: מוקאפים של מסכים (Design canvas), ערכת Lumera Panel
+- `tools/gen_mockups.py`: מחולל לוחות המוקאפ מהטוקנים של Lumera Panel
 - `firmware/`: אב-טיפוס ESPHome (עדיין ריק)
 
 ## כללים
