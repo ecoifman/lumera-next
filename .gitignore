@@ -2,3 +2,4 @@ firmware/secrets.yaml
 firmware/backups/
 .esphome/
 *.bin
+__pycache__/
