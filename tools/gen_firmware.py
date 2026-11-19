@@ -4,7 +4,7 @@
 # שימוש: python3 tools/gen_firmware.py [--theme navygrad]
 import json, os, re, sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-theme_name = sys.argv[sys.argv.index("--theme") + 1] if "--theme" in sys.argv else "navygrad"
+theme_name = sys.argv[sys.argv.index("--theme") + 1] if "--theme" in sys.argv else "navy"
 TH = json.load(open(f"{ROOT}/design/themes.json"))[theme_name]
 SCR = json.load(open(f"{ROOT}/design/screens/keys.json"))
 VER = open(f"{ROOT}/design/VERSION").read().strip()
@@ -21,16 +21,16 @@ bg = colors(TH.get("bg", TH["ground"]))
 gold = colors(TH["gold"])
 out = [f"# נוצר אוטומטית ע\"י tools/gen_firmware.py (ערכה: {theme_name}, גרסה {VER}). לא לערוך ידנית.",
        "font:",
-       ('  - file: "fonts/Heebo.ttf"' if "--font-local" in sys.argv else '  - file: "gfonts://Heebo"'), "    id: f_name", "    size: 32",
+       ('  - file: "fonts/Heebo.ttf"' if "--font-local" in sys.argv else '  - file: "gfonts://Heebo"'), "    id: f_name", "    size: 44", "    bpp: 4",
        '    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."',
-       "lvgl:", "  displays: [lcd]", "  touchscreens: [touch]", "  rotation: 90",
+       "lvgl:", "  displays: [lcd]", "  touchscreens: [touch]", "  rotation: 90", "  buffer_size: 50%",
        f"  bg_color: {hexc(bg[0])}"]
 if len(bg) > 1:
     out += [f"  bg_grad_color: {hexc(bg[-1])}", "  bg_grad_dir: VER"]
 out += ["  text_font: f_name", f"  text_color: {hexc(TH['ink'])}", "  pages:", "    - id: keys", "      widgets:"]
 for i, k in enumerate(SCR["keys"], 1):
     out += [
-     "        - obj:", f"            id: key{i}", f"            x: {(i-1)*col_w}", "            y: 0",
+     "        - obj:", f"            id: key{i}", f"            x: {(n-i)*col_w}", "            y: 0",
      f"            width: {col_w}", f"            height: {H-72}", "            bg_opa: TRANSP", "            border_width: 0",
      "            radius: 0", "            pad_all: 0", "            widgets:",
      "              - label:", f'                  text: "{vis(k["name"])}"', "                  align: CENTER", "                  y: -12",

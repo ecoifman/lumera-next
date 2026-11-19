@@ -18,7 +18,13 @@ esp32:
   cpu_frequency: 240MHz
   framework:
     type: esp-idf
+    advanced:
+      loop_task_stack_size: 16384
     sdkconfig_options:
+      CONFIG_SPIRAM_USE_MALLOC: y
+      CONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL: "4096"
+      CONFIG_SPIRAM_TRY_ALLOCATE_WIFI_LWIP: n
+      CONFIG_COMPILER_OPTIMIZATION_PERF: y
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
       CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
       CONFIG_SPIRAM_RODATA: y
