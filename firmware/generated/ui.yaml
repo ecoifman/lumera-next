@@ -1,8 +1,13 @@
 # נוצר אוטומטית ע"י tools/gen_firmware.py (ערכה התחלתית: navy, גרסה 0.1.0). לא לערוך ידנית.
 font:
-  - file: "gfonts://Heebo"
+  - file: "gfonts://Heebo@300"
     id: f_name
-    size: 44
+    size: 28
+    bpp: 4
+    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."
+  - file: "gfonts://Heebo@300"
+    id: f_small
+    size: 20
     bpp: 4
     glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."
 select:
@@ -20,7 +25,7 @@ lvgl:
   touchscreens: [touch]
   rotation: 90
   buffer_size: 50%
-  bg_color: 0x16264A
+  bg_color: 0x22407A
   text_font: f_name
   text_color: 0xF2F5FA
   pages:
@@ -35,30 +40,41 @@ lvgl:
             radius: 0
             border_width: 0
             pad_all: 0
-            bg_color: 0x16264A
+            bg_color: 0x22407A
+            bg_grad_color: 0x0E1A38
+            bg_grad_dir: VER
             clickable: false
         - obj:
             id: key1
-            x: 639
-            y: 40
-            width: 213
-            height: 368
-            bg_opa: TRANSP
-            border_width: 0
-            radius: 0
+            x: 641
+            y: 56
+            width: 197
+            height: 340
+            bg_color: 0x1F3260
+            bg_opa: 80%
+            border_width: 1
+            border_color: 0x34497A
+            radius: 28
             pad_all: 0
             widgets:
               - label:
                   id: name1
                   text: "הרקת תכמנה"
                   align: CENTER
-                  y: -12
+                  y: -22
+              - label:
+                  id: stat1
+                  text_font: f_small
+                  text: "יובכ"
+                  text_color: 0xA9B7D2
+                  align: CENTER
+                  y: 18
               - obj:
                   id: bar1
-                  align: CENTER
-                  y: 36
-                  width: 140
-                  height: 6
+                  align: BOTTOM_MID
+                  y: -22
+                  width: 56
+                  height: 5
                   radius: 3
                   border_width: 0
                   bg_color: 0x34497A
@@ -66,26 +82,35 @@ lvgl:
               - switch.toggle: relay1
         - obj:
             id: key2
-            x: 426
-            y: 40
-            width: 213
-            height: 368
-            bg_opa: TRANSP
-            border_width: 0
-            radius: 0
+            x: 432
+            y: 56
+            width: 197
+            height: 340
+            bg_color: 0x1F3260
+            bg_opa: 80%
+            border_width: 1
+            border_color: 0x34497A
+            radius: 28
             pad_all: 0
             widgets:
               - label:
                   id: name2
                   text: "םיטופס"
                   align: CENTER
-                  y: -12
+                  y: -22
+              - label:
+                  id: stat2
+                  text_font: f_small
+                  text: "יובכ"
+                  text_color: 0xA9B7D2
+                  align: CENTER
+                  y: 18
               - obj:
                   id: bar2
-                  align: CENTER
-                  y: 36
-                  width: 140
-                  height: 6
+                  align: BOTTOM_MID
+                  y: -22
+                  width: 56
+                  height: 5
                   radius: 3
                   border_width: 0
                   bg_color: 0x34497A
@@ -93,26 +118,35 @@ lvgl:
               - switch.toggle: relay2
         - obj:
             id: key3
-            x: 213
-            y: 40
-            width: 213
-            height: 368
-            bg_opa: TRANSP
-            border_width: 0
-            radius: 0
+            x: 223
+            y: 56
+            width: 197
+            height: 340
+            bg_color: 0x1F3260
+            bg_opa: 80%
+            border_width: 1
+            border_color: 0x34497A
+            radius: 28
             pad_all: 0
             widgets:
               - label:
                   id: name3
                   text: "לכוא תניפ"
                   align: CENTER
-                  y: -12
+                  y: -22
+              - label:
+                  id: stat3
+                  text_font: f_small
+                  text: "יובכ"
+                  text_color: 0xA9B7D2
+                  align: CENTER
+                  y: 18
               - obj:
                   id: bar3
-                  align: CENTER
-                  y: 36
-                  width: 140
-                  height: 6
+                  align: BOTTOM_MID
+                  y: -22
+                  width: 56
+                  height: 5
                   radius: 3
                   border_width: 0
                   bg_color: 0x34497A
@@ -120,26 +154,35 @@ lvgl:
               - switch.toggle: relay3
         - obj:
             id: key4
-            x: 0
-            y: 40
-            width: 213
-            height: 368
-            bg_opa: TRANSP
-            border_width: 0
-            radius: 0
+            x: 14
+            y: 56
+            width: 197
+            height: 340
+            bg_color: 0x1F3260
+            bg_opa: 80%
+            border_width: 1
+            border_color: 0x34497A
+            radius: 28
             pad_all: 0
             widgets:
               - label:
                   id: name4
                   text: "תספרמ"
                   align: CENTER
-                  y: -12
+                  y: -22
+              - label:
+                  id: stat4
+                  text_font: f_small
+                  text: "יובכ"
+                  text_color: 0xA9B7D2
+                  align: CENTER
+                  y: 18
               - obj:
                   id: bar4
-                  align: CENTER
-                  y: 36
-                  width: 140
-                  height: 6
+                  align: BOTTOM_MID
+                  y: -22
+                  width: 56
+                  height: 5
                   radius: 3
                   border_width: 0
                   bg_color: 0x34497A
@@ -263,7 +306,9 @@ script:
     then:
       - lvgl.widget.update:
           id: bgroot
-          bg_color: 0x16264A
+          bg_color: 0x22407A
+          bg_grad_color: 0x0E1A38
+          bg_grad_dir: VER
       - lvgl.widget.update:
           id: panel
           bg_color: 0x1F3260
@@ -285,11 +330,33 @@ script:
           then:
             - lvgl.widget.update:
                 id: bar1
-                bg_color: 0xE1E8F4
+                bg_color: 0x8FB4E0
+            - lvgl.widget.update:
+                id: key1
+                bg_color: 0x2A4378
+                border_color: 0x8FB4E0
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat1
+                text_color: 0x8FB4E0
+            - lvgl.label.update:
+                id: stat1
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar1
                 bg_color: 0x34497A
+            - lvgl.label.update:
+                id: stat1
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key1
+                bg_color: 0x1F3260
+                border_color: 0x34497A
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat1
+                text_color: 0xA9B7D2
       - lvgl.widget.update:
           id: name2
           text_color: 0xF2F5FA
@@ -299,11 +366,33 @@ script:
           then:
             - lvgl.widget.update:
                 id: bar2
-                bg_color: 0xE1E8F4
+                bg_color: 0x8FB4E0
+            - lvgl.widget.update:
+                id: key2
+                bg_color: 0x2A4378
+                border_color: 0x8FB4E0
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat2
+                text_color: 0x8FB4E0
+            - lvgl.label.update:
+                id: stat2
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar2
                 bg_color: 0x34497A
+            - lvgl.label.update:
+                id: stat2
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key2
+                bg_color: 0x1F3260
+                border_color: 0x34497A
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat2
+                text_color: 0xA9B7D2
       - lvgl.widget.update:
           id: name3
           text_color: 0xF2F5FA
@@ -313,11 +402,33 @@ script:
           then:
             - lvgl.widget.update:
                 id: bar3
-                bg_color: 0xE1E8F4
+                bg_color: 0x8FB4E0
+            - lvgl.widget.update:
+                id: key3
+                bg_color: 0x2A4378
+                border_color: 0x8FB4E0
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat3
+                text_color: 0x8FB4E0
+            - lvgl.label.update:
+                id: stat3
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar3
                 bg_color: 0x34497A
+            - lvgl.label.update:
+                id: stat3
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key3
+                bg_color: 0x1F3260
+                border_color: 0x34497A
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat3
+                text_color: 0xA9B7D2
       - lvgl.widget.update:
           id: name4
           text_color: 0xF2F5FA
@@ -327,16 +438,40 @@ script:
           then:
             - lvgl.widget.update:
                 id: bar4
-                bg_color: 0xE1E8F4
+                bg_color: 0x8FB4E0
+            - lvgl.widget.update:
+                id: key4
+                bg_color: 0x2A4378
+                border_color: 0x8FB4E0
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat4
+                text_color: 0x8FB4E0
+            - lvgl.label.update:
+                id: stat4
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar4
                 bg_color: 0x34497A
+            - lvgl.label.update:
+                id: stat4
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key4
+                bg_color: 0x1F3260
+                border_color: 0x34497A
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat4
+                text_color: 0xA9B7D2
   - id: ui_theme_black
     then:
       - lvgl.widget.update:
           id: bgroot
-          bg_color: 0x000000
+          bg_color: 0x2A2A2E
+          bg_grad_color: 0x000000
+          bg_grad_dir: VER
       - lvgl.widget.update:
           id: panel
           bg_color: 0x202020
@@ -359,10 +494,32 @@ script:
             - lvgl.widget.update:
                 id: bar1
                 bg_color: 0xC8A060
+            - lvgl.widget.update:
+                id: key1
+                bg_color: 0x2A2A2E
+                border_color: 0xC8A060
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat1
+                text_color: 0xC8A060
+            - lvgl.label.update:
+                id: stat1
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar1
                 bg_color: 0x303030
+            - lvgl.label.update:
+                id: stat1
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key1
+                bg_color: 0x202020
+                border_color: 0x303030
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat1
+                text_color: 0xA0A0A0
       - lvgl.widget.update:
           id: name2
           text_color: 0xFFFFFF
@@ -373,10 +530,32 @@ script:
             - lvgl.widget.update:
                 id: bar2
                 bg_color: 0xC8A060
+            - lvgl.widget.update:
+                id: key2
+                bg_color: 0x2A2A2E
+                border_color: 0xC8A060
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat2
+                text_color: 0xC8A060
+            - lvgl.label.update:
+                id: stat2
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar2
                 bg_color: 0x303030
+            - lvgl.label.update:
+                id: stat2
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key2
+                bg_color: 0x202020
+                border_color: 0x303030
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat2
+                text_color: 0xA0A0A0
       - lvgl.widget.update:
           id: name3
           text_color: 0xFFFFFF
@@ -387,10 +566,32 @@ script:
             - lvgl.widget.update:
                 id: bar3
                 bg_color: 0xC8A060
+            - lvgl.widget.update:
+                id: key3
+                bg_color: 0x2A2A2E
+                border_color: 0xC8A060
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat3
+                text_color: 0xC8A060
+            - lvgl.label.update:
+                id: stat3
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar3
                 bg_color: 0x303030
+            - lvgl.label.update:
+                id: stat3
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key3
+                bg_color: 0x202020
+                border_color: 0x303030
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat3
+                text_color: 0xA0A0A0
       - lvgl.widget.update:
           id: name4
           text_color: 0xFFFFFF
@@ -401,15 +602,39 @@ script:
             - lvgl.widget.update:
                 id: bar4
                 bg_color: 0xC8A060
+            - lvgl.widget.update:
+                id: key4
+                bg_color: 0x2A2A2E
+                border_color: 0xC8A060
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat4
+                text_color: 0xC8A060
+            - lvgl.label.update:
+                id: stat4
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar4
                 bg_color: 0x303030
+            - lvgl.label.update:
+                id: stat4
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key4
+                bg_color: 0x202020
+                border_color: 0x303030
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat4
+                text_color: 0xA0A0A0
   - id: ui_theme_white
     then:
       - lvgl.widget.update:
           id: bgroot
           bg_color: 0xFFFFFF
+          bg_grad_color: 0xDFE2E8
+          bg_grad_dir: VER
       - lvgl.widget.update:
           id: panel
           bg_color: 0xF0F0F0
@@ -432,10 +657,32 @@ script:
             - lvgl.widget.update:
                 id: bar1
                 bg_color: 0xB88830
+            - lvgl.widget.update:
+                id: key1
+                bg_color: 0xFFFFFF
+                border_color: 0xB88830
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat1
+                text_color: 0xB88830
+            - lvgl.label.update:
+                id: stat1
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar1
                 bg_color: 0xE8E8E8
+            - lvgl.label.update:
+                id: stat1
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key1
+                bg_color: 0xF0F0F0
+                border_color: 0xD8D8D8
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat1
+                text_color: 0x686868
       - lvgl.widget.update:
           id: name2
           text_color: 0x101010
@@ -446,10 +693,32 @@ script:
             - lvgl.widget.update:
                 id: bar2
                 bg_color: 0xB88830
+            - lvgl.widget.update:
+                id: key2
+                bg_color: 0xFFFFFF
+                border_color: 0xB88830
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat2
+                text_color: 0xB88830
+            - lvgl.label.update:
+                id: stat2
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar2
                 bg_color: 0xE8E8E8
+            - lvgl.label.update:
+                id: stat2
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key2
+                bg_color: 0xF0F0F0
+                border_color: 0xD8D8D8
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat2
+                text_color: 0x686868
       - lvgl.widget.update:
           id: name3
           text_color: 0x101010
@@ -460,10 +729,32 @@ script:
             - lvgl.widget.update:
                 id: bar3
                 bg_color: 0xB88830
+            - lvgl.widget.update:
+                id: key3
+                bg_color: 0xFFFFFF
+                border_color: 0xB88830
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat3
+                text_color: 0xB88830
+            - lvgl.label.update:
+                id: stat3
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar3
                 bg_color: 0xE8E8E8
+            - lvgl.label.update:
+                id: stat3
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key3
+                bg_color: 0xF0F0F0
+                border_color: 0xD8D8D8
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat3
+                text_color: 0x686868
       - lvgl.widget.update:
           id: name4
           text_color: 0x101010
@@ -474,10 +765,32 @@ script:
             - lvgl.widget.update:
                 id: bar4
                 bg_color: 0xB88830
+            - lvgl.widget.update:
+                id: key4
+                bg_color: 0xFFFFFF
+                border_color: 0xB88830
+                bg_opa: COVER
+            - lvgl.widget.update:
+                id: stat4
+                text_color: 0xB88830
+            - lvgl.label.update:
+                id: stat4
+                text: "קלוד"
           else:
             - lvgl.widget.update:
                 id: bar4
                 bg_color: 0xE8E8E8
+            - lvgl.label.update:
+                id: stat4
+                text: "יובכ"
+            - lvgl.widget.update:
+                id: key4
+                bg_color: 0xF0F0F0
+                border_color: 0xD8D8D8
+                bg_opa: 80%
+            - lvgl.widget.update:
+                id: stat4
+                text_color: 0x686868
   - id: ui_refresh
     then:
       - if:

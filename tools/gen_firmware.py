@@ -20,27 +20,37 @@ n = len(SCR["keys"])
 col_w = W // n
 RT = ["navy", "black", "white"]            # ערכות שנבחרות בזמן ריצה (אחידות, בלי גרדיאנט)
 HEB = {"navy": "כחול", "black": "שחור", "white": "לבן"}
+GRADT = {"navy": "navygrad", "black": "blackgrad", "white": "whitegrad"}
+def gcols(T): return colors(ALL[GRADT[T]]["bg"]) if T in GRADT else colors(ALL[T].get("bg", ALL[T]["ground"]))
+def acc(T): return ALL[T].get("cool", gold_of(T)) if T == "navy" else gold_of(T)
 def gold_of(T): return colors(ALL[T]["gold"])[len(colors(ALL[T]["gold"]))//2]
-bg = colors(TH.get("bg", TH["ground"]))
+G0 = gcols(theme_name if theme_name in RT else "navy")
+FW = "" if "--font-local" in sys.argv else "@300"
+FONT = ('  - file: "fonts/Heebo.ttf"' if "--font-local" in sys.argv else '  - file: "gfonts://Heebo@300"')
+GL = '    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."'
+MX, GAP, TOP = 14, 12, 56
+CW = (W - 2*MX - (n-1)*GAP) // n
+CH = H - TOP - 84
 out = [f"# נוצר אוטומטית ע\"י tools/gen_firmware.py (ערכה התחלתית: {theme_name}, גרסה {VER}). לא לערוך ידנית.",
-       "font:",
-       ('  - file: "fonts/Heebo.ttf"' if "--font-local" in sys.argv else '  - file: "gfonts://Heebo"'), "    id: f_name", "    size: 44", "    bpp: 4",
-       '    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."',
+       "font:", FONT, "    id: f_name", "    size: 28", "    bpp: 4", GL,
+       FONT, "    id: f_small", "    size: 20", "    bpp: 4", GL,
        "select:", "  - platform: template", "    id: theme_sel", '    name: "ערכת נושא"', f"    options: [{', '.join(RT)}]",
        f"    initial_option: {theme_name if theme_name in RT else 'navy'}", "    optimistic: true", "    restore_value: true",
        "    on_value:", "      - script.execute: ui_refresh",
        "lvgl:", "  displays: [lcd]", "  touchscreens: [touch]", "  rotation: 90", "  buffer_size: 50%",
-       f"  bg_color: {hexc(bg[0])}", "  text_font: f_name", f"  text_color: {hexc(TH['ink'])}", "  pages:", "    - id: keys", "      widgets:",
+       f"  bg_color: {hexc(G0[0])}", "  text_font: f_name", f"  text_color: {hexc(TH['ink'])}", "  pages:", "    - id: keys", "      widgets:",
        "        - obj:", "            id: bgroot", "            x: 0", "            y: 0", f"            width: {W}", f"            height: {H}",
-       "            radius: 0", "            border_width: 0", "            pad_all: 0", f"            bg_color: {hexc(bg[0])}", "            clickable: false"]
+       "            radius: 0", "            border_width: 0", "            pad_all: 0", f"            bg_color: {hexc(G0[0])}",
+       f"            bg_grad_color: {hexc(G0[-1])}", "            bg_grad_dir: VER", "            clickable: false"]
 for i, k in enumerate(SCR["keys"], 1):
     out += [
-     "        - obj:", f"            id: key{i}", f"            x: {(n-i)*col_w}", "            y: 40",
-     f"            width: {col_w}", f"            height: {H-112}", "            bg_opa: TRANSP", "            border_width: 0",
-     "            radius: 0", "            pad_all: 0", "            widgets:",
-     "              - label:", f"                  id: name{i}", f'                  text: "{vis(k["name"])}"', "                  align: CENTER", "                  y: -12",
-     "              - obj:", f"                  id: bar{i}", "                  align: CENTER", "                  y: 36",
-     "                  width: 140", "                  height: 6", "                  radius: 3", "                  border_width: 0",
+     "        - obj:", f"            id: key{i}", f"            x: {MX + (n-i)*(CW+GAP)}", f"            y: {TOP}",
+     f"            width: {CW}", f"            height: {CH}", f"            bg_color: {hexc(TH['surface'])}", "            bg_opa: 80%",
+     "            border_width: 1", f"            border_color: {hexc(TH['hair'])}", "            radius: 28", "            pad_all: 0", "            widgets:",
+     "              - label:", f"                  id: name{i}", f'                  text: "{vis(k["name"])}"', "                  align: CENTER", "                  y: -22",
+     "              - label:", f"                  id: stat{i}", "                  text_font: f_small", f'                  text: "{vis("כבוי")}"', f"                  text_color: {hexc(TH['muted'])}", "                  align: CENTER", "                  y: 18",
+     "              - obj:", f"                  id: bar{i}", "                  align: BOTTOM_MID", "                  y: -22",
+     "                  width: 56", "                  height: 5", "                  radius: 3", "                  border_width: 0",
      f"                  bg_color: {hexc(TH['track'])}",
      f"            on_click:", f"              - switch.toggle: relay{k['relay']}"]
 # רצועת משיכה בראש המסך + פאנל ערכות נושא
@@ -65,19 +75,25 @@ out += ["              - obj:", "                  id: panel_close", "          
         "                  widgets:", "                    - label:", f'                        text: "{vis("סגור")}"', "                        align: CENTER"]
 out += ["script:"]
 for T in RT:
-    C = ALL[T]; gd = hexc(gold_of(T))
+    C = ALL[T]; AC = hexc(acc(T)); gc = gcols(T)
     out += [f"  - id: ui_theme_{T}", "    then:"]
     def up(i_, **kw):
         r = ["      - lvgl.widget.update:", f"          id: {i_}"]
         r += [f"          {k}: {v}" for k, v in kw.items()]
         return r
-    out += up("bgroot", bg_color=hexc(C["ground"])) + up("panel", bg_color=hexc(C["surface"]))
+    out += up("bgroot", bg_color=hexc(gc[0]), bg_grad_color=hexc(gc[-1]), bg_grad_dir="VER") + up("panel", bg_color=hexc(C["surface"]))
     out += up("panel_title", text_color=hexc(C["ink"])) + up("panel_close", bg_color=hexc(C["track"])) + up("grip", bg_color=hexc(C["track"]))
     for i, k in enumerate(SCR["keys"], 1):
         out += up(f"name{i}", text_color=hexc(C["ink"]))
         out += ["      - if:", "          condition:", f"            switch.is_on: relay{k['relay']}", "          then:"]
-        out += ["      " + l for l in up(f"bar{i}", bg_color=gd)]
+        out += ["      " + l for l in up(f"bar{i}", bg_color=AC)]
+        out += ["      " + l for l in up(f"key{i}", bg_color=hexc(C["cardon"]), border_color=AC, bg_opa="COVER")]
+        out += ["      " + l for l in up(f"stat{i}", text_color=AC)]
+        out += ["            - lvgl.label.update:", f"                id: stat{i}", f'                text: "{vis("דולק")}"']
         out += ["          else:"] + ["      " + l for l in up(f"bar{i}", bg_color=hexc(C["track"]))]
+        out += ["            - lvgl.label.update:", f"                id: stat{i}", f'                text: "{vis("כבוי")}"']
+        out += ["      " + l for l in up(f"key{i}", bg_color=hexc(C["surface"]), border_color=hexc(C["hair"]), bg_opa="80%")]
+        out += ["      " + l for l in up(f"stat{i}", text_color=hexc(C["muted"]))]
 out += ["  - id: ui_refresh", "    then:"]
 for T in RT:
     out += ["      - if:", "          condition:", f"            lambda: 'return id(theme_sel).current_option() == \"{T}\";'", "          then:", f"            - script.execute: ui_theme_{T}"]
