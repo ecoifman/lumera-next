@@ -1,10 +1,20 @@
-# נוצר אוטומטית ע"י tools/gen_firmware.py (ערכה: navy, גרסה 0.1.0). לא לערוך ידנית.
+# נוצר אוטומטית ע"י tools/gen_firmware.py (ערכה התחלתית: navy, גרסה 0.1.0). לא לערוך ידנית.
 font:
   - file: "gfonts://Heebo"
     id: f_name
     size: 44
     bpp: 4
     glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."
+select:
+  - platform: template
+    id: theme_sel
+    name: "ערכת נושא"
+    options: [navy, black, white]
+    initial_option: navy
+    optimistic: true
+    restore_value: true
+    on_value:
+      - script.execute: ui_refresh
 lvgl:
   displays: [lcd]
   touchscreens: [touch]
@@ -17,17 +27,29 @@ lvgl:
     - id: keys
       widgets:
         - obj:
+            id: bgroot
+            x: 0
+            y: 0
+            width: 854
+            height: 480
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_color: 0x16264A
+            clickable: false
+        - obj:
             id: key1
             x: 639
-            y: 0
+            y: 40
             width: 213
-            height: 408
+            height: 368
             bg_opa: TRANSP
             border_width: 0
             radius: 0
             pad_all: 0
             widgets:
               - label:
+                  id: name1
                   text: "הרקת תכמנה"
                   align: CENTER
                   y: -12
@@ -45,15 +67,16 @@ lvgl:
         - obj:
             id: key2
             x: 426
-            y: 0
+            y: 40
             width: 213
-            height: 408
+            height: 368
             bg_opa: TRANSP
             border_width: 0
             radius: 0
             pad_all: 0
             widgets:
               - label:
+                  id: name2
                   text: "םיטופס"
                   align: CENTER
                   y: -12
@@ -71,15 +94,16 @@ lvgl:
         - obj:
             id: key3
             x: 213
-            y: 0
+            y: 40
             width: 213
-            height: 408
+            height: 368
             bg_opa: TRANSP
             border_width: 0
             radius: 0
             pad_all: 0
             widgets:
               - label:
+                  id: name3
                   text: "לכוא תניפ"
                   align: CENTER
                   y: -12
@@ -97,15 +121,16 @@ lvgl:
         - obj:
             id: key4
             x: 0
-            y: 0
+            y: 40
             width: 213
-            height: 408
+            height: 368
             bg_opa: TRANSP
             border_width: 0
             radius: 0
             pad_all: 0
             widgets:
               - label:
+                  id: name4
                   text: "תספרמ"
                   align: CENTER
                   y: -12
@@ -120,44 +145,377 @@ lvgl:
                   bg_color: 0x34497A
             on_click:
               - switch.toggle: relay4
+        - obj:
+            id: handle
+            x: 0
+            y: 0
+            width: 854
+            height: 40
+            bg_opa: TRANSP
+            border_width: 0
+            radius: 0
+            pad_all: 0
+            on_click:
+              - lvgl.widget.show: panel
+            widgets:
+              - obj:
+                  id: grip
+                  align: CENTER
+                  width: 80
+                  height: 5
+                  radius: 3
+                  border_width: 0
+                  bg_color: 0x34497A
+        - obj:
+            id: panel
+            hidden: true
+            x: 0
+            y: 0
+            width: 854
+            height: 230
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_color: 0x1F3260
+            widgets:
+              - label:
+                  id: panel_title
+                  text: "אשונ תכרע"
+                  align: TOP_MID
+                  y: 14
+              - obj:
+                  id: tbtn_navy
+                  align: TOP_MID
+                  x: -240
+                  y: 80
+                  width: 200
+                  height: 70
+                  radius: 12
+                  border_width: 2
+                  bg_color: 0x16264A
+                  border_color: 0xE1E8F4
+                  on_click:
+                    - select.set:
+                        id: theme_sel
+                        option: navy
+                  widgets:
+                    - label:
+                        text: "לוחכ"
+                        text_color: 0xF2F5FA
+                        align: CENTER
+              - obj:
+                  id: tbtn_black
+                  align: TOP_MID
+                  x: 0
+                  y: 80
+                  width: 200
+                  height: 70
+                  radius: 12
+                  border_width: 2
+                  bg_color: 0x000000
+                  border_color: 0xC8A060
+                  on_click:
+                    - select.set:
+                        id: theme_sel
+                        option: black
+                  widgets:
+                    - label:
+                        text: "רוחש"
+                        text_color: 0xFFFFFF
+                        align: CENTER
+              - obj:
+                  id: tbtn_white
+                  align: TOP_MID
+                  x: 240
+                  y: 80
+                  width: 200
+                  height: 70
+                  radius: 12
+                  border_width: 2
+                  bg_color: 0xFFFFFF
+                  border_color: 0xB88830
+                  on_click:
+                    - select.set:
+                        id: theme_sel
+                        option: white
+                  widgets:
+                    - label:
+                        text: "ןבל"
+                        text_color: 0x101010
+                        align: CENTER
+              - obj:
+                  id: pclose
+                  align: BOTTOM_MID
+                  y: -10
+                  width: 160
+                  height: 50
+                  radius: 12
+                  border_width: 0
+                  bg_color: 0x34497A
+                  on_click:
+                    - lvgl.widget.hide: panel
+                  widgets:
+                    - label:
+                        text: "רוגס"
+                        align: CENTER
 script:
+  - id: ui_theme_navy
+    then:
+      - lvgl.widget.update:
+          id: bgroot
+          bg_color: 0x16264A
+      - lvgl.widget.update:
+          id: panel
+          bg_color: 0x1F3260
+      - lvgl.widget.update:
+          id: panel_title
+          text_color: 0xF2F5FA
+      - lvgl.widget.update:
+          id: pclose
+          bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: grip
+          bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: name1
+          text_color: 0xF2F5FA
+      - if:
+          condition:
+            switch.is_on: relay1
+          then:
+            - lvgl.widget.update:
+                id: bar1
+                bg_color: 0xE1E8F4
+          else:
+            - lvgl.widget.update:
+                id: bar1
+                bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: name2
+          text_color: 0xF2F5FA
+      - if:
+          condition:
+            switch.is_on: relay2
+          then:
+            - lvgl.widget.update:
+                id: bar2
+                bg_color: 0xE1E8F4
+          else:
+            - lvgl.widget.update:
+                id: bar2
+                bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xF2F5FA
+      - if:
+          condition:
+            switch.is_on: relay3
+          then:
+            - lvgl.widget.update:
+                id: bar3
+                bg_color: 0xE1E8F4
+          else:
+            - lvgl.widget.update:
+                id: bar3
+                bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xF2F5FA
+      - if:
+          condition:
+            switch.is_on: relay4
+          then:
+            - lvgl.widget.update:
+                id: bar4
+                bg_color: 0xE1E8F4
+          else:
+            - lvgl.widget.update:
+                id: bar4
+                bg_color: 0x34497A
+  - id: ui_theme_black
+    then:
+      - lvgl.widget.update:
+          id: bgroot
+          bg_color: 0x000000
+      - lvgl.widget.update:
+          id: panel
+          bg_color: 0x202020
+      - lvgl.widget.update:
+          id: panel_title
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: pclose
+          bg_color: 0x303030
+      - lvgl.widget.update:
+          id: grip
+          bg_color: 0x303030
+      - lvgl.widget.update:
+          id: name1
+          text_color: 0xFFFFFF
+      - if:
+          condition:
+            switch.is_on: relay1
+          then:
+            - lvgl.widget.update:
+                id: bar1
+                bg_color: 0xC8A060
+          else:
+            - lvgl.widget.update:
+                id: bar1
+                bg_color: 0x303030
+      - lvgl.widget.update:
+          id: name2
+          text_color: 0xFFFFFF
+      - if:
+          condition:
+            switch.is_on: relay2
+          then:
+            - lvgl.widget.update:
+                id: bar2
+                bg_color: 0xC8A060
+          else:
+            - lvgl.widget.update:
+                id: bar2
+                bg_color: 0x303030
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xFFFFFF
+      - if:
+          condition:
+            switch.is_on: relay3
+          then:
+            - lvgl.widget.update:
+                id: bar3
+                bg_color: 0xC8A060
+          else:
+            - lvgl.widget.update:
+                id: bar3
+                bg_color: 0x303030
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xFFFFFF
+      - if:
+          condition:
+            switch.is_on: relay4
+          then:
+            - lvgl.widget.update:
+                id: bar4
+                bg_color: 0xC8A060
+          else:
+            - lvgl.widget.update:
+                id: bar4
+                bg_color: 0x303030
+  - id: ui_theme_white
+    then:
+      - lvgl.widget.update:
+          id: bgroot
+          bg_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: panel
+          bg_color: 0xF0F0F0
+      - lvgl.widget.update:
+          id: panel_title
+          text_color: 0x101010
+      - lvgl.widget.update:
+          id: pclose
+          bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: grip
+          bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name1
+          text_color: 0x101010
+      - if:
+          condition:
+            switch.is_on: relay1
+          then:
+            - lvgl.widget.update:
+                id: bar1
+                bg_color: 0xB88830
+          else:
+            - lvgl.widget.update:
+                id: bar1
+                bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name2
+          text_color: 0x101010
+      - if:
+          condition:
+            switch.is_on: relay2
+          then:
+            - lvgl.widget.update:
+                id: bar2
+                bg_color: 0xB88830
+          else:
+            - lvgl.widget.update:
+                id: bar2
+                bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0x101010
+      - if:
+          condition:
+            switch.is_on: relay3
+          then:
+            - lvgl.widget.update:
+                id: bar3
+                bg_color: 0xB88830
+          else:
+            - lvgl.widget.update:
+                id: bar3
+                bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0x101010
+      - if:
+          condition:
+            switch.is_on: relay4
+          then:
+            - lvgl.widget.update:
+                id: bar4
+                bg_color: 0xB88830
+          else:
+            - lvgl.widget.update:
+                id: bar4
+                bg_color: 0xE8E8E8
+  - id: ui_refresh
+    then:
+      - if:
+          condition:
+            lambda: 'return id(theme_sel).current_option() == "navy";'
+          then:
+            - script.execute: ui_theme_navy
+      - if:
+          condition:
+            lambda: 'return id(theme_sel).current_option() == "black";'
+          then:
+            - script.execute: ui_theme_black
+      - if:
+          condition:
+            lambda: 'return id(theme_sel).current_option() == "white";'
+          then:
+            - script.execute: ui_theme_white
   - id: ui_key1_on
     then:
-      - lvgl.widget.update:
-          id: bar1
-          bg_color: 0xE1E8F4
+      - script.execute: ui_refresh
   - id: ui_key1_off
     then:
-      - lvgl.widget.update:
-          id: bar1
-          bg_color: 0x34497A
+      - script.execute: ui_refresh
   - id: ui_key2_on
     then:
-      - lvgl.widget.update:
-          id: bar2
-          bg_color: 0xE1E8F4
+      - script.execute: ui_refresh
   - id: ui_key2_off
     then:
-      - lvgl.widget.update:
-          id: bar2
-          bg_color: 0x34497A
+      - script.execute: ui_refresh
   - id: ui_key3_on
     then:
-      - lvgl.widget.update:
-          id: bar3
-          bg_color: 0xE1E8F4
+      - script.execute: ui_refresh
   - id: ui_key3_off
     then:
-      - lvgl.widget.update:
-          id: bar3
-          bg_color: 0x34497A
+      - script.execute: ui_refresh
   - id: ui_key4_on
     then:
-      - lvgl.widget.update:
-          id: bar4
-          bg_color: 0xE1E8F4
+      - script.execute: ui_refresh
   - id: ui_key4_off
     then:
-      - lvgl.widget.update:
-          id: bar4
-          bg_color: 0x34497A
+      - script.execute: ui_refresh
