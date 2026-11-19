@@ -43,7 +43,7 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
   ap:
-    ssid: "${friendly_name} Setup"
+    ssid: "Lumera C15 Setup"
     password: !secret l10_ap_password
 
 api:
