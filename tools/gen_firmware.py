@@ -59,7 +59,7 @@ for j, t in enumerate(RT):
             f"                  bg_color: {hexc(ALL[t]['ground'])}", f"                  border_color: {hexc(gold_of(t))}",
             "                  on_click:", "                    - select.set:", "                        id: theme_sel", f"                        option: {t}",
             "                  widgets:", "                    - label:", f'                        text: "{vis(HEB[t])}"', f"                        text_color: {hexc(ALL[t]['ink'])}", "                        align: CENTER"]
-out += ["              - obj:", "                  id: pclose", "                  align: BOTTOM_MID", "                  y: -10", "                  width: 160", "                  height: 50",
+out += ["              - obj:", "                  id: panel_close", "                  align: BOTTOM_MID", "                  y: -10", "                  width: 160", "                  height: 50",
         "                  radius: 12", "                  border_width: 0", f"                  bg_color: {hexc(TH['track'])}",
         "                  on_click:", "                    - lvgl.widget.hide: panel",
         "                  widgets:", "                    - label:", f'                        text: "{vis("סגור")}"', "                        align: CENTER"]
@@ -72,7 +72,7 @@ for T in RT:
         r += [f"          {k}: {v}" for k, v in kw.items()]
         return r
     out += up("bgroot", bg_color=hexc(C["ground"])) + up("panel", bg_color=hexc(C["surface"]))
-    out += up("panel_title", text_color=hexc(C["ink"])) + up("pclose", bg_color=hexc(C["track"])) + up("grip", bg_color=hexc(C["track"]))
+    out += up("panel_title", text_color=hexc(C["ink"])) + up("panel_close", bg_color=hexc(C["track"])) + up("grip", bg_color=hexc(C["track"]))
     for i, k in enumerate(SCR["keys"], 1):
         out += up(f"name{i}", text_color=hexc(C["ink"]))
         out += ["      - if:", "          condition:", f"            switch.is_on: relay{k['relay']}", "          then:"]

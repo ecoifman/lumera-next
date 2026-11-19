@@ -244,7 +244,7 @@ lvgl:
                         text_color: 0x101010
                         align: CENTER
               - obj:
-                  id: pclose
+                  id: panel_close
                   align: BOTTOM_MID
                   y: -10
                   width: 160
@@ -271,7 +271,7 @@ script:
           id: panel_title
           text_color: 0xF2F5FA
       - lvgl.widget.update:
-          id: pclose
+          id: panel_close
           bg_color: 0x34497A
       - lvgl.widget.update:
           id: grip
@@ -344,7 +344,7 @@ script:
           id: panel_title
           text_color: 0xFFFFFF
       - lvgl.widget.update:
-          id: pclose
+          id: panel_close
           bg_color: 0x303030
       - lvgl.widget.update:
           id: grip
@@ -417,7 +417,7 @@ script:
           id: panel_title
           text_color: 0x101010
       - lvgl.widget.update:
-          id: pclose
+          id: panel_close
           bg_color: 0xE8E8E8
       - lvgl.widget.update:
           id: grip
