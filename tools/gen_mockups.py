@@ -4,7 +4,7 @@ import sys, json
 OUT = sys.argv[1] if len(sys.argv) > 1 else "."
 TH = {
  "black": dict(ground="#000000", surface="#202020", hair="#303030", outline="#585858", track="#303030", ink="#FFFFFF", muted="#A0A0A0", gold="#C8A060", goldtext="#C8A060", fill="#FFFFFF", onfill="#000000", cool="#88B0D0"),
- "navy": dict(ground="#0B1220", surface="#131D33", hair="#243352", outline="#5A6E94", track="#243352", ink="#F2F5FA", muted="#9AA8C2", gold="linear-gradient(90deg,#7F8FAE,#E1E8F4 50%,#7F8FAE)", goldtext="#B9C6DC", fill="#E8EDF5", onfill="#0B1220", cool="#8FB4E0"),
+ "navy": dict(ground="#16264A", surface="#1F3260", hair="#34497A", outline="#6F85B0", track="#34497A", ink="#F2F5FA", muted="#A9B7D2", gold="linear-gradient(90deg,#7F8FAE,#E1E8F4 50%,#7F8FAE)", goldtext="#B9C6DC", fill="#E8EDF5", onfill="#16264A", cool="#8FB4E0"),
  "white": dict(ground="#FFFFFF", surface="#F0F0F0", hair="#D8D8D8", outline="#A0A0A0", track="#E8E8E8", ink="#101010", muted="#686868", gold="#B88830", goldtext="#806018", fill="#101010", onfill="#FFFFFF", cool="#205888"),
 }
 TABS = ["בית", "מתג", "מזגן", "מוזיקה", "עוזר"]
