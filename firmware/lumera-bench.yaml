@@ -1,8 +1,8 @@
 # Lumera Next: מסך ספסל אחד, שלב 1 (חומרה + מסך מקשים בסיסי). בלי צריבה עד אישור.
 # חומרה (פינים, טיימינג, פרוטוקול STC) נלקחה מהידע של גיא (home-eyal, קריאה בלבד).
 substitutions:
-  name: lumera-bench
-  friendly_name: "Lumera Bench"
+  name: lumera-c15
+  friendly_name: "Lumera 15 סוויטת הורים"
 
 esphome:
   name: ${name}
@@ -44,22 +44,22 @@ wifi:
   password: !secret wifi_password
   ap:
     ssid: "${friendly_name} Setup"
-    password: !secret ap_password
+    password: !secret l10_ap_password
 
 api:
   encryption:
-    key: !secret api_key
+    key: !secret l10_api_key
   reboot_timeout: 0s   # מקומי קודם: מסך ממשיך לעבוד גם בלי HA
 
 ota:
   - platform: esphome
-    password: !secret ota_password
+    password: !secret l10_ota_password
 
 web_server:
   port: 80
   auth:
     username: lumera
-    password: !secret web_password
+    password: !secret l10_web_password
 
 i2c:
   id: bus_a
