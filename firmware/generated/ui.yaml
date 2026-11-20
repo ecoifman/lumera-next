@@ -41,30 +41,47 @@ select:
   restore_value: true
   on_value:
   - script.execute: ui_refresh
+globals:
+- id: lon3
+  type: bool
+  initial_value: 'false'
+- id: lon4
+  type: bool
+  initial_value: 'false'
+- id: lon5
+  type: bool
+  initial_value: 'false'
+- id: lon6
+  type: bool
+  initial_value: 'false'
 binary_sensor:
 - platform: homeassistant
   id: lstate3
   entity_id: light.CHANGE_ME_1
   internal: true
   on_state:
+  - lambda: id(lon3) = x;
   - script.execute: ui_refresh
 - platform: homeassistant
   id: lstate4
   entity_id: light.CHANGE_ME_2
   internal: true
   on_state:
+  - lambda: id(lon4) = x;
   - script.execute: ui_refresh
 - platform: homeassistant
   id: lstate5
   entity_id: light.CHANGE_ME_3
   internal: true
   on_state:
+  - lambda: id(lon5) = x;
   - script.execute: ui_refresh
 - platform: homeassistant
   id: lstate6
   entity_id: light.CHANGE_ME_4
   internal: true
   on_state:
+  - lambda: id(lon6) = x;
   - script.execute: ui_refresh
 lvgl:
   displays:
@@ -112,7 +129,12 @@ lvgl:
             border_width: 0
             pad_all: 0
             bg_opa: TRANSP
+            on_press:
+            - script.execute: ui_press_z1u
+            on_release:
+            - script.execute: ui_refresh
             on_click:
+            - script.execute: ui_refresh
             - homeassistant.action:
                 action: cover.cover.open
                 data:
@@ -133,7 +155,12 @@ lvgl:
             border_width: 0
             pad_all: 0
             bg_opa: TRANSP
+            on_press:
+            - script.execute: ui_press_z1s
+            on_release:
+            - script.execute: ui_refresh
             on_click:
+            - script.execute: ui_refresh
             - homeassistant.action:
                 action: cover.cover.stop
                 data:
@@ -154,7 +181,12 @@ lvgl:
             border_width: 0
             pad_all: 0
             bg_opa: TRANSP
+            on_press:
+            - script.execute: ui_press_z1d
+            on_release:
+            - script.execute: ui_refresh
             on_click:
+            - script.execute: ui_refresh
             - homeassistant.action:
                 action: cover.cover.close
                 data:
@@ -271,7 +303,12 @@ lvgl:
             border_width: 0
             pad_all: 0
             bg_opa: TRANSP
+            on_press:
+            - script.execute: ui_press_z2u
+            on_release:
+            - script.execute: ui_refresh
             on_click:
+            - script.execute: ui_refresh
             - homeassistant.action:
                 action: cover.cover.open
                 data:
@@ -292,7 +329,12 @@ lvgl:
             border_width: 0
             pad_all: 0
             bg_opa: TRANSP
+            on_press:
+            - script.execute: ui_press_z2s
+            on_release:
+            - script.execute: ui_refresh
             on_click:
+            - script.execute: ui_refresh
             - homeassistant.action:
                 action: cover.cover.stop
                 data:
@@ -313,7 +355,12 @@ lvgl:
             border_width: 0
             pad_all: 0
             bg_opa: TRANSP
+            on_press:
+            - script.execute: ui_press_z2d
+            on_release:
+            - script.execute: ui_refresh
             on_click:
+            - script.execute: ui_refresh
             - homeassistant.action:
                 action: cover.cover.close
                 data:
@@ -411,7 +458,13 @@ lvgl:
         border_width: 1
         pad_all: 0
         bg_opa: COVER
+        on_press:
+        - script.execute: ui_press_c3
+        on_release:
+        - script.execute: ui_refresh
         on_click:
+        - lambda: id(lon3) = !id(lon3);
+        - script.execute: ui_refresh
         - homeassistant.action:
             action: light.toggle
             data:
@@ -576,7 +629,13 @@ lvgl:
         border_width: 1
         pad_all: 0
         bg_opa: COVER
+        on_press:
+        - script.execute: ui_press_c4
+        on_release:
+        - script.execute: ui_refresh
         on_click:
+        - lambda: id(lon4) = !id(lon4);
+        - script.execute: ui_refresh
         - homeassistant.action:
             action: light.toggle
             data:
@@ -739,7 +798,13 @@ lvgl:
         border_width: 1
         pad_all: 0
         bg_opa: COVER
+        on_press:
+        - script.execute: ui_press_c5
+        on_release:
+        - script.execute: ui_refresh
         on_click:
+        - lambda: id(lon5) = !id(lon5);
+        - script.execute: ui_refresh
         - homeassistant.action:
             action: light.toggle
             data:
@@ -904,7 +969,13 @@ lvgl:
         border_width: 1
         pad_all: 0
         bg_opa: COVER
+        on_press:
+        - script.execute: ui_press_c6
+        on_release:
+        - script.execute: ui_refresh
         on_click:
+        - lambda: id(lon6) = !id(lon6);
+        - script.execute: ui_refresh
         - homeassistant.action:
             action: light.toggle
             data:
@@ -1499,7 +1570,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate3
+        lambda: return id(lon3);
       then:
       - lvgl.widget.update:
           id: card3
@@ -1561,7 +1632,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate4
+        lambda: return id(lon4);
       then:
       - lvgl.widget.update:
           id: card4
@@ -1623,7 +1694,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate5
+        lambda: return id(lon5);
       then:
       - lvgl.widget.update:
           id: card5
@@ -1685,7 +1756,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate6
+        lambda: return id(lon6);
       then:
       - lvgl.widget.update:
           id: card6
@@ -1874,7 +1945,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate3
+        lambda: return id(lon3);
       then:
       - lvgl.widget.update:
           id: card3
@@ -1936,7 +2007,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate4
+        lambda: return id(lon4);
       then:
       - lvgl.widget.update:
           id: card4
@@ -1998,7 +2069,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate5
+        lambda: return id(lon5);
       then:
       - lvgl.widget.update:
           id: card5
@@ -2060,7 +2131,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate6
+        lambda: return id(lon6);
       then:
       - lvgl.widget.update:
           id: card6
@@ -2249,7 +2320,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate3
+        lambda: return id(lon3);
       then:
       - lvgl.widget.update:
           id: card3
@@ -2311,7 +2382,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate4
+        lambda: return id(lon4);
       then:
       - lvgl.widget.update:
           id: card4
@@ -2373,7 +2444,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate5
+        lambda: return id(lon5);
       then:
       - lvgl.widget.update:
           id: card5
@@ -2435,7 +2506,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate6
+        lambda: return id(lon6);
       then:
       - lvgl.widget.update:
           id: card6
@@ -2624,7 +2695,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate3
+        lambda: return id(lon3);
       then:
       - lvgl.widget.update:
           id: card3
@@ -2686,7 +2757,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate4
+        lambda: return id(lon4);
       then:
       - lvgl.widget.update:
           id: card4
@@ -2748,7 +2819,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate5
+        lambda: return id(lon5);
       then:
       - lvgl.widget.update:
           id: card5
@@ -2810,7 +2881,7 @@ script:
       y: 38
   - if:
       condition:
-        binary_sensor.is_on: lstate6
+        lambda: return id(lon6);
       then:
       - lvgl.widget.update:
           id: card6
@@ -2999,7 +3070,7 @@ script:
       y: 80
   - if:
       condition:
-        binary_sensor.is_on: lstate3
+        lambda: return id(lon3);
       then:
       - lvgl.widget.update:
           id: card3
@@ -3089,7 +3160,7 @@ script:
       y: 80
   - if:
       condition:
-        binary_sensor.is_on: lstate4
+        lambda: return id(lon4);
       then:
       - lvgl.widget.update:
           id: card4
@@ -3179,7 +3250,7 @@ script:
       y: 80
   - if:
       condition:
-        binary_sensor.is_on: lstate5
+        lambda: return id(lon5);
       then:
       - lvgl.widget.update:
           id: card5
@@ -3269,7 +3340,7 @@ script:
       y: 80
   - if:
       condition:
-        binary_sensor.is_on: lstate6
+        lambda: return id(lon6);
       then:
       - lvgl.widget.update:
           id: card6
@@ -3486,7 +3557,7 @@ script:
       y: 120
   - if:
       condition:
-        binary_sensor.is_on: lstate3
+        lambda: return id(lon3);
       then:
       - lvgl.widget.update:
           id: card3
@@ -3584,7 +3655,7 @@ script:
       y: 120
   - if:
       condition:
-        binary_sensor.is_on: lstate4
+        lambda: return id(lon4);
       then:
       - lvgl.widget.update:
           id: card4
@@ -3682,7 +3753,7 @@ script:
       y: 120
   - if:
       condition:
-        binary_sensor.is_on: lstate5
+        lambda: return id(lon5);
       then:
       - lvgl.widget.update:
           id: card5
@@ -3780,7 +3851,7 @@ script:
       y: 120
   - if:
       condition:
-        binary_sensor.is_on: lstate6
+        lambda: return id(lon6);
       then:
       - lvgl.widget.update:
           id: card6
@@ -3889,3 +3960,491 @@ script:
         lambda: return id(theme_sel).current_option() == "ladder";
       then:
       - script.execute: ui_theme_ladder
+- id: ui_press_c3
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: card3
+          border_width: 4
+          border_color: 0xB9C6DC
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: card3
+          border_width: 4
+          border_color: 0xC8A060
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: card3
+          border_width: 4
+          border_color: 0xB88830
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: card3
+          border_width: 4
+          border_color: 0x4F5BD5
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: card3
+          border_width: 4
+          border_color: 0x38E8FF
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: card3
+          border_width: 4
+          border_color: 0xC6F432
+          bg_opa: COVER
+- id: ui_press_c4
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: card4
+          border_width: 4
+          border_color: 0xB9C6DC
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: card4
+          border_width: 4
+          border_color: 0xC8A060
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: card4
+          border_width: 4
+          border_color: 0xB88830
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: card4
+          border_width: 4
+          border_color: 0x4F5BD5
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: card4
+          border_width: 4
+          border_color: 0x38E8FF
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: card4
+          border_width: 4
+          border_color: 0xC6F432
+          bg_opa: COVER
+- id: ui_press_c5
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: card5
+          border_width: 4
+          border_color: 0xB9C6DC
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: card5
+          border_width: 4
+          border_color: 0xC8A060
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: card5
+          border_width: 4
+          border_color: 0xB88830
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: card5
+          border_width: 4
+          border_color: 0x4F5BD5
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: card5
+          border_width: 4
+          border_color: 0x38E8FF
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: card5
+          border_width: 4
+          border_color: 0xC6F432
+          bg_opa: COVER
+- id: ui_press_c6
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: card6
+          border_width: 4
+          border_color: 0xB9C6DC
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: card6
+          border_width: 4
+          border_color: 0xC8A060
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: card6
+          border_width: 4
+          border_color: 0xB88830
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: card6
+          border_width: 4
+          border_color: 0x4F5BD5
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: card6
+          border_width: 4
+          border_color: 0x38E8FF
+          bg_opa: COVER
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: card6
+          border_width: 4
+          border_color: 0xC6F432
+          bg_opa: COVER
+- id: ui_press_z1u
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: g1u
+          text_color: 0xB9C6DC
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: g1u
+          text_color: 0xC8A060
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: g1u
+          text_color: 0xB88830
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: g1u
+          text_color: 0x4F5BD5
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: g1u
+          text_color: 0x38E8FF
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: g1u
+          text_color: 0xC6F432
+- id: ui_press_z1s
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: g1s
+          text_color: 0xB9C6DC
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: g1s
+          text_color: 0xC8A060
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: g1s
+          text_color: 0xB88830
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: g1s
+          text_color: 0x4F5BD5
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: g1s
+          text_color: 0x38E8FF
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: g1s
+          text_color: 0xC6F432
+- id: ui_press_z1d
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: g1d
+          text_color: 0xB9C6DC
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: g1d
+          text_color: 0xC8A060
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: g1d
+          text_color: 0xB88830
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: g1d
+          text_color: 0x4F5BD5
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: g1d
+          text_color: 0x38E8FF
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: g1d
+          text_color: 0xC6F432
+- id: ui_press_z2u
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: g2u
+          text_color: 0xB9C6DC
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: g2u
+          text_color: 0xC8A060
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: g2u
+          text_color: 0xB88830
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: g2u
+          text_color: 0x4F5BD5
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: g2u
+          text_color: 0x38E8FF
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: g2u
+          text_color: 0xC6F432
+- id: ui_press_z2s
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: g2s
+          text_color: 0xB9C6DC
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: g2s
+          text_color: 0xC8A060
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: g2s
+          text_color: 0xB88830
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: g2s
+          text_color: 0x4F5BD5
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: g2s
+          text_color: 0x38E8FF
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: g2s
+          text_color: 0xC6F432
+- id: ui_press_z2d
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - lvgl.widget.update:
+          id: g2d
+          text_color: 0xB9C6DC
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - lvgl.widget.update:
+          id: g2d
+          text_color: 0xC8A060
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - lvgl.widget.update:
+          id: g2d
+          text_color: 0xB88830
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - lvgl.widget.update:
+          id: g2d
+          text_color: 0x4F5BD5
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - lvgl.widget.update:
+          id: g2d
+          text_color: 0x38E8FF
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - lvgl.widget.update:
+          id: g2d
+          text_color: 0xC6F432

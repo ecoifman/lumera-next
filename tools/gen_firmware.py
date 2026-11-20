@@ -111,7 +111,8 @@ for t, tl in enumerate(TILES):
         zones = []
         for z, (zid, glyph, act) in enumerate([("u", "", "cover.open"), ("s", "", "cover.stop"), ("d", "", "cover.close")]):
             zones.append({"obj": {"id": f"z{k}{zid}", "x": 0, "y": z * 90, "width": CW, "height": 90, "radius": 0, "border_width": 0,
-                                  "pad_all": 0, "bg_opa": "TRANSP", "on_click": [{"homeassistant.action": {"action": f"cover.{act}", "data": {"entity_id": tl["entity"]}}}],
+                                  "pad_all": 0, "bg_opa": "TRANSP", "on_press": [{"script.execute": f"ui_press_z{k}{zid}"}], "on_release": [{"script.execute": "ui_refresh"}],
+                                  "on_click": [{"script.execute": "ui_refresh"}, {"homeassistant.action": {"action": f"cover.{act}", "data": {"entity_id": tl["entity"]}}}],
                                   "widgets": [label(f"g{k}{zid}", glyph, "montserrat_28", align="CENTER")]}})
         kids = zones + [obj(f"dv{k}_1", 14, 90, CW - 28, 1, bg_opa="COVER"), obj(f"dv{k}_2", 14, 180, CW - 28, 1, bg_opa="COVER"),
                         label(f"name{k}", vis2(tl["name"]), "f_tiny", align="BOTTOM_MID", y=-18, text_align="CENTER")] + brackets(f"sb{k}", G0["outline"])
@@ -127,7 +128,9 @@ for t, tl in enumerate(TILES):
         kids += [label(f"hs{k}", "OFF", "f_state", align="TOP_MID", y=50)]
         widgets.append({"obj": {"id": f"card{k}", "x": x, "y": TOP, "width": CW, "height": CH, "radius": 24, "border_width": 1,
                                 "pad_all": 0, "bg_opa": "COVER",
-                                "on_click": [{"homeassistant.action": {"action": "light.toggle", "data": {"entity_id": tl["entity"]}}}],
+                                "on_press": [{"script.execute": f"ui_press_c{k}"}], "on_release": [{"script.execute": "ui_refresh"}],
+                                "on_click": [{"lambda": f"id(lon{k}) = !id(lon{k});"}, {"script.execute": "ui_refresh"},
+                                             {"homeassistant.action": {"action": "light.toggle", "data": {"entity_id": tl["entity"]}}}],
                                 "widgets": kids}})
 
 # כיתוב תחתון: קו, ארבע-חמש לשוניות, פס מסמן מתחת לפעילה
@@ -211,7 +214,7 @@ def theme_script(T):
                {"lvgl.label.update": {"id": f"stat{k}", "text": vis("דולק")}}]
         off += [U(f"name{k}", text_color=hx(C["off_name"] if hud else C["ink"])), U(f"stat{k}", text_color=hx(C["muted"])),
                 {"lvgl.label.update": {"id": f"stat{k}", "text": vis("כבוי")}}]
-        A.append({"if": {"condition": {"binary_sensor.is_on": f"lstate{k}"}, "then": on, "else": off}})
+        A.append({"if": {"condition": {"lambda": f"return id(lon{k});"}, "then": on, "else": off}})
     return {"id": f"ui_theme_{T}", "then": A}
 
 
@@ -219,13 +222,25 @@ scripts = [theme_script(T) for T in RT]
 scripts.append({"id": "ui_refresh", "then": [
     {"if": {"condition": {"lambda": f'return id(theme_sel).current_option() == "{T}";'}, "then": [{"script.execute": f"ui_theme_{T}"}]}} for T in RT]})
 
+def press_script(sid, fn):
+    return {"id": sid, "then": [{"if": {"condition": {"lambda": f'return id(theme_sel).current_option() == "{T}";'}, "then": fn(P(T))}} for T in RT]}
+
+
+for k, tl in lights:
+    scripts.append(press_script(f"ui_press_c{k}", lambda C, k=k: [U(f"card{k}", border_width=4, border_color=hx(C["accent"]), bg_opa="COVER")]))
+for k, tl in shutters:
+    for zid in "usd":
+        g = {"u": "u", "s": "s", "d": "d"}[zid]
+        scripts.append(press_script(f"ui_press_z{k}{zid}", lambda C, k=k, g=g: [U(f"g{k}{g}", text_color=hx(C["accent"]))]))
+
 doc = {
     "font": [gfont("f_name", 22), gfont("f_state", 18), gfont("f_tab", 20), gfont("f_tiny", 16)],
     "esphome": {"on_boot": {"priority": -100, "then": [{"script.execute": "ui_refresh"}]}},
     "select": [{"platform": "template", "id": "theme_sel", "name": "ערכת נושא", "options": RT, "initial_option": theme_name,
                 "optimistic": True, "restore_value": True, "on_value": [{"script.execute": "ui_refresh"}]}],
+    "globals": [{"id": f"lon{k}", "type": "bool", "initial_value": "false"} for k, tl in lights],
     "binary_sensor": [{"platform": "homeassistant", "id": f"lstate{k}", "entity_id": tl["entity"], "internal": True,
-                       "on_state": [{"script.execute": "ui_refresh"}]} for k, tl in lights],
+                       "on_state": [{"lambda": f"id(lon{k}) = x;"}, {"script.execute": "ui_refresh"}]} for k, tl in lights],
     "lvgl": {"displays": ["lcd"], "touchscreens": ["touch"], "rotation": 90, "buffer_size": "50%",
              "bg_color": hx(G0["ground"]), "text_font": "f_name", "text_color": hx(G0["ink"]),
              "pages": [{"id": "keys", "widgets": widgets}]},
