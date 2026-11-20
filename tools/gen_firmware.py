@@ -25,6 +25,13 @@ class Hex(int):
 yaml.add_representer(Hex, lambda d, v: d.represent_scalar("tag:yaml.org,2002:int", f"0x{int(v):06X}"))
 
 
+class Lam(str):
+    pass
+
+
+yaml.add_representer(Lam, lambda d, v: d.represent_scalar("!lambda", str(v), style="|"))
+
+
 def hx(c):
     return Hex(int(c.lstrip("#"), 16))
 
@@ -104,7 +111,7 @@ for t, tl in enumerate(TILES):
         zones = []
         for z, (zid, glyph, act) in enumerate([("u", "", "cover.open"), ("s", "", "cover.stop"), ("d", "", "cover.close")]):
             zones.append({"obj": {"id": f"z{k}{zid}", "x": 0, "y": z * 90, "width": CW, "height": 90, "radius": 0, "border_width": 0,
-                                  "pad_all": 0, "bg_opa": "TRANSP", "on_click": [{act: tl["id"]}],
+                                  "pad_all": 0, "bg_opa": "TRANSP", "on_click": [{"homeassistant.action": {"action": f"cover.{act}", "data": {"entity_id": tl["entity"]}}}],
                                   "widgets": [label(f"g{k}{zid}", glyph, "montserrat_28", align="CENTER")]}})
         kids = zones + [obj(f"dv{k}_1", 14, 90, CW - 28, 1, bg_opa="COVER"), obj(f"dv{k}_2", 14, 180, CW - 28, 1, bg_opa="COVER"),
                         label(f"name{k}", vis2(tl["name"]), "f_tiny", align="BOTTOM_MID", y=-18, text_align="CENTER")] + brackets(f"sb{k}", G0["outline"])
@@ -219,12 +226,6 @@ doc = {
                 "optimistic": True, "restore_value": True, "on_value": [{"script.execute": "ui_refresh"}]}],
     "binary_sensor": [{"platform": "homeassistant", "id": f"lstate{k}", "entity_id": tl["entity"], "internal": True,
                        "on_state": [{"script.execute": "ui_refresh"}]} for k, tl in lights],
-    "cover": [{"platform": "time_based", "id": tl["id"], "name": tl["name"], "device_class": "shutter",
-               "open_duration": "25s", "close_duration": "25s",
-               "open_action": [{"switch.turn_off": f"relay{tl['down']}"}, {"switch.turn_on": f"relay{tl['up']}"}],
-               "close_action": [{"switch.turn_off": f"relay{tl['up']}"}, {"switch.turn_on": f"relay{tl['down']}"}],
-               "stop_action": [{"switch.turn_off": f"relay{tl['up']}"}, {"switch.turn_off": f"relay{tl['down']}"}]}
-              for k, tl in shutters],
     "lvgl": {"displays": ["lcd"], "touchscreens": ["touch"], "rotation": 90, "buffer_size": "50%",
              "bg_color": hx(G0["ground"]), "text_font": "f_name", "text_color": hx(G0["ink"]),
              "pages": [{"id": "keys", "widgets": widgets}]},

@@ -66,37 +66,6 @@ binary_sensor:
   internal: true
   on_state:
   - script.execute: ui_refresh
-cover:
-- platform: time_based
-  id: shutter1
-  name: תריס סלון
-  device_class: shutter
-  open_duration: 25s
-  close_duration: 25s
-  open_action:
-  - switch.turn_off: relay2
-  - switch.turn_on: relay1
-  close_action:
-  - switch.turn_off: relay1
-  - switch.turn_on: relay2
-  stop_action:
-  - switch.turn_off: relay1
-  - switch.turn_off: relay2
-- platform: time_based
-  id: shutter2
-  name: תריס חדר
-  device_class: shutter
-  open_duration: 25s
-  close_duration: 25s
-  open_action:
-  - switch.turn_off: relay4
-  - switch.turn_on: relay3
-  close_action:
-  - switch.turn_off: relay3
-  - switch.turn_on: relay4
-  stop_action:
-  - switch.turn_off: relay3
-  - switch.turn_off: relay4
 lvgl:
   displays:
   - lcd
@@ -144,7 +113,10 @@ lvgl:
             pad_all: 0
             bg_opa: TRANSP
             on_click:
-            - cover.open: shutter1
+            - homeassistant.action:
+                action: cover.cover.open
+                data:
+                  entity_id: cover.CHANGE_ME_S1
             widgets:
             - label:
                 id: g1u
@@ -162,7 +134,10 @@ lvgl:
             pad_all: 0
             bg_opa: TRANSP
             on_click:
-            - cover.stop: shutter1
+            - homeassistant.action:
+                action: cover.cover.stop
+                data:
+                  entity_id: cover.CHANGE_ME_S1
             widgets:
             - label:
                 id: g1s
@@ -180,7 +155,10 @@ lvgl:
             pad_all: 0
             bg_opa: TRANSP
             on_click:
-            - cover.close: shutter1
+            - homeassistant.action:
+                action: cover.cover.close
+                data:
+                  entity_id: cover.CHANGE_ME_S1
             widgets:
             - label:
                 id: g1d
@@ -294,7 +272,10 @@ lvgl:
             pad_all: 0
             bg_opa: TRANSP
             on_click:
-            - cover.open: shutter2
+            - homeassistant.action:
+                action: cover.cover.open
+                data:
+                  entity_id: cover.CHANGE_ME_S2
             widgets:
             - label:
                 id: g2u
@@ -312,7 +293,10 @@ lvgl:
             pad_all: 0
             bg_opa: TRANSP
             on_click:
-            - cover.stop: shutter2
+            - homeassistant.action:
+                action: cover.cover.stop
+                data:
+                  entity_id: cover.CHANGE_ME_S2
             widgets:
             - label:
                 id: g2s
@@ -330,7 +314,10 @@ lvgl:
             pad_all: 0
             bg_opa: TRANSP
             on_click:
-            - cover.close: shutter2
+            - homeassistant.action:
+                action: cover.cover.close
+                data:
+                  entity_id: cover.CHANGE_ME_S2
             widgets:
             - label:
                 id: g2d

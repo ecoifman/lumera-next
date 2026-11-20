@@ -19,15 +19,13 @@
    "type": "shutter",
    "name": "תריס סלון",
    "id": "shutter1",
-   "up": 1,
-   "down": 2
+   "entity": "cover.CHANGE_ME_S1"
   },
   {
    "type": "shutter",
    "name": "תריס חדר",
    "id": "shutter2",
-   "up": 3,
-   "down": 4
+   "entity": "cover.CHANGE_ME_S2"
   },
   {
    "type": "light",
