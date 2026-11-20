@@ -12,7 +12,14 @@
     "fill": "#FFFFFF",
     "onfill": "#000000",
     "cool": "#88B0D0",
-    "cardon": "#2A2A2E"
+    "cardon": "#2A2A2E",
+    "style": "card",
+    "accent": "#C8A060",
+    "on_fill": "#2A2A2E",
+    "on_border": "#585858",
+    "on_name": "#FFFFFF",
+    "on_sub": "#C8A060",
+    "on_bar": "#C8A060"
   },
   "navy": {
     "ground": "#16264A",
@@ -27,7 +34,14 @@
     "fill": "#E8EDF5",
     "onfill": "#16264A",
     "cool": "#8FB4E0",
-    "cardon": "#2A4378"
+    "cardon": "#2A4378",
+    "style": "card",
+    "accent": "#B9C6DC",
+    "on_fill": "#2A4378",
+    "on_border": "#6F85B0",
+    "on_name": "#F2F5FA",
+    "on_sub": "#B9C6DC",
+    "on_bar": "#B9C6DC"
   },
   "navygrad": {
     "ground": "#16264A",
@@ -87,6 +101,63 @@
     "fill": "#101010",
     "onfill": "#FFFFFF",
     "cool": "#205888",
-    "cardon": "#FFFFFF"
+    "cardon": "#FFFFFF",
+    "style": "card",
+    "accent": "#B88830",
+    "on_fill": "#FFFFFF",
+    "on_border": "#A0A0A0",
+    "on_name": "#101010",
+    "on_sub": "#806018",
+    "on_bar": "#B88830"
+  },
+  "lunar": {
+    "style": "card",
+    "ground": "#E7EAF0",
+    "surface": "#F8F9FB",
+    "hair": "#D2D7E0",
+    "outline": "#D2D7E0",
+    "track": "#D2D7E0",
+    "ink": "#1B2030",
+    "muted": "#7B8397",
+    "accent": "#4F5BD5",
+    "on_fill": "#4F5BD5",
+    "on_border": "#4F5BD5",
+    "on_name": "#FFFFFF",
+    "on_sub": "#D9DDFB",
+    "on_bar": "#FFFFFF"
+  },
+  "ladder": {
+    "style": "ladder",
+    "ground": "#0E0F13",
+    "surface": "#17181D",
+    "hair": "#25272E",
+    "outline": "#25272E",
+    "track": "#2A2C33",
+    "ink": "#F0F1F3",
+    "muted": "#80848F",
+    "accent": "#C6F432",
+    "on_fill": "#17181D",
+    "on_border": "#25272E",
+    "on_name": "#F0F1F3",
+    "on_sub": "#C6F432",
+    "on_bar": "#C6F432"
+  },
+  "hud": {
+    "style": "hud",
+    "ground": "#02080C",
+    "surface": "#02080C",
+    "hair": "#12353D",
+    "outline": "#1B5560",
+    "track": "#1B5560",
+    "ink": "#D8F7FB",
+    "muted": "#4C8791",
+    "accent": "#38E8FF",
+    "on_fill": "#06303A",
+    "on_border": "#38E8FF",
+    "on_name": "#D8F7FB",
+    "on_sub": "#38E8FF",
+    "on_bar": "#38E8FF",
+    "off_name": "#9CC3CA",
+    "off_border": "#1B5560"
   }
 }

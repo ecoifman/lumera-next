@@ -92,31 +92,39 @@ script:
           const uint8_t cmd[6] = {0x25, 0x01, id(relay_bits)[0], id(relay_bits)[1], id(relay_bits)[2], id(relay_bits)[3]};
           id(stc).write(cmd, 6);
 
-switch:
+switch:   # ממסרים: 1/2 תריס ראשון (עלייה/ירידה), 3/4 תריס שני. interlock: הדלקת כיוון מכבה את הכיוון ההפוך כבר ברמת הביטים
   - platform: template
     id: relay1
     name: "Relay 1"
+    internal: true
     optimistic: true
-    on_turn_on:  [lambda: 'id(relay_bits)[0] = 1;', script.execute: stc_relays_write, script.execute: ui_key1_on]
-    on_turn_off: [lambda: 'id(relay_bits)[0] = 0;', script.execute: stc_relays_write, script.execute: ui_key1_off]
+    restore_mode: ALWAYS_OFF
+    on_turn_on:  [lambda: 'id(relay_bits)[0] = 1; id(relay_bits)[1] = 0;', script.execute: stc_relays_write]
+    on_turn_off: [lambda: 'id(relay_bits)[0] = 0;', script.execute: stc_relays_write]
   - platform: template
     id: relay2
     name: "Relay 2"
+    internal: true
     optimistic: true
-    on_turn_on:  [lambda: 'id(relay_bits)[1] = 1;', script.execute: stc_relays_write, script.execute: ui_key2_on]
-    on_turn_off: [lambda: 'id(relay_bits)[1] = 0;', script.execute: stc_relays_write, script.execute: ui_key2_off]
+    restore_mode: ALWAYS_OFF
+    on_turn_on:  [lambda: 'id(relay_bits)[1] = 1; id(relay_bits)[0] = 0;', script.execute: stc_relays_write]
+    on_turn_off: [lambda: 'id(relay_bits)[1] = 0;', script.execute: stc_relays_write]
   - platform: template
     id: relay3
     name: "Relay 3"
+    internal: true
     optimistic: true
-    on_turn_on:  [lambda: 'id(relay_bits)[2] = 1;', script.execute: stc_relays_write, script.execute: ui_key3_on]
-    on_turn_off: [lambda: 'id(relay_bits)[2] = 0;', script.execute: stc_relays_write, script.execute: ui_key3_off]
+    restore_mode: ALWAYS_OFF
+    on_turn_on:  [lambda: 'id(relay_bits)[2] = 1; id(relay_bits)[3] = 0;', script.execute: stc_relays_write]
+    on_turn_off: [lambda: 'id(relay_bits)[2] = 0;', script.execute: stc_relays_write]
   - platform: template
     id: relay4
     name: "Relay 4"
+    internal: true
     optimistic: true
-    on_turn_on:  [lambda: 'id(relay_bits)[3] = 1;', script.execute: stc_relays_write, script.execute: ui_key4_on]
-    on_turn_off: [lambda: 'id(relay_bits)[3] = 0;', script.execute: stc_relays_write, script.execute: ui_key4_off]
+    restore_mode: ALWAYS_OFF
+    on_turn_on:  [lambda: 'id(relay_bits)[3] = 1; id(relay_bits)[2] = 0;', script.execute: stc_relays_write]
+    on_turn_off: [lambda: 'id(relay_bits)[3] = 0;', script.execute: stc_relays_write]
 
 display:
   - platform: rpi_dpi_rgb

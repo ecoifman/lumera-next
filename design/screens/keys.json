@@ -2,13 +2,52 @@
  "id": "keys",
  "title": "מסך מקשים",
  "orientation": "landscape",
- "size": [854, 480],
- "tabs": ["בית", "מתג", "מזגן", "מוזיקה", "עוזר"],
+ "size": [
+  854,
+  480
+ ],
+ "tabs": [
+  "בית",
+  "מתג",
+  "מזגן",
+  "מוזיקה",
+  "עוזר"
+ ],
  "active_tab": "מתג",
- "keys": [
-  {"name": "הנמכת תקרה", "relay": 1},
-  {"name": "ספוטים", "relay": 2},
-  {"name": "פינת אוכל", "relay": 3},
-  {"name": "מרפסת", "relay": 4}
+ "tiles": [
+  {
+   "type": "shutter",
+   "name": "תריס סלון",
+   "id": "shutter1",
+   "up": 1,
+   "down": 2
+  },
+  {
+   "type": "shutter",
+   "name": "תריס חדר",
+   "id": "shutter2",
+   "up": 3,
+   "down": 4
+  },
+  {
+   "type": "light",
+   "name": "הנמכת תקרה",
+   "entity": "light.CHANGE_ME_1"
+  },
+  {
+   "type": "light",
+   "name": "ספוטים",
+   "entity": "light.CHANGE_ME_2"
+  },
+  {
+   "type": "light",
+   "name": "פינת אוכל",
+   "entity": "light.CHANGE_ME_3"
+  },
+  {
+   "type": "light",
+   "name": "מרפסת",
+   "entity": "light.CHANGE_ME_4"
+  }
  ]
 }

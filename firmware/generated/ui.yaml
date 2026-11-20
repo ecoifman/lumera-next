@@ -1,834 +1,3904 @@
 # נוצר אוטומטית ע"י tools/gen_firmware.py (ערכה התחלתית: navy, גרסה 0.1.0). לא לערוך ידנית.
 font:
-  - file: "gfonts://Heebo@300"
-    id: f_name
-    size: 28
-    bpp: 4
-    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."
-  - file: "gfonts://Heebo@300"
-    id: f_small
-    size: 20
-    bpp: 4
-    glyphs: "אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 ."
+- file: gfonts://Heebo@300
+  id: f_name
+  size: 22
+  bpp: 4
+  glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
+- file: gfonts://Heebo@300
+  id: f_state
+  size: 18
+  bpp: 4
+  glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
+- file: gfonts://Heebo@300
+  id: f_tab
+  size: 20
+  bpp: 4
+  glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
+- file: gfonts://Heebo@300
+  id: f_tiny
+  size: 16
+  bpp: 4
+  glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
+esphome:
+  on_boot:
+    priority: -100
+    then:
+    - script.execute: ui_refresh
 select:
-  - platform: template
-    id: theme_sel
-    name: "ערכת נושא"
-    options: [navy, black, white]
-    initial_option: navy
-    optimistic: true
-    restore_value: true
-    on_value:
-      - script.execute: ui_refresh
+- platform: template
+  id: theme_sel
+  name: ערכת נושא
+  options:
+  - navy
+  - black
+  - white
+  - lunar
+  - hud
+  - ladder
+  initial_option: navy
+  optimistic: true
+  restore_value: true
+  on_value:
+  - script.execute: ui_refresh
+binary_sensor:
+- platform: homeassistant
+  id: lstate3
+  entity_id: light.CHANGE_ME_1
+  internal: true
+  on_state:
+  - script.execute: ui_refresh
+- platform: homeassistant
+  id: lstate4
+  entity_id: light.CHANGE_ME_2
+  internal: true
+  on_state:
+  - script.execute: ui_refresh
+- platform: homeassistant
+  id: lstate5
+  entity_id: light.CHANGE_ME_3
+  internal: true
+  on_state:
+  - script.execute: ui_refresh
+- platform: homeassistant
+  id: lstate6
+  entity_id: light.CHANGE_ME_4
+  internal: true
+  on_state:
+  - script.execute: ui_refresh
+cover:
+- platform: time_based
+  id: shutter1
+  name: תריס סלון
+  device_class: shutter
+  open_duration: 25s
+  close_duration: 25s
+  open_action:
+  - switch.turn_off: relay2
+  - switch.turn_on: relay1
+  close_action:
+  - switch.turn_off: relay1
+  - switch.turn_on: relay2
+  stop_action:
+  - switch.turn_off: relay1
+  - switch.turn_off: relay2
+- platform: time_based
+  id: shutter2
+  name: תריס חדר
+  device_class: shutter
+  open_duration: 25s
+  close_duration: 25s
+  open_action:
+  - switch.turn_off: relay4
+  - switch.turn_on: relay3
+  close_action:
+  - switch.turn_off: relay3
+  - switch.turn_on: relay4
+  stop_action:
+  - switch.turn_off: relay3
+  - switch.turn_off: relay4
 lvgl:
-  displays: [lcd]
-  touchscreens: [touch]
+  displays:
+  - lcd
+  touchscreens:
+  - touch
   rotation: 90
   buffer_size: 50%
-  bg_color: 0x22407A
+  bg_color: 0x16264A
   text_font: f_name
   text_color: 0xF2F5FA
   pages:
-    - id: keys
-      widgets:
+  - id: keys
+    widgets:
+    - obj:
+        id: bgroot
+        x: 0
+        y: 0
+        width: 854
+        height: 480
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_opa: COVER
+        bg_color: 0x16264A
+        clickable: false
+    - obj:
+        id: card1
+        x: 709
+        y: 56
+        width: 129
+        height: 340
+        radius: 24
+        border_width: 1
+        pad_all: 0
+        bg_opa: COVER
+        widgets:
         - obj:
-            id: bgroot
+            id: z1u
             x: 0
             y: 0
-            width: 854
-            height: 480
+            width: 129
+            height: 90
             radius: 0
             border_width: 0
             pad_all: 0
-            bg_color: 0x22407A
-            bg_grad_color: 0x0E1A38
-            bg_grad_dir: VER
+            bg_opa: TRANSP
+            on_click:
+            - cover.open: shutter1
+            widgets:
+            - label:
+                id: g1u
+                text: 
+                text_font: montserrat_28
+                align: CENTER
+        - obj:
+            id: z1s
+            x: 0
+            y: 90
+            width: 129
+            height: 90
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: TRANSP
+            on_click:
+            - cover.stop: shutter1
+            widgets:
+            - label:
+                id: g1s
+                text: 
+                text_font: montserrat_28
+                align: CENTER
+        - obj:
+            id: z1d
+            x: 0
+            y: 180
+            width: 129
+            height: 90
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: TRANSP
+            on_click:
+            - cover.close: shutter1
+            widgets:
+            - label:
+                id: g1d
+                text: 
+                text_font: montserrat_28
+                align: CENTER
+        - obj:
+            id: dv1_1
+            x: 14
+            y: 90
+            width: 101
+            height: 1
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+        - obj:
+            id: dv1_2
+            x: 14
+            y: 180
+            width: 101
+            height: 1
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+        - label:
+            id: name1
+            text: 'סירת
+
+              ןולס'
+            text_font: f_tiny
+            align: BOTTOM_MID
+            y: -18
+            text_align: CENTER
+        - obj:
+            id: sb1_tl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_LEFT
+            border_side: &id001
+            - LEFT
+            - TOP
+            border_color: 0x6F85B0
             clickable: false
         - obj:
-            id: key1
-            x: 641
-            y: 56
-            width: 197
-            height: 340
-            bg_color: 0x1F3260
-            bg_opa: 80%
-            border_width: 1
-            border_color: 0x34497A
-            radius: 28
+            id: sb1_tr
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
             pad_all: 0
-            widgets:
-              - label:
-                  id: name1
-                  text: "הרקת תכמנה"
-                  align: CENTER
-                  y: -22
-              - label:
-                  id: stat1
-                  text_font: f_small
-                  text: "יובכ"
-                  text_color: 0xA9B7D2
-                  align: CENTER
-                  y: 18
-              - obj:
-                  id: bar1
-                  align: BOTTOM_MID
-                  y: -22
-                  width: 56
-                  height: 5
-                  radius: 3
-                  border_width: 0
-                  bg_color: 0x34497A
-            on_click:
-              - switch.toggle: relay1
-        - obj:
-            id: key2
-            x: 432
-            y: 56
-            width: 197
-            height: 340
-            bg_color: 0x1F3260
-            bg_opa: 80%
-            border_width: 1
-            border_color: 0x34497A
-            radius: 28
-            pad_all: 0
-            widgets:
-              - label:
-                  id: name2
-                  text: "םיטופס"
-                  align: CENTER
-                  y: -22
-              - label:
-                  id: stat2
-                  text_font: f_small
-                  text: "יובכ"
-                  text_color: 0xA9B7D2
-                  align: CENTER
-                  y: 18
-              - obj:
-                  id: bar2
-                  align: BOTTOM_MID
-                  y: -22
-                  width: 56
-                  height: 5
-                  radius: 3
-                  border_width: 0
-                  bg_color: 0x34497A
-            on_click:
-              - switch.toggle: relay2
-        - obj:
-            id: key3
-            x: 223
-            y: 56
-            width: 197
-            height: 340
-            bg_color: 0x1F3260
-            bg_opa: 80%
-            border_width: 1
-            border_color: 0x34497A
-            radius: 28
-            pad_all: 0
-            widgets:
-              - label:
-                  id: name3
-                  text: "לכוא תניפ"
-                  align: CENTER
-                  y: -22
-              - label:
-                  id: stat3
-                  text_font: f_small
-                  text: "יובכ"
-                  text_color: 0xA9B7D2
-                  align: CENTER
-                  y: 18
-              - obj:
-                  id: bar3
-                  align: BOTTOM_MID
-                  y: -22
-                  width: 56
-                  height: 5
-                  radius: 3
-                  border_width: 0
-                  bg_color: 0x34497A
-            on_click:
-              - switch.toggle: relay3
-        - obj:
-            id: key4
-            x: 14
-            y: 56
-            width: 197
-            height: 340
-            bg_color: 0x1F3260
-            bg_opa: 80%
-            border_width: 1
-            border_color: 0x34497A
-            radius: 28
-            pad_all: 0
-            widgets:
-              - label:
-                  id: name4
-                  text: "תספרמ"
-                  align: CENTER
-                  y: -22
-              - label:
-                  id: stat4
-                  text_font: f_small
-                  text: "יובכ"
-                  text_color: 0xA9B7D2
-                  align: CENTER
-                  y: 18
-              - obj:
-                  id: bar4
-                  align: BOTTOM_MID
-                  y: -22
-                  width: 56
-                  height: 5
-                  radius: 3
-                  border_width: 0
-                  bg_color: 0x34497A
-            on_click:
-              - switch.toggle: relay4
-        - obj:
-            id: handle
-            x: 0
-            y: 0
-            width: 854
-            height: 40
             bg_opa: TRANSP
-            border_width: 0
-            radius: 0
-            pad_all: 0
-            on_click:
-              - lvgl.widget.show: panel
-            widgets:
-              - obj:
-                  id: grip
-                  align: CENTER
-                  width: 80
-                  height: 5
-                  radius: 3
-                  border_width: 0
-                  bg_color: 0x34497A
+            align: TOP_RIGHT
+            border_side: &id002
+            - RIGHT
+            - TOP
+            border_color: 0x6F85B0
+            clickable: false
         - obj:
-            id: panel
-            hidden: true
+            id: sb1_bl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_LEFT
+            border_side: &id003
+            - LEFT
+            - BOTTOM
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: sb1_br
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_RIGHT
+            border_side: &id004
+            - RIGHT
+            - BOTTOM
+            border_color: 0x6F85B0
+            clickable: false
+    - obj:
+        id: card2
+        x: 570
+        y: 56
+        width: 129
+        height: 340
+        radius: 24
+        border_width: 1
+        pad_all: 0
+        bg_opa: COVER
+        widgets:
+        - obj:
+            id: z2u
             x: 0
             y: 0
-            width: 854
-            height: 230
+            width: 129
+            height: 90
             radius: 0
             border_width: 0
             pad_all: 0
-            bg_color: 0x1F3260
+            bg_opa: TRANSP
+            on_click:
+            - cover.open: shutter2
             widgets:
-              - label:
-                  id: panel_title
-                  text: "אשונ תכרע"
-                  align: TOP_MID
-                  y: 14
-              - obj:
-                  id: tbtn_navy
-                  align: TOP_MID
-                  x: -240
-                  y: 80
-                  width: 200
-                  height: 70
-                  radius: 12
-                  border_width: 2
-                  bg_color: 0x16264A
-                  border_color: 0xE1E8F4
-                  on_click:
-                    - select.set:
-                        id: theme_sel
-                        option: navy
-                  widgets:
-                    - label:
-                        text: "לוחכ"
-                        text_color: 0xF2F5FA
-                        align: CENTER
-              - obj:
-                  id: tbtn_black
-                  align: TOP_MID
-                  x: 0
-                  y: 80
-                  width: 200
-                  height: 70
-                  radius: 12
-                  border_width: 2
-                  bg_color: 0x000000
-                  border_color: 0xC8A060
-                  on_click:
-                    - select.set:
-                        id: theme_sel
-                        option: black
-                  widgets:
-                    - label:
-                        text: "רוחש"
-                        text_color: 0xFFFFFF
-                        align: CENTER
-              - obj:
-                  id: tbtn_white
-                  align: TOP_MID
-                  x: 240
-                  y: 80
-                  width: 200
-                  height: 70
-                  radius: 12
-                  border_width: 2
-                  bg_color: 0xFFFFFF
-                  border_color: 0xB88830
-                  on_click:
-                    - select.set:
-                        id: theme_sel
-                        option: white
-                  widgets:
-                    - label:
-                        text: "ןבל"
-                        text_color: 0x101010
-                        align: CENTER
-              - obj:
-                  id: panel_close
-                  align: BOTTOM_MID
-                  y: -10
-                  width: 160
-                  height: 50
-                  radius: 12
-                  border_width: 0
-                  bg_color: 0x34497A
-                  on_click:
-                    - lvgl.widget.hide: panel
-                  widgets:
-                    - label:
-                        text: "רוגס"
-                        align: CENTER
+            - label:
+                id: g2u
+                text: 
+                text_font: montserrat_28
+                align: CENTER
+        - obj:
+            id: z2s
+            x: 0
+            y: 90
+            width: 129
+            height: 90
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: TRANSP
+            on_click:
+            - cover.stop: shutter2
+            widgets:
+            - label:
+                id: g2s
+                text: 
+                text_font: montserrat_28
+                align: CENTER
+        - obj:
+            id: z2d
+            x: 0
+            y: 180
+            width: 129
+            height: 90
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: TRANSP
+            on_click:
+            - cover.close: shutter2
+            widgets:
+            - label:
+                id: g2d
+                text: 
+                text_font: montserrat_28
+                align: CENTER
+        - obj:
+            id: dv2_1
+            x: 14
+            y: 90
+            width: 101
+            height: 1
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+        - obj:
+            id: dv2_2
+            x: 14
+            y: 180
+            width: 101
+            height: 1
+            radius: 0
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+        - label:
+            id: name2
+            text: 'סירת
+
+              רדח'
+            text_font: f_tiny
+            align: BOTTOM_MID
+            y: -18
+            text_align: CENTER
+        - obj:
+            id: sb2_tl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_LEFT
+            border_side: *id001
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: sb2_tr
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_RIGHT
+            border_side: *id002
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: sb2_bl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_LEFT
+            border_side: *id003
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: sb2_br
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_RIGHT
+            border_side: *id004
+            border_color: 0x6F85B0
+            clickable: false
+    - obj:
+        id: card3
+        x: 431
+        y: 56
+        width: 129
+        height: 340
+        radius: 24
+        border_width: 1
+        pad_all: 0
+        bg_opa: COVER
+        on_click:
+        - homeassistant.action:
+            action: light.toggle
+            data:
+              entity_id: light.CHANGE_ME_1
+        widgets:
+        - label:
+            id: name3
+            text: 'תכמנה
+
+              הרקת'
+            text_font: f_name
+            align: CENTER
+            y: -22
+            text_align: CENTER
+        - label:
+            id: stat3
+            text: יובכ
+            text_font: f_state
+            align: CENTER
+            y: 38
+        - obj:
+            id: bar3
+            y: -22
+            width: 52
+            height: 6
+            radius: 3
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: BOTTOM_MID
+        - obj:
+            id: lb3_0
+            y: 22
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb3_1
+            y: 44
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb3_2
+            y: 66
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb3_3
+            y: 88
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb3_4
+            y: 110
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb3_5
+            y: 132
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb3_6
+            y: 154
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: hb3_tl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_LEFT
+            border_side: *id001
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb3_tr
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_RIGHT
+            border_side: *id002
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb3_bl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_LEFT
+            border_side: *id003
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb3_br
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_RIGHT
+            border_side: *id004
+            border_color: 0x6F85B0
+            clickable: false
+        - label:
+            id: hs3
+            text: 'OFF'
+            text_font: f_state
+            align: TOP_MID
+            y: 50
+    - obj:
+        id: card4
+        x: 292
+        y: 56
+        width: 129
+        height: 340
+        radius: 24
+        border_width: 1
+        pad_all: 0
+        bg_opa: COVER
+        on_click:
+        - homeassistant.action:
+            action: light.toggle
+            data:
+              entity_id: light.CHANGE_ME_2
+        widgets:
+        - label:
+            id: name4
+            text: םיטופס
+            text_font: f_name
+            align: CENTER
+            y: -22
+            text_align: CENTER
+        - label:
+            id: stat4
+            text: יובכ
+            text_font: f_state
+            align: CENTER
+            y: 38
+        - obj:
+            id: bar4
+            y: -22
+            width: 52
+            height: 6
+            radius: 3
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: BOTTOM_MID
+        - obj:
+            id: lb4_0
+            y: 22
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb4_1
+            y: 44
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb4_2
+            y: 66
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb4_3
+            y: 88
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb4_4
+            y: 110
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb4_5
+            y: 132
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb4_6
+            y: 154
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: hb4_tl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_LEFT
+            border_side: *id001
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb4_tr
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_RIGHT
+            border_side: *id002
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb4_bl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_LEFT
+            border_side: *id003
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb4_br
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_RIGHT
+            border_side: *id004
+            border_color: 0x6F85B0
+            clickable: false
+        - label:
+            id: hs4
+            text: 'OFF'
+            text_font: f_state
+            align: TOP_MID
+            y: 50
+    - obj:
+        id: card5
+        x: 153
+        y: 56
+        width: 129
+        height: 340
+        radius: 24
+        border_width: 1
+        pad_all: 0
+        bg_opa: COVER
+        on_click:
+        - homeassistant.action:
+            action: light.toggle
+            data:
+              entity_id: light.CHANGE_ME_3
+        widgets:
+        - label:
+            id: name5
+            text: 'תניפ
+
+              לכוא'
+            text_font: f_name
+            align: CENTER
+            y: -22
+            text_align: CENTER
+        - label:
+            id: stat5
+            text: יובכ
+            text_font: f_state
+            align: CENTER
+            y: 38
+        - obj:
+            id: bar5
+            y: -22
+            width: 52
+            height: 6
+            radius: 3
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: BOTTOM_MID
+        - obj:
+            id: lb5_0
+            y: 22
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb5_1
+            y: 44
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb5_2
+            y: 66
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb5_3
+            y: 88
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb5_4
+            y: 110
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb5_5
+            y: 132
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb5_6
+            y: 154
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: hb5_tl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_LEFT
+            border_side: *id001
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb5_tr
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_RIGHT
+            border_side: *id002
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb5_bl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_LEFT
+            border_side: *id003
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb5_br
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_RIGHT
+            border_side: *id004
+            border_color: 0x6F85B0
+            clickable: false
+        - label:
+            id: hs5
+            text: 'OFF'
+            text_font: f_state
+            align: TOP_MID
+            y: 50
+    - obj:
+        id: card6
+        x: 14
+        y: 56
+        width: 129
+        height: 340
+        radius: 24
+        border_width: 1
+        pad_all: 0
+        bg_opa: COVER
+        on_click:
+        - homeassistant.action:
+            action: light.toggle
+            data:
+              entity_id: light.CHANGE_ME_4
+        widgets:
+        - label:
+            id: name6
+            text: תספרמ
+            text_font: f_name
+            align: CENTER
+            y: -22
+            text_align: CENTER
+        - label:
+            id: stat6
+            text: יובכ
+            text_font: f_state
+            align: CENTER
+            y: 38
+        - obj:
+            id: bar6
+            y: -22
+            width: 52
+            height: 6
+            radius: 3
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: BOTTOM_MID
+        - obj:
+            id: lb6_0
+            y: 22
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb6_1
+            y: 44
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb6_2
+            y: 66
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb6_3
+            y: 88
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb6_4
+            y: 110
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb6_5
+            y: 132
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: lb6_6
+            y: 154
+            width: 68
+            height: 14
+            radius: 7
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: TOP_MID
+        - obj:
+            id: hb6_tl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_LEFT
+            border_side: *id001
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb6_tr
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: TOP_RIGHT
+            border_side: *id002
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb6_bl
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_LEFT
+            border_side: *id003
+            border_color: 0x6F85B0
+            clickable: false
+        - obj:
+            id: hb6_br
+            width: 22
+            height: 22
+            radius: 0
+            border_width: 3
+            pad_all: 0
+            bg_opa: TRANSP
+            align: BOTTOM_RIGHT
+            border_side: *id004
+            border_color: 0x6F85B0
+            clickable: false
+        - label:
+            id: hs6
+            text: 'OFF'
+            text_font: f_state
+            align: TOP_MID
+            y: 50
+    - obj:
+        id: tabline
+        x: 14
+        y: 408
+        width: 826
+        height: 1
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_opa: COVER
+    - obj:
+        id: tab0
+        x: 18
+        y: 418
+        width: 164
+        height: 60
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_opa: TRANSP
+        clickable: false
+        widgets:
+        - label:
+            id: tabl0
+            text: תיב
+            text_font: f_tab
+            align: CENTER
+    - obj:
+        id: tab1
+        x: 183
+        y: 418
+        width: 164
+        height: 60
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_opa: TRANSP
+        clickable: false
+        widgets:
+        - label:
+            id: tabl1
+            text: גתמ
+            text_font: f_tab
+            align: CENTER
+    - obj:
+        id: tab2
+        x: 348
+        y: 418
+        width: 164
+        height: 60
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_opa: TRANSP
+        clickable: false
+        widgets:
+        - label:
+            id: tabl2
+            text: ןגזמ
+            text_font: f_tab
+            align: CENTER
+    - obj:
+        id: tab3
+        x: 513
+        y: 418
+        width: 164
+        height: 60
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_opa: TRANSP
+        clickable: false
+        widgets:
+        - label:
+            id: tabl3
+            text: הקיזומ
+            text_font: f_tab
+            align: CENTER
+    - obj:
+        id: tab4
+        x: 678
+        y: 418
+        width: 164
+        height: 60
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_opa: TRANSP
+        clickable: false
+        widgets:
+        - label:
+            id: tabl4
+            text: רזוע
+            text_font: f_tab
+            align: CENTER
+    - obj:
+        id: tabind
+        x: 235
+        y: 406
+        width: 60
+        height: 4
+        radius: 2
+        border_width: 0
+        pad_all: 0
+        bg_opa: COVER
+    - obj:
+        id: handle
+        x: 0
+        y: 0
+        width: 854
+        height: 40
+        bg_opa: TRANSP
+        border_width: 0
+        radius: 0
+        pad_all: 0
+        on_click:
+        - lvgl.widget.show: panel
+        widgets:
+        - obj:
+            id: grip
+            width: 80
+            height: 5
+            radius: 3
+            border_width: 0
+            pad_all: 0
+            bg_opa: COVER
+            align: CENTER
+    - obj:
+        id: panel
+        hidden: true
+        x: 0
+        y: 0
+        width: 854
+        height: 262
+        radius: 0
+        border_width: 0
+        pad_all: 0
+        bg_color: 0x1F3260
+        widgets:
+        - label:
+            id: panel_title
+            text: אשונ תכרע
+            text_font: f_name
+            align: TOP_MID
+            y: 12
+        - obj:
+            id: tbtn_navy
+            align: TOP_MID
+            x: -240
+            y: 62
+            width: 200
+            height: 62
+            radius: 12
+            border_width: 2
+            bg_color: 0x16264A
+            border_color: 0xB9C6DC
+            on_click:
+            - select.set:
+                id: theme_sel
+                option: navy
+            widgets:
+            - label:
+                id: tbl_navy
+                text: לוחכ
+                text_font: f_name
+                text_color: 0xF2F5FA
+                align: CENTER
+        - obj:
+            id: tbtn_black
+            align: TOP_MID
+            x: 0
+            y: 62
+            width: 200
+            height: 62
+            radius: 12
+            border_width: 2
+            bg_color: 0x000000
+            border_color: 0xC8A060
+            on_click:
+            - select.set:
+                id: theme_sel
+                option: black
+            widgets:
+            - label:
+                id: tbl_black
+                text: רוחש
+                text_font: f_name
+                text_color: 0xFFFFFF
+                align: CENTER
+        - obj:
+            id: tbtn_white
+            align: TOP_MID
+            x: 240
+            y: 62
+            width: 200
+            height: 62
+            radius: 12
+            border_width: 2
+            bg_color: 0xFFFFFF
+            border_color: 0xB88830
+            on_click:
+            - select.set:
+                id: theme_sel
+                option: white
+            widgets:
+            - label:
+                id: tbl_white
+                text: ןבל
+                text_font: f_name
+                text_color: 0x101010
+                align: CENTER
+        - obj:
+            id: tbtn_lunar
+            align: TOP_MID
+            x: -240
+            y: 136
+            width: 200
+            height: 62
+            radius: 12
+            border_width: 2
+            bg_color: 0xE7EAF0
+            border_color: 0x4F5BD5
+            on_click:
+            - select.set:
+                id: theme_sel
+                option: lunar
+            widgets:
+            - label:
+                id: tbl_lunar
+                text: ראנול
+                text_font: f_name
+                text_color: 0x1B2030
+                align: CENTER
+        - obj:
+            id: tbtn_hud
+            align: TOP_MID
+            x: 0
+            y: 136
+            width: 200
+            height: 62
+            radius: 12
+            border_width: 2
+            bg_color: 0x02080C
+            border_color: 0x38E8FF
+            on_click:
+            - select.set:
+                id: theme_sel
+                option: hud
+            widgets:
+            - label:
+                id: tbl_hud
+                text: HUD
+                text_font: f_name
+                text_color: 0xD8F7FB
+                align: CENTER
+        - obj:
+            id: tbtn_ladder
+            align: TOP_MID
+            x: 240
+            y: 136
+            width: 200
+            height: 62
+            radius: 12
+            border_width: 2
+            bg_color: 0x0E0F13
+            border_color: 0xC6F432
+            on_click:
+            - select.set:
+                id: theme_sel
+                option: ladder
+            widgets:
+            - label:
+                id: tbl_ladder
+                text: םלוס
+                text_font: f_name
+                text_color: 0xF0F1F3
+                align: CENTER
+        - obj:
+            id: panel_close
+            align: BOTTOM_MID
+            y: -10
+            width: 160
+            height: 46
+            radius: 12
+            border_width: 0
+            on_click:
+            - lvgl.widget.hide: panel
+            widgets:
+            - label:
+                id: panel_close_l
+                text: רוגס
+                text_font: f_state
+                align: CENTER
 script:
-  - id: ui_theme_navy
-    then:
+- id: ui_theme_navy
+  then:
+  - lvgl.widget.update:
+      id: bgroot
+      bg_color: 0x16264A
+  - lvgl.widget.update:
+      id: panel
+      bg_color: 0x1F3260
+  - lvgl.widget.update:
+      id: panel_title
+      text_color: 0xF2F5FA
+  - lvgl.widget.update:
+      id: panel_close
+      bg_color: 0x34497A
+  - lvgl.widget.update:
+      id: panel_close_l
+      text_color: 0xF2F5FA
+  - lvgl.widget.update:
+      id: grip
+      bg_color: 0x34497A
+  - lvgl.widget.update:
+      id: tabline
+      bg_color: 0x34497A
+  - lvgl.widget.update:
+      id: tabind
+      bg_color: 0xB9C6DC
+  - lvgl.widget.update:
+      id: tabl0
+      text_color: 0xA9B7D2
+  - lvgl.widget.update:
+      id: tabl1
+      text_color: 0xB9C6DC
+  - lvgl.widget.update:
+      id: tabl2
+      text_color: 0xA9B7D2
+  - lvgl.widget.update:
+      id: tabl3
+      text_color: 0xA9B7D2
+  - lvgl.widget.update:
+      id: tabl4
+      text_color: 0xA9B7D2
+  - lvgl.widget.update:
+      id: card1
+      bg_color: 0x1F3260
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0x34497A
+  - lvgl.widget.update:
+      id: name1
+      text_color: 0xA9B7D2
+  - lvgl.widget.update:
+      id: dv1_1
+      bg_color: 0x34497A
+  - lvgl.widget.update:
+      id: dv1_2
+      bg_color: 0x34497A
+  - lvgl.widget.update:
+      id: g1u
+      text_color: 0xF2F5FA
+  - lvgl.widget.update:
+      id: g1s
+      text_color: 0xF2F5FA
+  - lvgl.widget.update:
+      id: g1d
+      text_color: 0xF2F5FA
+  - lvgl.widget.show: dv1_1
+  - lvgl.widget.show: dv1_2
+  - lvgl.widget.hide: sb1_tl
+  - lvgl.widget.hide: sb1_tr
+  - lvgl.widget.hide: sb1_bl
+  - lvgl.widget.hide: sb1_br
+  - lvgl.widget.update:
+      id: sb1_tl
+      border_color: 0x6F85B0
+  - lvgl.widget.update:
+      id: sb1_tr
+      border_color: 0x6F85B0
+  - lvgl.widget.update:
+      id: sb1_bl
+      border_color: 0x6F85B0
+  - lvgl.widget.update:
+      id: sb1_br
+      border_color: 0x6F85B0
+  - lvgl.widget.update:
+      id: card2
+      bg_color: 0x1F3260
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0x34497A
+  - lvgl.widget.update:
+      id: name2
+      text_color: 0xA9B7D2
+  - lvgl.widget.update:
+      id: dv2_1
+      bg_color: 0x34497A
+  - lvgl.widget.update:
+      id: dv2_2
+      bg_color: 0x34497A
+  - lvgl.widget.update:
+      id: g2u
+      text_color: 0xF2F5FA
+  - lvgl.widget.update:
+      id: g2s
+      text_color: 0xF2F5FA
+  - lvgl.widget.update:
+      id: g2d
+      text_color: 0xF2F5FA
+  - lvgl.widget.show: dv2_1
+  - lvgl.widget.show: dv2_2
+  - lvgl.widget.hide: sb2_tl
+  - lvgl.widget.hide: sb2_tr
+  - lvgl.widget.hide: sb2_bl
+  - lvgl.widget.hide: sb2_br
+  - lvgl.widget.update:
+      id: sb2_tl
+      border_color: 0x6F85B0
+  - lvgl.widget.update:
+      id: sb2_tr
+      border_color: 0x6F85B0
+  - lvgl.widget.update:
+      id: sb2_bl
+      border_color: 0x6F85B0
+  - lvgl.widget.update:
+      id: sb2_br
+      border_color: 0x6F85B0
+  - lvgl.widget.show: bar3
+  - lvgl.widget.hide: lb3_0
+  - lvgl.widget.hide: lb3_1
+  - lvgl.widget.hide: lb3_2
+  - lvgl.widget.hide: lb3_3
+  - lvgl.widget.hide: lb3_4
+  - lvgl.widget.hide: lb3_5
+  - lvgl.widget.hide: lb3_6
+  - lvgl.widget.hide: hb3_tl
+  - lvgl.widget.hide: hb3_tr
+  - lvgl.widget.hide: hb3_bl
+  - lvgl.widget.hide: hb3_br
+  - lvgl.widget.hide: hs3
+  - lvgl.widget.update:
+      id: name3
+      y: -22
+  - lvgl.widget.update:
+      id: stat3
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate3
+      then:
       - lvgl.widget.update:
-          id: bgroot
-          bg_color: 0x22407A
-          bg_grad_color: 0x0E1A38
-          bg_grad_dir: VER
+          id: card3
+          bg_color: 0x2A4378
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x6F85B0
       - lvgl.widget.update:
-          id: panel
+          id: bar3
+          bg_color: 0xB9C6DC
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xF2F5FA
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0xB9C6DC
+      - lvgl.label.update:
+          id: stat3
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card3
           bg_color: 0x1F3260
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x34497A
       - lvgl.widget.update:
-          id: panel_title
-          text_color: 0xF2F5FA
-      - lvgl.widget.update:
-          id: panel_close
+          id: bar3
           bg_color: 0x34497A
-      - lvgl.widget.update:
-          id: grip
-          bg_color: 0x34497A
-      - lvgl.widget.update:
-          id: name1
-          text_color: 0xF2F5FA
-      - if:
-          condition:
-            switch.is_on: relay1
-          then:
-            - lvgl.widget.update:
-                id: bar1
-                bg_color: 0x8FB4E0
-            - lvgl.widget.update:
-                id: key1
-                bg_color: 0x2A4378
-                border_color: 0x8FB4E0
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat1
-                text_color: 0x8FB4E0
-            - lvgl.label.update:
-                id: stat1
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar1
-                bg_color: 0x34497A
-            - lvgl.label.update:
-                id: stat1
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key1
-                bg_color: 0x1F3260
-                border_color: 0x34497A
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat1
-                text_color: 0xA9B7D2
-      - lvgl.widget.update:
-          id: name2
-          text_color: 0xF2F5FA
-      - if:
-          condition:
-            switch.is_on: relay2
-          then:
-            - lvgl.widget.update:
-                id: bar2
-                bg_color: 0x8FB4E0
-            - lvgl.widget.update:
-                id: key2
-                bg_color: 0x2A4378
-                border_color: 0x8FB4E0
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat2
-                text_color: 0x8FB4E0
-            - lvgl.label.update:
-                id: stat2
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar2
-                bg_color: 0x34497A
-            - lvgl.label.update:
-                id: stat2
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key2
-                bg_color: 0x1F3260
-                border_color: 0x34497A
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat2
-                text_color: 0xA9B7D2
       - lvgl.widget.update:
           id: name3
           text_color: 0xF2F5FA
-      - if:
-          condition:
-            switch.is_on: relay3
-          then:
-            - lvgl.widget.update:
-                id: bar3
-                bg_color: 0x8FB4E0
-            - lvgl.widget.update:
-                id: key3
-                bg_color: 0x2A4378
-                border_color: 0x8FB4E0
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat3
-                text_color: 0x8FB4E0
-            - lvgl.label.update:
-                id: stat3
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar3
-                bg_color: 0x34497A
-            - lvgl.label.update:
-                id: stat3
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key3
-                bg_color: 0x1F3260
-                border_color: 0x34497A
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat3
-                text_color: 0xA9B7D2
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0xA9B7D2
+      - lvgl.label.update:
+          id: stat3
+          text: יובכ
+  - lvgl.widget.show: bar4
+  - lvgl.widget.hide: lb4_0
+  - lvgl.widget.hide: lb4_1
+  - lvgl.widget.hide: lb4_2
+  - lvgl.widget.hide: lb4_3
+  - lvgl.widget.hide: lb4_4
+  - lvgl.widget.hide: lb4_5
+  - lvgl.widget.hide: lb4_6
+  - lvgl.widget.hide: hb4_tl
+  - lvgl.widget.hide: hb4_tr
+  - lvgl.widget.hide: hb4_bl
+  - lvgl.widget.hide: hb4_br
+  - lvgl.widget.hide: hs4
+  - lvgl.widget.update:
+      id: name4
+      y: -22
+  - lvgl.widget.update:
+      id: stat4
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate4
+      then:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x2A4378
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x6F85B0
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0xB9C6DC
       - lvgl.widget.update:
           id: name4
           text_color: 0xF2F5FA
-      - if:
-          condition:
-            switch.is_on: relay4
-          then:
-            - lvgl.widget.update:
-                id: bar4
-                bg_color: 0x8FB4E0
-            - lvgl.widget.update:
-                id: key4
-                bg_color: 0x2A4378
-                border_color: 0x8FB4E0
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat4
-                text_color: 0x8FB4E0
-            - lvgl.label.update:
-                id: stat4
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar4
-                bg_color: 0x34497A
-            - lvgl.label.update:
-                id: stat4
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key4
-                bg_color: 0x1F3260
-                border_color: 0x34497A
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat4
-                text_color: 0xA9B7D2
-  - id: ui_theme_black
-    then:
       - lvgl.widget.update:
-          id: bgroot
+          id: stat4
+          text_color: 0xB9C6DC
+      - lvgl.label.update:
+          id: stat4
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x1F3260
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x34497A
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xF2F5FA
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0xA9B7D2
+      - lvgl.label.update:
+          id: stat4
+          text: יובכ
+  - lvgl.widget.show: bar5
+  - lvgl.widget.hide: lb5_0
+  - lvgl.widget.hide: lb5_1
+  - lvgl.widget.hide: lb5_2
+  - lvgl.widget.hide: lb5_3
+  - lvgl.widget.hide: lb5_4
+  - lvgl.widget.hide: lb5_5
+  - lvgl.widget.hide: lb5_6
+  - lvgl.widget.hide: hb5_tl
+  - lvgl.widget.hide: hb5_tr
+  - lvgl.widget.hide: hb5_bl
+  - lvgl.widget.hide: hb5_br
+  - lvgl.widget.hide: hs5
+  - lvgl.widget.update:
+      id: name5
+      y: -22
+  - lvgl.widget.update:
+      id: stat5
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate5
+      then:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x2A4378
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x6F85B0
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0xB9C6DC
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xF2F5FA
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0xB9C6DC
+      - lvgl.label.update:
+          id: stat5
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x1F3260
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x34497A
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xF2F5FA
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0xA9B7D2
+      - lvgl.label.update:
+          id: stat5
+          text: יובכ
+  - lvgl.widget.show: bar6
+  - lvgl.widget.hide: lb6_0
+  - lvgl.widget.hide: lb6_1
+  - lvgl.widget.hide: lb6_2
+  - lvgl.widget.hide: lb6_3
+  - lvgl.widget.hide: lb6_4
+  - lvgl.widget.hide: lb6_5
+  - lvgl.widget.hide: lb6_6
+  - lvgl.widget.hide: hb6_tl
+  - lvgl.widget.hide: hb6_tr
+  - lvgl.widget.hide: hb6_bl
+  - lvgl.widget.hide: hb6_br
+  - lvgl.widget.hide: hs6
+  - lvgl.widget.update:
+      id: name6
+      y: -22
+  - lvgl.widget.update:
+      id: stat6
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate6
+      then:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x2A4378
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x6F85B0
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0xB9C6DC
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xF2F5FA
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0xB9C6DC
+      - lvgl.label.update:
+          id: stat6
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x1F3260
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x34497A
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0x34497A
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xF2F5FA
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0xA9B7D2
+      - lvgl.label.update:
+          id: stat6
+          text: יובכ
+- id: ui_theme_black
+  then:
+  - lvgl.widget.update:
+      id: bgroot
+      bg_color: 0x000000
+  - lvgl.widget.update:
+      id: panel
+      bg_color: 0x202020
+  - lvgl.widget.update:
+      id: panel_title
+      text_color: 0xFFFFFF
+  - lvgl.widget.update:
+      id: panel_close
+      bg_color: 0x303030
+  - lvgl.widget.update:
+      id: panel_close_l
+      text_color: 0xFFFFFF
+  - lvgl.widget.update:
+      id: grip
+      bg_color: 0x303030
+  - lvgl.widget.update:
+      id: tabline
+      bg_color: 0x303030
+  - lvgl.widget.update:
+      id: tabind
+      bg_color: 0xC8A060
+  - lvgl.widget.update:
+      id: tabl0
+      text_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: tabl1
+      text_color: 0xC8A060
+  - lvgl.widget.update:
+      id: tabl2
+      text_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: tabl3
+      text_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: tabl4
+      text_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: card1
+      bg_color: 0x202020
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0x303030
+  - lvgl.widget.update:
+      id: name1
+      text_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: dv1_1
+      bg_color: 0x303030
+  - lvgl.widget.update:
+      id: dv1_2
+      bg_color: 0x303030
+  - lvgl.widget.update:
+      id: g1u
+      text_color: 0xFFFFFF
+  - lvgl.widget.update:
+      id: g1s
+      text_color: 0xFFFFFF
+  - lvgl.widget.update:
+      id: g1d
+      text_color: 0xFFFFFF
+  - lvgl.widget.show: dv1_1
+  - lvgl.widget.show: dv1_2
+  - lvgl.widget.hide: sb1_tl
+  - lvgl.widget.hide: sb1_tr
+  - lvgl.widget.hide: sb1_bl
+  - lvgl.widget.hide: sb1_br
+  - lvgl.widget.update:
+      id: sb1_tl
+      border_color: 0x585858
+  - lvgl.widget.update:
+      id: sb1_tr
+      border_color: 0x585858
+  - lvgl.widget.update:
+      id: sb1_bl
+      border_color: 0x585858
+  - lvgl.widget.update:
+      id: sb1_br
+      border_color: 0x585858
+  - lvgl.widget.update:
+      id: card2
+      bg_color: 0x202020
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0x303030
+  - lvgl.widget.update:
+      id: name2
+      text_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: dv2_1
+      bg_color: 0x303030
+  - lvgl.widget.update:
+      id: dv2_2
+      bg_color: 0x303030
+  - lvgl.widget.update:
+      id: g2u
+      text_color: 0xFFFFFF
+  - lvgl.widget.update:
+      id: g2s
+      text_color: 0xFFFFFF
+  - lvgl.widget.update:
+      id: g2d
+      text_color: 0xFFFFFF
+  - lvgl.widget.show: dv2_1
+  - lvgl.widget.show: dv2_2
+  - lvgl.widget.hide: sb2_tl
+  - lvgl.widget.hide: sb2_tr
+  - lvgl.widget.hide: sb2_bl
+  - lvgl.widget.hide: sb2_br
+  - lvgl.widget.update:
+      id: sb2_tl
+      border_color: 0x585858
+  - lvgl.widget.update:
+      id: sb2_tr
+      border_color: 0x585858
+  - lvgl.widget.update:
+      id: sb2_bl
+      border_color: 0x585858
+  - lvgl.widget.update:
+      id: sb2_br
+      border_color: 0x585858
+  - lvgl.widget.show: bar3
+  - lvgl.widget.hide: lb3_0
+  - lvgl.widget.hide: lb3_1
+  - lvgl.widget.hide: lb3_2
+  - lvgl.widget.hide: lb3_3
+  - lvgl.widget.hide: lb3_4
+  - lvgl.widget.hide: lb3_5
+  - lvgl.widget.hide: lb3_6
+  - lvgl.widget.hide: hb3_tl
+  - lvgl.widget.hide: hb3_tr
+  - lvgl.widget.hide: hb3_bl
+  - lvgl.widget.hide: hb3_br
+  - lvgl.widget.hide: hs3
+  - lvgl.widget.update:
+      id: name3
+      y: -22
+  - lvgl.widget.update:
+      id: stat3
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate3
+      then:
+      - lvgl.widget.update:
+          id: card3
           bg_color: 0x2A2A2E
-          bg_grad_color: 0x000000
-          bg_grad_dir: VER
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x585858
       - lvgl.widget.update:
-          id: panel
+          id: bar3
+          bg_color: 0xC8A060
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0xC8A060
+      - lvgl.label.update:
+          id: stat3
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card3
           bg_color: 0x202020
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x303030
       - lvgl.widget.update:
-          id: panel_title
-          text_color: 0xFFFFFF
-      - lvgl.widget.update:
-          id: panel_close
+          id: bar3
           bg_color: 0x303030
-      - lvgl.widget.update:
-          id: grip
-          bg_color: 0x303030
-      - lvgl.widget.update:
-          id: name1
-          text_color: 0xFFFFFF
-      - if:
-          condition:
-            switch.is_on: relay1
-          then:
-            - lvgl.widget.update:
-                id: bar1
-                bg_color: 0xC8A060
-            - lvgl.widget.update:
-                id: key1
-                bg_color: 0x2A2A2E
-                border_color: 0xC8A060
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat1
-                text_color: 0xC8A060
-            - lvgl.label.update:
-                id: stat1
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar1
-                bg_color: 0x303030
-            - lvgl.label.update:
-                id: stat1
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key1
-                bg_color: 0x202020
-                border_color: 0x303030
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat1
-                text_color: 0xA0A0A0
-      - lvgl.widget.update:
-          id: name2
-          text_color: 0xFFFFFF
-      - if:
-          condition:
-            switch.is_on: relay2
-          then:
-            - lvgl.widget.update:
-                id: bar2
-                bg_color: 0xC8A060
-            - lvgl.widget.update:
-                id: key2
-                bg_color: 0x2A2A2E
-                border_color: 0xC8A060
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat2
-                text_color: 0xC8A060
-            - lvgl.label.update:
-                id: stat2
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar2
-                bg_color: 0x303030
-            - lvgl.label.update:
-                id: stat2
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key2
-                bg_color: 0x202020
-                border_color: 0x303030
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat2
-                text_color: 0xA0A0A0
       - lvgl.widget.update:
           id: name3
           text_color: 0xFFFFFF
-      - if:
-          condition:
-            switch.is_on: relay3
-          then:
-            - lvgl.widget.update:
-                id: bar3
-                bg_color: 0xC8A060
-            - lvgl.widget.update:
-                id: key3
-                bg_color: 0x2A2A2E
-                border_color: 0xC8A060
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat3
-                text_color: 0xC8A060
-            - lvgl.label.update:
-                id: stat3
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar3
-                bg_color: 0x303030
-            - lvgl.label.update:
-                id: stat3
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key3
-                bg_color: 0x202020
-                border_color: 0x303030
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat3
-                text_color: 0xA0A0A0
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0xA0A0A0
+      - lvgl.label.update:
+          id: stat3
+          text: יובכ
+  - lvgl.widget.show: bar4
+  - lvgl.widget.hide: lb4_0
+  - lvgl.widget.hide: lb4_1
+  - lvgl.widget.hide: lb4_2
+  - lvgl.widget.hide: lb4_3
+  - lvgl.widget.hide: lb4_4
+  - lvgl.widget.hide: lb4_5
+  - lvgl.widget.hide: lb4_6
+  - lvgl.widget.hide: hb4_tl
+  - lvgl.widget.hide: hb4_tr
+  - lvgl.widget.hide: hb4_bl
+  - lvgl.widget.hide: hb4_br
+  - lvgl.widget.hide: hs4
+  - lvgl.widget.update:
+      id: name4
+      y: -22
+  - lvgl.widget.update:
+      id: stat4
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate4
+      then:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x2A2A2E
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x585858
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0xC8A060
       - lvgl.widget.update:
           id: name4
           text_color: 0xFFFFFF
-      - if:
-          condition:
-            switch.is_on: relay4
-          then:
-            - lvgl.widget.update:
-                id: bar4
-                bg_color: 0xC8A060
-            - lvgl.widget.update:
-                id: key4
-                bg_color: 0x2A2A2E
-                border_color: 0xC8A060
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat4
-                text_color: 0xC8A060
-            - lvgl.label.update:
-                id: stat4
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar4
-                bg_color: 0x303030
-            - lvgl.label.update:
-                id: stat4
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key4
-                bg_color: 0x202020
-                border_color: 0x303030
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat4
-                text_color: 0xA0A0A0
-  - id: ui_theme_white
-    then:
       - lvgl.widget.update:
-          id: bgroot
+          id: stat4
+          text_color: 0xC8A060
+      - lvgl.label.update:
+          id: stat4
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x202020
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x303030
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0x303030
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0xA0A0A0
+      - lvgl.label.update:
+          id: stat4
+          text: יובכ
+  - lvgl.widget.show: bar5
+  - lvgl.widget.hide: lb5_0
+  - lvgl.widget.hide: lb5_1
+  - lvgl.widget.hide: lb5_2
+  - lvgl.widget.hide: lb5_3
+  - lvgl.widget.hide: lb5_4
+  - lvgl.widget.hide: lb5_5
+  - lvgl.widget.hide: lb5_6
+  - lvgl.widget.hide: hb5_tl
+  - lvgl.widget.hide: hb5_tr
+  - lvgl.widget.hide: hb5_bl
+  - lvgl.widget.hide: hb5_br
+  - lvgl.widget.hide: hs5
+  - lvgl.widget.update:
+      id: name5
+      y: -22
+  - lvgl.widget.update:
+      id: stat5
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate5
+      then:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x2A2A2E
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x585858
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0xC8A060
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0xC8A060
+      - lvgl.label.update:
+          id: stat5
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x202020
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x303030
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0x303030
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0xA0A0A0
+      - lvgl.label.update:
+          id: stat5
+          text: יובכ
+  - lvgl.widget.show: bar6
+  - lvgl.widget.hide: lb6_0
+  - lvgl.widget.hide: lb6_1
+  - lvgl.widget.hide: lb6_2
+  - lvgl.widget.hide: lb6_3
+  - lvgl.widget.hide: lb6_4
+  - lvgl.widget.hide: lb6_5
+  - lvgl.widget.hide: lb6_6
+  - lvgl.widget.hide: hb6_tl
+  - lvgl.widget.hide: hb6_tr
+  - lvgl.widget.hide: hb6_bl
+  - lvgl.widget.hide: hb6_br
+  - lvgl.widget.hide: hs6
+  - lvgl.widget.update:
+      id: name6
+      y: -22
+  - lvgl.widget.update:
+      id: stat6
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate6
+      then:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x2A2A2E
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x585858
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0xC8A060
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0xC8A060
+      - lvgl.label.update:
+          id: stat6
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x202020
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x303030
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0x303030
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0xA0A0A0
+      - lvgl.label.update:
+          id: stat6
+          text: יובכ
+- id: ui_theme_white
+  then:
+  - lvgl.widget.update:
+      id: bgroot
+      bg_color: 0xFFFFFF
+  - lvgl.widget.update:
+      id: panel
+      bg_color: 0xF0F0F0
+  - lvgl.widget.update:
+      id: panel_title
+      text_color: 0x101010
+  - lvgl.widget.update:
+      id: panel_close
+      bg_color: 0xE8E8E8
+  - lvgl.widget.update:
+      id: panel_close_l
+      text_color: 0x101010
+  - lvgl.widget.update:
+      id: grip
+      bg_color: 0xE8E8E8
+  - lvgl.widget.update:
+      id: tabline
+      bg_color: 0xD8D8D8
+  - lvgl.widget.update:
+      id: tabind
+      bg_color: 0xB88830
+  - lvgl.widget.update:
+      id: tabl0
+      text_color: 0x686868
+  - lvgl.widget.update:
+      id: tabl1
+      text_color: 0xB88830
+  - lvgl.widget.update:
+      id: tabl2
+      text_color: 0x686868
+  - lvgl.widget.update:
+      id: tabl3
+      text_color: 0x686868
+  - lvgl.widget.update:
+      id: tabl4
+      text_color: 0x686868
+  - lvgl.widget.update:
+      id: card1
+      bg_color: 0xF0F0F0
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0xD8D8D8
+  - lvgl.widget.update:
+      id: name1
+      text_color: 0x686868
+  - lvgl.widget.update:
+      id: dv1_1
+      bg_color: 0xD8D8D8
+  - lvgl.widget.update:
+      id: dv1_2
+      bg_color: 0xD8D8D8
+  - lvgl.widget.update:
+      id: g1u
+      text_color: 0x101010
+  - lvgl.widget.update:
+      id: g1s
+      text_color: 0x101010
+  - lvgl.widget.update:
+      id: g1d
+      text_color: 0x101010
+  - lvgl.widget.show: dv1_1
+  - lvgl.widget.show: dv1_2
+  - lvgl.widget.hide: sb1_tl
+  - lvgl.widget.hide: sb1_tr
+  - lvgl.widget.hide: sb1_bl
+  - lvgl.widget.hide: sb1_br
+  - lvgl.widget.update:
+      id: sb1_tl
+      border_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: sb1_tr
+      border_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: sb1_bl
+      border_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: sb1_br
+      border_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: card2
+      bg_color: 0xF0F0F0
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0xD8D8D8
+  - lvgl.widget.update:
+      id: name2
+      text_color: 0x686868
+  - lvgl.widget.update:
+      id: dv2_1
+      bg_color: 0xD8D8D8
+  - lvgl.widget.update:
+      id: dv2_2
+      bg_color: 0xD8D8D8
+  - lvgl.widget.update:
+      id: g2u
+      text_color: 0x101010
+  - lvgl.widget.update:
+      id: g2s
+      text_color: 0x101010
+  - lvgl.widget.update:
+      id: g2d
+      text_color: 0x101010
+  - lvgl.widget.show: dv2_1
+  - lvgl.widget.show: dv2_2
+  - lvgl.widget.hide: sb2_tl
+  - lvgl.widget.hide: sb2_tr
+  - lvgl.widget.hide: sb2_bl
+  - lvgl.widget.hide: sb2_br
+  - lvgl.widget.update:
+      id: sb2_tl
+      border_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: sb2_tr
+      border_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: sb2_bl
+      border_color: 0xA0A0A0
+  - lvgl.widget.update:
+      id: sb2_br
+      border_color: 0xA0A0A0
+  - lvgl.widget.show: bar3
+  - lvgl.widget.hide: lb3_0
+  - lvgl.widget.hide: lb3_1
+  - lvgl.widget.hide: lb3_2
+  - lvgl.widget.hide: lb3_3
+  - lvgl.widget.hide: lb3_4
+  - lvgl.widget.hide: lb3_5
+  - lvgl.widget.hide: lb3_6
+  - lvgl.widget.hide: hb3_tl
+  - lvgl.widget.hide: hb3_tr
+  - lvgl.widget.hide: hb3_bl
+  - lvgl.widget.hide: hb3_br
+  - lvgl.widget.hide: hs3
+  - lvgl.widget.update:
+      id: name3
+      y: -22
+  - lvgl.widget.update:
+      id: stat3
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate3
+      then:
+      - lvgl.widget.update:
+          id: card3
           bg_color: 0xFFFFFF
-          bg_grad_color: 0xDFE2E8
-          bg_grad_dir: VER
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0xA0A0A0
       - lvgl.widget.update:
-          id: panel
-          bg_color: 0xF0F0F0
-      - lvgl.widget.update:
-          id: panel_title
-          text_color: 0x101010
-      - lvgl.widget.update:
-          id: panel_close
-          bg_color: 0xE8E8E8
-      - lvgl.widget.update:
-          id: grip
-          bg_color: 0xE8E8E8
-      - lvgl.widget.update:
-          id: name1
-          text_color: 0x101010
-      - if:
-          condition:
-            switch.is_on: relay1
-          then:
-            - lvgl.widget.update:
-                id: bar1
-                bg_color: 0xB88830
-            - lvgl.widget.update:
-                id: key1
-                bg_color: 0xFFFFFF
-                border_color: 0xB88830
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat1
-                text_color: 0xB88830
-            - lvgl.label.update:
-                id: stat1
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar1
-                bg_color: 0xE8E8E8
-            - lvgl.label.update:
-                id: stat1
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key1
-                bg_color: 0xF0F0F0
-                border_color: 0xD8D8D8
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat1
-                text_color: 0x686868
-      - lvgl.widget.update:
-          id: name2
-          text_color: 0x101010
-      - if:
-          condition:
-            switch.is_on: relay2
-          then:
-            - lvgl.widget.update:
-                id: bar2
-                bg_color: 0xB88830
-            - lvgl.widget.update:
-                id: key2
-                bg_color: 0xFFFFFF
-                border_color: 0xB88830
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat2
-                text_color: 0xB88830
-            - lvgl.label.update:
-                id: stat2
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar2
-                bg_color: 0xE8E8E8
-            - lvgl.label.update:
-                id: stat2
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key2
-                bg_color: 0xF0F0F0
-                border_color: 0xD8D8D8
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat2
-                text_color: 0x686868
+          id: bar3
+          bg_color: 0xB88830
       - lvgl.widget.update:
           id: name3
           text_color: 0x101010
-      - if:
-          condition:
-            switch.is_on: relay3
-          then:
-            - lvgl.widget.update:
-                id: bar3
-                bg_color: 0xB88830
-            - lvgl.widget.update:
-                id: key3
-                bg_color: 0xFFFFFF
-                border_color: 0xB88830
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat3
-                text_color: 0xB88830
-            - lvgl.label.update:
-                id: stat3
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar3
-                bg_color: 0xE8E8E8
-            - lvgl.label.update:
-                id: stat3
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key3
-                bg_color: 0xF0F0F0
-                border_color: 0xD8D8D8
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat3
-                text_color: 0x686868
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0x806018
+      - lvgl.label.update:
+          id: stat3
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card3
+          bg_color: 0xF0F0F0
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD8D8D8
+      - lvgl.widget.update:
+          id: bar3
+          bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0x101010
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0x686868
+      - lvgl.label.update:
+          id: stat3
+          text: יובכ
+  - lvgl.widget.show: bar4
+  - lvgl.widget.hide: lb4_0
+  - lvgl.widget.hide: lb4_1
+  - lvgl.widget.hide: lb4_2
+  - lvgl.widget.hide: lb4_3
+  - lvgl.widget.hide: lb4_4
+  - lvgl.widget.hide: lb4_5
+  - lvgl.widget.hide: lb4_6
+  - lvgl.widget.hide: hb4_tl
+  - lvgl.widget.hide: hb4_tr
+  - lvgl.widget.hide: hb4_bl
+  - lvgl.widget.hide: hb4_br
+  - lvgl.widget.hide: hs4
+  - lvgl.widget.update:
+      id: name4
+      y: -22
+  - lvgl.widget.update:
+      id: stat4
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate4
+      then:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0xFFFFFF
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0xA0A0A0
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0xB88830
       - lvgl.widget.update:
           id: name4
           text_color: 0x101010
-      - if:
-          condition:
-            switch.is_on: relay4
-          then:
-            - lvgl.widget.update:
-                id: bar4
-                bg_color: 0xB88830
-            - lvgl.widget.update:
-                id: key4
-                bg_color: 0xFFFFFF
-                border_color: 0xB88830
-                bg_opa: COVER
-            - lvgl.widget.update:
-                id: stat4
-                text_color: 0xB88830
-            - lvgl.label.update:
-                id: stat4
-                text: "קלוד"
-          else:
-            - lvgl.widget.update:
-                id: bar4
-                bg_color: 0xE8E8E8
-            - lvgl.label.update:
-                id: stat4
-                text: "יובכ"
-            - lvgl.widget.update:
-                id: key4
-                bg_color: 0xF0F0F0
-                border_color: 0xD8D8D8
-                bg_opa: 80%
-            - lvgl.widget.update:
-                id: stat4
-                text_color: 0x686868
-  - id: ui_refresh
-    then:
-      - if:
-          condition:
-            lambda: 'return id(theme_sel).current_option() == "navy";'
-          then:
-            - script.execute: ui_theme_navy
-      - if:
-          condition:
-            lambda: 'return id(theme_sel).current_option() == "black";'
-          then:
-            - script.execute: ui_theme_black
-      - if:
-          condition:
-            lambda: 'return id(theme_sel).current_option() == "white";'
-          then:
-            - script.execute: ui_theme_white
-  - id: ui_key1_on
-    then:
-      - script.execute: ui_refresh
-  - id: ui_key1_off
-    then:
-      - script.execute: ui_refresh
-  - id: ui_key2_on
-    then:
-      - script.execute: ui_refresh
-  - id: ui_key2_off
-    then:
-      - script.execute: ui_refresh
-  - id: ui_key3_on
-    then:
-      - script.execute: ui_refresh
-  - id: ui_key3_off
-    then:
-      - script.execute: ui_refresh
-  - id: ui_key4_on
-    then:
-      - script.execute: ui_refresh
-  - id: ui_key4_off
-    then:
-      - script.execute: ui_refresh
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0x806018
+      - lvgl.label.update:
+          id: stat4
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0xF0F0F0
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD8D8D8
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0x101010
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0x686868
+      - lvgl.label.update:
+          id: stat4
+          text: יובכ
+  - lvgl.widget.show: bar5
+  - lvgl.widget.hide: lb5_0
+  - lvgl.widget.hide: lb5_1
+  - lvgl.widget.hide: lb5_2
+  - lvgl.widget.hide: lb5_3
+  - lvgl.widget.hide: lb5_4
+  - lvgl.widget.hide: lb5_5
+  - lvgl.widget.hide: lb5_6
+  - lvgl.widget.hide: hb5_tl
+  - lvgl.widget.hide: hb5_tr
+  - lvgl.widget.hide: hb5_bl
+  - lvgl.widget.hide: hb5_br
+  - lvgl.widget.hide: hs5
+  - lvgl.widget.update:
+      id: name5
+      y: -22
+  - lvgl.widget.update:
+      id: stat5
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate5
+      then:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0xFFFFFF
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0xA0A0A0
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0xB88830
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0x101010
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0x806018
+      - lvgl.label.update:
+          id: stat5
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0xF0F0F0
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD8D8D8
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0x101010
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0x686868
+      - lvgl.label.update:
+          id: stat5
+          text: יובכ
+  - lvgl.widget.show: bar6
+  - lvgl.widget.hide: lb6_0
+  - lvgl.widget.hide: lb6_1
+  - lvgl.widget.hide: lb6_2
+  - lvgl.widget.hide: lb6_3
+  - lvgl.widget.hide: lb6_4
+  - lvgl.widget.hide: lb6_5
+  - lvgl.widget.hide: lb6_6
+  - lvgl.widget.hide: hb6_tl
+  - lvgl.widget.hide: hb6_tr
+  - lvgl.widget.hide: hb6_bl
+  - lvgl.widget.hide: hb6_br
+  - lvgl.widget.hide: hs6
+  - lvgl.widget.update:
+      id: name6
+      y: -22
+  - lvgl.widget.update:
+      id: stat6
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate6
+      then:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0xFFFFFF
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0xA0A0A0
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0xB88830
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0x101010
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0x806018
+      - lvgl.label.update:
+          id: stat6
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0xF0F0F0
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD8D8D8
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0xE8E8E8
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0x101010
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0x686868
+      - lvgl.label.update:
+          id: stat6
+          text: יובכ
+- id: ui_theme_lunar
+  then:
+  - lvgl.widget.update:
+      id: bgroot
+      bg_color: 0xE7EAF0
+  - lvgl.widget.update:
+      id: panel
+      bg_color: 0xF8F9FB
+  - lvgl.widget.update:
+      id: panel_title
+      text_color: 0x1B2030
+  - lvgl.widget.update:
+      id: panel_close
+      bg_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: panel_close_l
+      text_color: 0x1B2030
+  - lvgl.widget.update:
+      id: grip
+      bg_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: tabline
+      bg_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: tabind
+      bg_color: 0x4F5BD5
+  - lvgl.widget.update:
+      id: tabl0
+      text_color: 0x7B8397
+  - lvgl.widget.update:
+      id: tabl1
+      text_color: 0x4F5BD5
+  - lvgl.widget.update:
+      id: tabl2
+      text_color: 0x7B8397
+  - lvgl.widget.update:
+      id: tabl3
+      text_color: 0x7B8397
+  - lvgl.widget.update:
+      id: tabl4
+      text_color: 0x7B8397
+  - lvgl.widget.update:
+      id: card1
+      bg_color: 0xF8F9FB
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: name1
+      text_color: 0x7B8397
+  - lvgl.widget.update:
+      id: dv1_1
+      bg_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: dv1_2
+      bg_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: g1u
+      text_color: 0x1B2030
+  - lvgl.widget.update:
+      id: g1s
+      text_color: 0x1B2030
+  - lvgl.widget.update:
+      id: g1d
+      text_color: 0x1B2030
+  - lvgl.widget.show: dv1_1
+  - lvgl.widget.show: dv1_2
+  - lvgl.widget.hide: sb1_tl
+  - lvgl.widget.hide: sb1_tr
+  - lvgl.widget.hide: sb1_bl
+  - lvgl.widget.hide: sb1_br
+  - lvgl.widget.update:
+      id: sb1_tl
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: sb1_tr
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: sb1_bl
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: sb1_br
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: card2
+      bg_color: 0xF8F9FB
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: name2
+      text_color: 0x7B8397
+  - lvgl.widget.update:
+      id: dv2_1
+      bg_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: dv2_2
+      bg_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: g2u
+      text_color: 0x1B2030
+  - lvgl.widget.update:
+      id: g2s
+      text_color: 0x1B2030
+  - lvgl.widget.update:
+      id: g2d
+      text_color: 0x1B2030
+  - lvgl.widget.show: dv2_1
+  - lvgl.widget.show: dv2_2
+  - lvgl.widget.hide: sb2_tl
+  - lvgl.widget.hide: sb2_tr
+  - lvgl.widget.hide: sb2_bl
+  - lvgl.widget.hide: sb2_br
+  - lvgl.widget.update:
+      id: sb2_tl
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: sb2_tr
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: sb2_bl
+      border_color: 0xD2D7E0
+  - lvgl.widget.update:
+      id: sb2_br
+      border_color: 0xD2D7E0
+  - lvgl.widget.show: bar3
+  - lvgl.widget.hide: lb3_0
+  - lvgl.widget.hide: lb3_1
+  - lvgl.widget.hide: lb3_2
+  - lvgl.widget.hide: lb3_3
+  - lvgl.widget.hide: lb3_4
+  - lvgl.widget.hide: lb3_5
+  - lvgl.widget.hide: lb3_6
+  - lvgl.widget.hide: hb3_tl
+  - lvgl.widget.hide: hb3_tr
+  - lvgl.widget.hide: hb3_bl
+  - lvgl.widget.hide: hb3_br
+  - lvgl.widget.hide: hs3
+  - lvgl.widget.update:
+      id: name3
+      y: -22
+  - lvgl.widget.update:
+      id: stat3
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate3
+      then:
+      - lvgl.widget.update:
+          id: card3
+          bg_color: 0x4F5BD5
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x4F5BD5
+      - lvgl.widget.update:
+          id: bar3
+          bg_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0xD9DDFB
+      - lvgl.label.update:
+          id: stat3
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card3
+          bg_color: 0xF8F9FB
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: bar3
+          bg_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0x1B2030
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0x7B8397
+      - lvgl.label.update:
+          id: stat3
+          text: יובכ
+  - lvgl.widget.show: bar4
+  - lvgl.widget.hide: lb4_0
+  - lvgl.widget.hide: lb4_1
+  - lvgl.widget.hide: lb4_2
+  - lvgl.widget.hide: lb4_3
+  - lvgl.widget.hide: lb4_4
+  - lvgl.widget.hide: lb4_5
+  - lvgl.widget.hide: lb4_6
+  - lvgl.widget.hide: hb4_tl
+  - lvgl.widget.hide: hb4_tr
+  - lvgl.widget.hide: hb4_bl
+  - lvgl.widget.hide: hb4_br
+  - lvgl.widget.hide: hs4
+  - lvgl.widget.update:
+      id: name4
+      y: -22
+  - lvgl.widget.update:
+      id: stat4
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate4
+      then:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x4F5BD5
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x4F5BD5
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0xD9DDFB
+      - lvgl.label.update:
+          id: stat4
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0xF8F9FB
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: bar4
+          bg_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0x1B2030
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0x7B8397
+      - lvgl.label.update:
+          id: stat4
+          text: יובכ
+  - lvgl.widget.show: bar5
+  - lvgl.widget.hide: lb5_0
+  - lvgl.widget.hide: lb5_1
+  - lvgl.widget.hide: lb5_2
+  - lvgl.widget.hide: lb5_3
+  - lvgl.widget.hide: lb5_4
+  - lvgl.widget.hide: lb5_5
+  - lvgl.widget.hide: lb5_6
+  - lvgl.widget.hide: hb5_tl
+  - lvgl.widget.hide: hb5_tr
+  - lvgl.widget.hide: hb5_bl
+  - lvgl.widget.hide: hb5_br
+  - lvgl.widget.hide: hs5
+  - lvgl.widget.update:
+      id: name5
+      y: -22
+  - lvgl.widget.update:
+      id: stat5
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate5
+      then:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x4F5BD5
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x4F5BD5
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0xD9DDFB
+      - lvgl.label.update:
+          id: stat5
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0xF8F9FB
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: bar5
+          bg_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0x1B2030
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0x7B8397
+      - lvgl.label.update:
+          id: stat5
+          text: יובכ
+  - lvgl.widget.show: bar6
+  - lvgl.widget.hide: lb6_0
+  - lvgl.widget.hide: lb6_1
+  - lvgl.widget.hide: lb6_2
+  - lvgl.widget.hide: lb6_3
+  - lvgl.widget.hide: lb6_4
+  - lvgl.widget.hide: lb6_5
+  - lvgl.widget.hide: lb6_6
+  - lvgl.widget.hide: hb6_tl
+  - lvgl.widget.hide: hb6_tr
+  - lvgl.widget.hide: hb6_bl
+  - lvgl.widget.hide: hb6_br
+  - lvgl.widget.hide: hs6
+  - lvgl.widget.update:
+      id: name6
+      y: -22
+  - lvgl.widget.update:
+      id: stat6
+      y: 38
+  - if:
+      condition:
+        binary_sensor.is_on: lstate6
+      then:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x4F5BD5
+          bg_opa: COVER
+          radius: 24
+          border_width: 2
+          border_color: 0x4F5BD5
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xFFFFFF
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0xD9DDFB
+      - lvgl.label.update:
+          id: stat6
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0xF8F9FB
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: bar6
+          bg_color: 0xD2D7E0
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0x1B2030
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0x7B8397
+      - lvgl.label.update:
+          id: stat6
+          text: יובכ
+- id: ui_theme_hud
+  then:
+  - lvgl.widget.update:
+      id: bgroot
+      bg_color: 0x02080C
+  - lvgl.widget.update:
+      id: panel
+      bg_color: 0x02080C
+  - lvgl.widget.update:
+      id: panel_title
+      text_color: 0xD8F7FB
+  - lvgl.widget.update:
+      id: panel_close
+      bg_color: 0x1B5560
+  - lvgl.widget.update:
+      id: panel_close_l
+      text_color: 0xD8F7FB
+  - lvgl.widget.update:
+      id: grip
+      bg_color: 0x1B5560
+  - lvgl.widget.update:
+      id: tabline
+      bg_color: 0x12353D
+  - lvgl.widget.update:
+      id: tabind
+      bg_color: 0x38E8FF
+  - lvgl.widget.update:
+      id: tabl0
+      text_color: 0x4C8791
+  - lvgl.widget.update:
+      id: tabl1
+      text_color: 0x38E8FF
+  - lvgl.widget.update:
+      id: tabl2
+      text_color: 0x4C8791
+  - lvgl.widget.update:
+      id: tabl3
+      text_color: 0x4C8791
+  - lvgl.widget.update:
+      id: tabl4
+      text_color: 0x4C8791
+  - lvgl.widget.update:
+      id: card1
+      bg_color: 0x02080C
+      bg_opa: TRANSP
+      radius: 0
+      border_width: 0
+      border_color: 0x12353D
+  - lvgl.widget.update:
+      id: name1
+      text_color: 0x4C8791
+  - lvgl.widget.update:
+      id: dv1_1
+      bg_color: 0x12353D
+  - lvgl.widget.update:
+      id: dv1_2
+      bg_color: 0x12353D
+  - lvgl.widget.update:
+      id: g1u
+      text_color: 0xD8F7FB
+  - lvgl.widget.update:
+      id: g1s
+      text_color: 0xD8F7FB
+  - lvgl.widget.update:
+      id: g1d
+      text_color: 0xD8F7FB
+  - lvgl.widget.hide: dv1_1
+  - lvgl.widget.hide: dv1_2
+  - lvgl.widget.show: sb1_tl
+  - lvgl.widget.show: sb1_tr
+  - lvgl.widget.show: sb1_bl
+  - lvgl.widget.show: sb1_br
+  - lvgl.widget.update:
+      id: sb1_tl
+      border_color: 0x1B5560
+  - lvgl.widget.update:
+      id: sb1_tr
+      border_color: 0x1B5560
+  - lvgl.widget.update:
+      id: sb1_bl
+      border_color: 0x1B5560
+  - lvgl.widget.update:
+      id: sb1_br
+      border_color: 0x1B5560
+  - lvgl.widget.update:
+      id: card2
+      bg_color: 0x02080C
+      bg_opa: TRANSP
+      radius: 0
+      border_width: 0
+      border_color: 0x12353D
+  - lvgl.widget.update:
+      id: name2
+      text_color: 0x4C8791
+  - lvgl.widget.update:
+      id: dv2_1
+      bg_color: 0x12353D
+  - lvgl.widget.update:
+      id: dv2_2
+      bg_color: 0x12353D
+  - lvgl.widget.update:
+      id: g2u
+      text_color: 0xD8F7FB
+  - lvgl.widget.update:
+      id: g2s
+      text_color: 0xD8F7FB
+  - lvgl.widget.update:
+      id: g2d
+      text_color: 0xD8F7FB
+  - lvgl.widget.hide: dv2_1
+  - lvgl.widget.hide: dv2_2
+  - lvgl.widget.show: sb2_tl
+  - lvgl.widget.show: sb2_tr
+  - lvgl.widget.show: sb2_bl
+  - lvgl.widget.show: sb2_br
+  - lvgl.widget.update:
+      id: sb2_tl
+      border_color: 0x1B5560
+  - lvgl.widget.update:
+      id: sb2_tr
+      border_color: 0x1B5560
+  - lvgl.widget.update:
+      id: sb2_bl
+      border_color: 0x1B5560
+  - lvgl.widget.update:
+      id: sb2_br
+      border_color: 0x1B5560
+  - lvgl.widget.hide: bar3
+  - lvgl.widget.hide: lb3_0
+  - lvgl.widget.hide: lb3_1
+  - lvgl.widget.hide: lb3_2
+  - lvgl.widget.hide: lb3_3
+  - lvgl.widget.hide: lb3_4
+  - lvgl.widget.hide: lb3_5
+  - lvgl.widget.hide: lb3_6
+  - lvgl.widget.show: hb3_tl
+  - lvgl.widget.show: hb3_tr
+  - lvgl.widget.show: hb3_bl
+  - lvgl.widget.show: hb3_br
+  - lvgl.widget.show: hs3
+  - lvgl.widget.update:
+      id: name3
+      y: 0
+  - lvgl.widget.update:
+      id: stat3
+      y: 80
+  - if:
+      condition:
+        binary_sensor.is_on: lstate3
+      then:
+      - lvgl.widget.update:
+          id: card3
+          bg_color: 0x06303A
+          bg_opa: COVER
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb3_tl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb3_tr
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb3_bl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb3_br
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hs3
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: hs3
+          text: 'ON'
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xD8F7FB
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: stat3
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card3
+          bg_color: 0x02080C
+          bg_opa: TRANSP
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb3_tl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb3_tr
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb3_bl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb3_br
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hs3
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: hs3
+          text: 'OFF'
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0x9CC3CA
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: stat3
+          text: יובכ
+  - lvgl.widget.hide: bar4
+  - lvgl.widget.hide: lb4_0
+  - lvgl.widget.hide: lb4_1
+  - lvgl.widget.hide: lb4_2
+  - lvgl.widget.hide: lb4_3
+  - lvgl.widget.hide: lb4_4
+  - lvgl.widget.hide: lb4_5
+  - lvgl.widget.hide: lb4_6
+  - lvgl.widget.show: hb4_tl
+  - lvgl.widget.show: hb4_tr
+  - lvgl.widget.show: hb4_bl
+  - lvgl.widget.show: hb4_br
+  - lvgl.widget.show: hs4
+  - lvgl.widget.update:
+      id: name4
+      y: 0
+  - lvgl.widget.update:
+      id: stat4
+      y: 80
+  - if:
+      condition:
+        binary_sensor.is_on: lstate4
+      then:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x06303A
+          bg_opa: COVER
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb4_tl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb4_tr
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb4_bl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb4_br
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hs4
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: hs4
+          text: 'ON'
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xD8F7FB
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: stat4
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x02080C
+          bg_opa: TRANSP
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb4_tl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb4_tr
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb4_bl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb4_br
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hs4
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: hs4
+          text: 'OFF'
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0x9CC3CA
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: stat4
+          text: יובכ
+  - lvgl.widget.hide: bar5
+  - lvgl.widget.hide: lb5_0
+  - lvgl.widget.hide: lb5_1
+  - lvgl.widget.hide: lb5_2
+  - lvgl.widget.hide: lb5_3
+  - lvgl.widget.hide: lb5_4
+  - lvgl.widget.hide: lb5_5
+  - lvgl.widget.hide: lb5_6
+  - lvgl.widget.show: hb5_tl
+  - lvgl.widget.show: hb5_tr
+  - lvgl.widget.show: hb5_bl
+  - lvgl.widget.show: hb5_br
+  - lvgl.widget.show: hs5
+  - lvgl.widget.update:
+      id: name5
+      y: 0
+  - lvgl.widget.update:
+      id: stat5
+      y: 80
+  - if:
+      condition:
+        binary_sensor.is_on: lstate5
+      then:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x06303A
+          bg_opa: COVER
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb5_tl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb5_tr
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb5_bl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb5_br
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hs5
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: hs5
+          text: 'ON'
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xD8F7FB
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: stat5
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x02080C
+          bg_opa: TRANSP
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb5_tl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb5_tr
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb5_bl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb5_br
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hs5
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: hs5
+          text: 'OFF'
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0x9CC3CA
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: stat5
+          text: יובכ
+  - lvgl.widget.hide: bar6
+  - lvgl.widget.hide: lb6_0
+  - lvgl.widget.hide: lb6_1
+  - lvgl.widget.hide: lb6_2
+  - lvgl.widget.hide: lb6_3
+  - lvgl.widget.hide: lb6_4
+  - lvgl.widget.hide: lb6_5
+  - lvgl.widget.hide: lb6_6
+  - lvgl.widget.show: hb6_tl
+  - lvgl.widget.show: hb6_tr
+  - lvgl.widget.show: hb6_bl
+  - lvgl.widget.show: hb6_br
+  - lvgl.widget.show: hs6
+  - lvgl.widget.update:
+      id: name6
+      y: 0
+  - lvgl.widget.update:
+      id: stat6
+      y: 80
+  - if:
+      condition:
+        binary_sensor.is_on: lstate6
+      then:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x06303A
+          bg_opa: COVER
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb6_tl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb6_tr
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb6_bl
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hb6_br
+          border_color: 0x38E8FF
+      - lvgl.widget.update:
+          id: hs6
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: hs6
+          text: 'ON'
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xD8F7FB
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0x38E8FF
+      - lvgl.label.update:
+          id: stat6
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x02080C
+          bg_opa: TRANSP
+          radius: 0
+          border_width: 0
+      - lvgl.widget.update:
+          id: hb6_tl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb6_tr
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb6_bl
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hb6_br
+          border_color: 0x1B5560
+      - lvgl.widget.update:
+          id: hs6
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: hs6
+          text: 'OFF'
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0x9CC3CA
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0x4C8791
+      - lvgl.label.update:
+          id: stat6
+          text: יובכ
+- id: ui_theme_ladder
+  then:
+  - lvgl.widget.update:
+      id: bgroot
+      bg_color: 0x0E0F13
+  - lvgl.widget.update:
+      id: panel
+      bg_color: 0x17181D
+  - lvgl.widget.update:
+      id: panel_title
+      text_color: 0xF0F1F3
+  - lvgl.widget.update:
+      id: panel_close
+      bg_color: 0x2A2C33
+  - lvgl.widget.update:
+      id: panel_close_l
+      text_color: 0xF0F1F3
+  - lvgl.widget.update:
+      id: grip
+      bg_color: 0x2A2C33
+  - lvgl.widget.update:
+      id: tabline
+      bg_color: 0x25272E
+  - lvgl.widget.update:
+      id: tabind
+      bg_color: 0xC6F432
+  - lvgl.widget.update:
+      id: tabl0
+      text_color: 0x80848F
+  - lvgl.widget.update:
+      id: tabl1
+      text_color: 0xC6F432
+  - lvgl.widget.update:
+      id: tabl2
+      text_color: 0x80848F
+  - lvgl.widget.update:
+      id: tabl3
+      text_color: 0x80848F
+  - lvgl.widget.update:
+      id: tabl4
+      text_color: 0x80848F
+  - lvgl.widget.update:
+      id: card1
+      bg_color: 0x17181D
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: name1
+      text_color: 0x80848F
+  - lvgl.widget.update:
+      id: dv1_1
+      bg_color: 0x25272E
+  - lvgl.widget.update:
+      id: dv1_2
+      bg_color: 0x25272E
+  - lvgl.widget.update:
+      id: g1u
+      text_color: 0xF0F1F3
+  - lvgl.widget.update:
+      id: g1s
+      text_color: 0xF0F1F3
+  - lvgl.widget.update:
+      id: g1d
+      text_color: 0xF0F1F3
+  - lvgl.widget.show: dv1_1
+  - lvgl.widget.show: dv1_2
+  - lvgl.widget.hide: sb1_tl
+  - lvgl.widget.hide: sb1_tr
+  - lvgl.widget.hide: sb1_bl
+  - lvgl.widget.hide: sb1_br
+  - lvgl.widget.update:
+      id: sb1_tl
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: sb1_tr
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: sb1_bl
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: sb1_br
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: card2
+      bg_color: 0x17181D
+      bg_opa: COVER
+      radius: 24
+      border_width: 1
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: name2
+      text_color: 0x80848F
+  - lvgl.widget.update:
+      id: dv2_1
+      bg_color: 0x25272E
+  - lvgl.widget.update:
+      id: dv2_2
+      bg_color: 0x25272E
+  - lvgl.widget.update:
+      id: g2u
+      text_color: 0xF0F1F3
+  - lvgl.widget.update:
+      id: g2s
+      text_color: 0xF0F1F3
+  - lvgl.widget.update:
+      id: g2d
+      text_color: 0xF0F1F3
+  - lvgl.widget.show: dv2_1
+  - lvgl.widget.show: dv2_2
+  - lvgl.widget.hide: sb2_tl
+  - lvgl.widget.hide: sb2_tr
+  - lvgl.widget.hide: sb2_bl
+  - lvgl.widget.hide: sb2_br
+  - lvgl.widget.update:
+      id: sb2_tl
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: sb2_tr
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: sb2_bl
+      border_color: 0x25272E
+  - lvgl.widget.update:
+      id: sb2_br
+      border_color: 0x25272E
+  - lvgl.widget.hide: bar3
+  - lvgl.widget.show: lb3_0
+  - lvgl.widget.show: lb3_1
+  - lvgl.widget.show: lb3_2
+  - lvgl.widget.show: lb3_3
+  - lvgl.widget.show: lb3_4
+  - lvgl.widget.show: lb3_5
+  - lvgl.widget.show: lb3_6
+  - lvgl.widget.hide: hb3_tl
+  - lvgl.widget.hide: hb3_tr
+  - lvgl.widget.hide: hb3_bl
+  - lvgl.widget.hide: hb3_br
+  - lvgl.widget.hide: hs3
+  - lvgl.widget.update:
+      id: name3
+      y: 42
+  - lvgl.widget.update:
+      id: stat3
+      y: 120
+  - if:
+      condition:
+        binary_sensor.is_on: lstate3
+      then:
+      - lvgl.widget.update:
+          id: card3
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb3_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_2
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb3_3
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb3_4
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb3_5
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb3_6
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0xC6F432
+      - lvgl.label.update:
+          id: stat3
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card3
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb3_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_2
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_3
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_4
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_5
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb3_6
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: name3
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat3
+          text_color: 0x80848F
+      - lvgl.label.update:
+          id: stat3
+          text: יובכ
+  - lvgl.widget.hide: bar4
+  - lvgl.widget.show: lb4_0
+  - lvgl.widget.show: lb4_1
+  - lvgl.widget.show: lb4_2
+  - lvgl.widget.show: lb4_3
+  - lvgl.widget.show: lb4_4
+  - lvgl.widget.show: lb4_5
+  - lvgl.widget.show: lb4_6
+  - lvgl.widget.hide: hb4_tl
+  - lvgl.widget.hide: hb4_tr
+  - lvgl.widget.hide: hb4_bl
+  - lvgl.widget.hide: hb4_br
+  - lvgl.widget.hide: hs4
+  - lvgl.widget.update:
+      id: name4
+      y: 42
+  - lvgl.widget.update:
+      id: stat4
+      y: 120
+  - if:
+      condition:
+        binary_sensor.is_on: lstate4
+      then:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb4_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_2
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb4_3
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb4_4
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb4_5
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb4_6
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0xC6F432
+      - lvgl.label.update:
+          id: stat4
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card4
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb4_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_2
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_3
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_4
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_5
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb4_6
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: name4
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat4
+          text_color: 0x80848F
+      - lvgl.label.update:
+          id: stat4
+          text: יובכ
+  - lvgl.widget.hide: bar5
+  - lvgl.widget.show: lb5_0
+  - lvgl.widget.show: lb5_1
+  - lvgl.widget.show: lb5_2
+  - lvgl.widget.show: lb5_3
+  - lvgl.widget.show: lb5_4
+  - lvgl.widget.show: lb5_5
+  - lvgl.widget.show: lb5_6
+  - lvgl.widget.hide: hb5_tl
+  - lvgl.widget.hide: hb5_tr
+  - lvgl.widget.hide: hb5_bl
+  - lvgl.widget.hide: hb5_br
+  - lvgl.widget.hide: hs5
+  - lvgl.widget.update:
+      id: name5
+      y: 42
+  - lvgl.widget.update:
+      id: stat5
+      y: 120
+  - if:
+      condition:
+        binary_sensor.is_on: lstate5
+      then:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb5_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_2
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb5_3
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb5_4
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb5_5
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb5_6
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0xC6F432
+      - lvgl.label.update:
+          id: stat5
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card5
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb5_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_2
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_3
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_4
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_5
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb5_6
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: name5
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat5
+          text_color: 0x80848F
+      - lvgl.label.update:
+          id: stat5
+          text: יובכ
+  - lvgl.widget.hide: bar6
+  - lvgl.widget.show: lb6_0
+  - lvgl.widget.show: lb6_1
+  - lvgl.widget.show: lb6_2
+  - lvgl.widget.show: lb6_3
+  - lvgl.widget.show: lb6_4
+  - lvgl.widget.show: lb6_5
+  - lvgl.widget.show: lb6_6
+  - lvgl.widget.hide: hb6_tl
+  - lvgl.widget.hide: hb6_tr
+  - lvgl.widget.hide: hb6_bl
+  - lvgl.widget.hide: hb6_br
+  - lvgl.widget.hide: hs6
+  - lvgl.widget.update:
+      id: name6
+      y: 42
+  - lvgl.widget.update:
+      id: stat6
+      y: 120
+  - if:
+      condition:
+        binary_sensor.is_on: lstate6
+      then:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb6_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_2
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb6_3
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb6_4
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb6_5
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: lb6_6
+          bg_color: 0xC6F432
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0xC6F432
+      - lvgl.label.update:
+          id: stat6
+          text: קלוד
+      else:
+      - lvgl.widget.update:
+          id: card6
+          bg_color: 0x17181D
+          bg_opa: COVER
+          radius: 24
+          border_width: 1
+          border_color: 0x25272E
+      - lvgl.widget.update:
+          id: lb6_0
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_1
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_2
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_3
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_4
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_5
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: lb6_6
+          bg_color: 0x2A2C33
+      - lvgl.widget.update:
+          id: name6
+          text_color: 0xF0F1F3
+      - lvgl.widget.update:
+          id: stat6
+          text_color: 0x80848F
+      - lvgl.label.update:
+          id: stat6
+          text: יובכ
+- id: ui_refresh
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - script.execute: ui_theme_navy
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - script.execute: ui_theme_black
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - script.execute: ui_theme_white
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - script.execute: ui_theme_lunar
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - script.execute: ui_theme_hud
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - script.execute: ui_theme_ladder
