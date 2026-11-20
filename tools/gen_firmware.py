@@ -247,7 +247,7 @@ for k, tl in shutters:
         scripts.append(press_script(f"ui_press_z{k}{zid}", lambda C, k=k, g=g: [U(f"g{k}{g}", text_color=hx(C["accent"]))]))
 
 doc = {
-    "font": [gfont("f_name", 22), gfont("f_state", 18), gfont("f_tab", 20), gfont("f_tiny", 16)],
+    "font": [gfont("f_name", 26), gfont("f_state", 20), gfont("f_tab", 22), gfont("f_tiny", 18)],
     "esphome": {"on_boot": {"priority": -100, "then": [{"script.execute": "ui_refresh"}]}},
     "select": [{"platform": "template", "id": "theme_sel", "name": "ערכת נושא", "options": RT, "initial_option": theme_name,
                 "optimistic": True, "restore_value": True, "on_value": [{"script.execute": "ui_refresh"}]}],

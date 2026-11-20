@@ -2,22 +2,22 @@
 font:
 - file: gfonts://Heebo@300
   id: f_name
-  size: 22
+  size: 26
   bpp: 4
   glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
 - file: gfonts://Heebo@300
   id: f_state
-  size: 18
-  bpp: 4
-  glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
-- file: gfonts://Heebo@300
-  id: f_tab
   size: 20
   bpp: 4
   glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
 - file: gfonts://Heebo@300
+  id: f_tab
+  size: 22
+  bpp: 4
+  glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
+- file: gfonts://Heebo@300
   id: f_tiny
-  size: 16
+  size: 18
   bpp: 4
   glyphs: אבגדהוזחטיכלמנסעפצקרשתךםןףץ0123456789 .ONFHUD
 esphome:
