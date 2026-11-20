@@ -111,8 +111,8 @@ for t, tl in enumerate(TILES):
         zones = []
         for z, (zid, glyph, act) in enumerate([("u", "", "cover.open"), ("s", "", "cover.stop"), ("d", "", "cover.close")]):
             zones.append({"obj": {"id": f"z{k}{zid}", "x": 0, "y": z * 90, "width": CW, "height": 90, "radius": 0, "border_width": 0,
-                                  "pad_all": 0, "bg_opa": "TRANSP", "on_press": [{"script.execute": f"ui_press_z{k}{zid}"}], "on_release": [{"script.execute": "ui_refresh"}],
-                                  "on_click": [{"script.execute": "ui_refresh"}, {"homeassistant.action": {"action": f"cover.{act}", "data": {"entity_id": tl["entity"]}}}],
+                                  "pad_all": 0, "bg_opa": "TRANSP", "on_press": [{"script.execute": f"ui_press_z{k}{zid}"}], "on_release": [{"script.execute": f"ui_tile{k}"}],
+                                  "on_click": [{"script.execute": f"ui_tile{k}"}, {"homeassistant.action": {"action": f"cover.{act}", "data": {"entity_id": tl["entity"]}}}],
                                   "widgets": [label(f"g{k}{zid}", glyph, "montserrat_28", align="CENTER")]}})
         kids = zones + [obj(f"dv{k}_1", 14, 90, CW - 28, 1, bg_opa="COVER"), obj(f"dv{k}_2", 14, 180, CW - 28, 1, bg_opa="COVER"),
                         label(f"name{k}", vis2(tl["name"]), "f_tiny", align="BOTTOM_MID", y=-18, text_align="CENTER")] + brackets(f"sb{k}", G0["outline"])
@@ -128,8 +128,8 @@ for t, tl in enumerate(TILES):
         kids += [label(f"hs{k}", "OFF", "f_state", align="TOP_MID", y=50)]
         widgets.append({"obj": {"id": f"card{k}", "x": x, "y": TOP, "width": CW, "height": CH, "radius": 24, "border_width": 1,
                                 "pad_all": 0, "bg_opa": "COVER",
-                                "on_press": [{"script.execute": f"ui_press_c{k}"}], "on_release": [{"script.execute": "ui_refresh"}],
-                                "on_click": [{"lambda": f"id(lon{k}) = !id(lon{k});"}, {"script.execute": "ui_refresh"},
+                                "on_press": [{"script.execute": f"ui_press_c{k}"}], "on_release": [{"script.execute": f"ui_tile{k}"}],
+                                "on_click": [{"lambda": f"id(lon{k}) = !id(lon{k});"}, {"script.execute": f"ui_tile{k}"},
                                              {"homeassistant.action": {"action": "light.toggle", "data": {"entity_id": tl["entity"]}}}],
                                 "widgets": kids}})
 
@@ -169,6 +169,9 @@ def SHOW(i): return {"lvgl.widget.show": i}
 def HIDE(i): return {"lvgl.widget.hide": i}
 
 
+TA = {}
+
+
 def theme_script(T):
     C = P(T); S = C["style"]; hud = S == "hud"; lad = S == "ladder"
     A = []
@@ -178,14 +181,18 @@ def theme_script(T):
     for i, name in enumerate(TABS):
         A.append(U(f"tabl{i}", text_color=hx(C["accent"] if name == ACTIVE else C["muted"])))
     rad = 0 if hud else 24
+    TA[T] = {}
     for k, tl in shutters:
+        _s = len(A)
         A += [U(f"card{k}", bg_color=hx(C["ground"] if hud else C["surface"]), bg_opa="TRANSP" if hud else "COVER", radius=rad,
                 border_width=0 if hud else 1, border_color=hx(C["hair"])),
               U(f"name{k}", text_color=hx(C["muted"])), U(f"dv{k}_1", bg_color=hx(C["hair"])), U(f"dv{k}_2", bg_color=hx(C["hair"]))]
         A += [U(f"g{k}{z}", text_color=hx(C["ink"])) for z in "usd"]
         A += [(HIDE if hud else SHOW)(f"dv{k}_{n}") for n in (1, 2)]
         A += [(SHOW if hud else HIDE)(f"sb{k}_{c}") for c in BR] + [U(f"sb{k}_{c}", border_color=hx(C["outline"])) for c in BR]
+        TA[T][k] = A[_s:]
     for k, tl in lights:
+        _s = len(A)
         A += [(HIDE if (hud or lad) else SHOW)(f"bar{k}")]
         A += [(SHOW if lad else HIDE)(f"lb{k}_{b}") for b in range(7)]
         A += [(SHOW if hud else HIDE)(f"hb{k}_{c}") for c in BR] + [(SHOW if hud else HIDE)(f"hs{k}")]
@@ -215,12 +222,18 @@ def theme_script(T):
         off += [U(f"name{k}", text_color=hx(C["off_name"] if hud else C["ink"])), U(f"stat{k}", text_color=hx(C["muted"])),
                 {"lvgl.label.update": {"id": f"stat{k}", "text": vis("כבוי")}}]
         A.append({"if": {"condition": {"lambda": f"return id(lon{k});"}, "then": on, "else": off}})
+        TA[T][k] = A[_s:]
     return {"id": f"ui_theme_{T}", "then": A}
 
 
 scripts = [theme_script(T) for T in RT]
 scripts.append({"id": "ui_refresh", "then": [
     {"if": {"condition": {"lambda": f'return id(theme_sel).current_option() == "{T}";'}, "then": [{"script.execute": f"ui_theme_{T}"}]}} for T in RT]})
+
+for k, tl in lights + shutters:   # רענון של אריח בודד (לחיצה / שינוי מצב מ-HA), בלי לצייר מחדש את כל המסך
+    scripts.append({"id": f"ui_tile{k}", "then": [
+        {"if": {"condition": {"lambda": f'return id(theme_sel).current_option() == "{T}";'}, "then": TA[T][k]}} for T in RT]})
+
 
 def press_script(sid, fn):
     return {"id": sid, "then": [{"if": {"condition": {"lambda": f'return id(theme_sel).current_option() == "{T}";'}, "then": fn(P(T))}} for T in RT]}
@@ -240,7 +253,7 @@ doc = {
                 "optimistic": True, "restore_value": True, "on_value": [{"script.execute": "ui_refresh"}]}],
     "globals": [{"id": f"lon{k}", "type": "bool", "initial_value": "false"} for k, tl in lights],
     "binary_sensor": [{"platform": "homeassistant", "id": f"lstate{k}", "entity_id": tl["entity"], "internal": True,
-                       "on_state": [{"lambda": f"id(lon{k}) = x;"}, {"script.execute": "ui_refresh"}]} for k, tl in lights],
+                       "on_state": [{"lambda": f"id(lon{k}) = x;"}, {"script.execute": f"ui_tile{k}"}]} for k, tl in lights],
     "lvgl": {"displays": ["lcd"], "touchscreens": ["touch"], "rotation": 90, "buffer_size": "50%",
              "bg_color": hx(G0["ground"]), "text_font": "f_name", "text_color": hx(G0["ink"]),
              "pages": [{"id": "keys", "widgets": widgets}]},

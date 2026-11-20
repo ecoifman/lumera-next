@@ -61,28 +61,28 @@ binary_sensor:
   internal: true
   on_state:
   - lambda: id(lon3) = x;
-  - script.execute: ui_refresh
+  - script.execute: ui_tile3
 - platform: homeassistant
   id: lstate4
   entity_id: light.CHANGE_ME_2
   internal: true
   on_state:
   - lambda: id(lon4) = x;
-  - script.execute: ui_refresh
+  - script.execute: ui_tile4
 - platform: homeassistant
   id: lstate5
   entity_id: light.CHANGE_ME_3
   internal: true
   on_state:
   - lambda: id(lon5) = x;
-  - script.execute: ui_refresh
+  - script.execute: ui_tile5
 - platform: homeassistant
   id: lstate6
   entity_id: light.CHANGE_ME_4
   internal: true
   on_state:
   - lambda: id(lon6) = x;
-  - script.execute: ui_refresh
+  - script.execute: ui_tile6
 lvgl:
   displays:
   - lcd
@@ -132,9 +132,9 @@ lvgl:
             on_press:
             - script.execute: ui_press_z1u
             on_release:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile1
             on_click:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile1
             - homeassistant.action:
                 action: cover.cover.open
                 data:
@@ -158,9 +158,9 @@ lvgl:
             on_press:
             - script.execute: ui_press_z1s
             on_release:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile1
             on_click:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile1
             - homeassistant.action:
                 action: cover.cover.stop
                 data:
@@ -184,9 +184,9 @@ lvgl:
             on_press:
             - script.execute: ui_press_z1d
             on_release:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile1
             on_click:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile1
             - homeassistant.action:
                 action: cover.cover.close
                 data:
@@ -306,9 +306,9 @@ lvgl:
             on_press:
             - script.execute: ui_press_z2u
             on_release:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile2
             on_click:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile2
             - homeassistant.action:
                 action: cover.cover.open
                 data:
@@ -332,9 +332,9 @@ lvgl:
             on_press:
             - script.execute: ui_press_z2s
             on_release:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile2
             on_click:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile2
             - homeassistant.action:
                 action: cover.cover.stop
                 data:
@@ -358,9 +358,9 @@ lvgl:
             on_press:
             - script.execute: ui_press_z2d
             on_release:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile2
             on_click:
-            - script.execute: ui_refresh
+            - script.execute: ui_tile2
             - homeassistant.action:
                 action: cover.cover.close
                 data:
@@ -461,10 +461,10 @@ lvgl:
         on_press:
         - script.execute: ui_press_c3
         on_release:
-        - script.execute: ui_refresh
+        - script.execute: ui_tile3
         on_click:
         - lambda: id(lon3) = !id(lon3);
-        - script.execute: ui_refresh
+        - script.execute: ui_tile3
         - homeassistant.action:
             action: light.toggle
             data:
@@ -632,10 +632,10 @@ lvgl:
         on_press:
         - script.execute: ui_press_c4
         on_release:
-        - script.execute: ui_refresh
+        - script.execute: ui_tile4
         on_click:
         - lambda: id(lon4) = !id(lon4);
-        - script.execute: ui_refresh
+        - script.execute: ui_tile4
         - homeassistant.action:
             action: light.toggle
             data:
@@ -801,10 +801,10 @@ lvgl:
         on_press:
         - script.execute: ui_press_c5
         on_release:
-        - script.execute: ui_refresh
+        - script.execute: ui_tile5
         on_click:
         - lambda: id(lon5) = !id(lon5);
-        - script.execute: ui_refresh
+        - script.execute: ui_tile5
         - homeassistant.action:
             action: light.toggle
             data:
@@ -972,10 +972,10 @@ lvgl:
         on_press:
         - script.execute: ui_press_c6
         on_release:
-        - script.execute: ui_refresh
+        - script.execute: ui_tile6
         on_click:
         - lambda: id(lon6) = !id(lon6);
-        - script.execute: ui_refresh
+        - script.execute: ui_tile6
         - homeassistant.action:
             action: light.toggle
             data:
@@ -1463,112 +1463,162 @@ script:
   - lvgl.widget.update:
       id: tabl4
       text_color: 0xA9B7D2
-  - lvgl.widget.update:
+  - &id389
+    lvgl.widget.update:
       id: card1
       bg_color: 0x1F3260
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0x34497A
-  - lvgl.widget.update:
+  - &id390
+    lvgl.widget.update:
       id: name1
       text_color: 0xA9B7D2
-  - lvgl.widget.update:
+  - &id391
+    lvgl.widget.update:
       id: dv1_1
       bg_color: 0x34497A
-  - lvgl.widget.update:
+  - &id392
+    lvgl.widget.update:
       id: dv1_2
       bg_color: 0x34497A
-  - lvgl.widget.update:
+  - &id393
+    lvgl.widget.update:
       id: g1u
       text_color: 0xF2F5FA
-  - lvgl.widget.update:
+  - &id394
+    lvgl.widget.update:
       id: g1s
       text_color: 0xF2F5FA
-  - lvgl.widget.update:
+  - &id395
+    lvgl.widget.update:
       id: g1d
       text_color: 0xF2F5FA
-  - lvgl.widget.show: dv1_1
-  - lvgl.widget.show: dv1_2
-  - lvgl.widget.hide: sb1_tl
-  - lvgl.widget.hide: sb1_tr
-  - lvgl.widget.hide: sb1_bl
-  - lvgl.widget.hide: sb1_br
-  - lvgl.widget.update:
+  - &id396
+    lvgl.widget.show: dv1_1
+  - &id397
+    lvgl.widget.show: dv1_2
+  - &id398
+    lvgl.widget.hide: sb1_tl
+  - &id399
+    lvgl.widget.hide: sb1_tr
+  - &id400
+    lvgl.widget.hide: sb1_bl
+  - &id401
+    lvgl.widget.hide: sb1_br
+  - &id402
+    lvgl.widget.update:
       id: sb1_tl
       border_color: 0x6F85B0
-  - lvgl.widget.update:
+  - &id403
+    lvgl.widget.update:
       id: sb1_tr
       border_color: 0x6F85B0
-  - lvgl.widget.update:
+  - &id404
+    lvgl.widget.update:
       id: sb1_bl
       border_color: 0x6F85B0
-  - lvgl.widget.update:
+  - &id405
+    lvgl.widget.update:
       id: sb1_br
       border_color: 0x6F85B0
-  - lvgl.widget.update:
+  - &id491
+    lvgl.widget.update:
       id: card2
       bg_color: 0x1F3260
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0x34497A
-  - lvgl.widget.update:
+  - &id492
+    lvgl.widget.update:
       id: name2
       text_color: 0xA9B7D2
-  - lvgl.widget.update:
+  - &id493
+    lvgl.widget.update:
       id: dv2_1
       bg_color: 0x34497A
-  - lvgl.widget.update:
+  - &id494
+    lvgl.widget.update:
       id: dv2_2
       bg_color: 0x34497A
-  - lvgl.widget.update:
+  - &id495
+    lvgl.widget.update:
       id: g2u
       text_color: 0xF2F5FA
-  - lvgl.widget.update:
+  - &id496
+    lvgl.widget.update:
       id: g2s
       text_color: 0xF2F5FA
-  - lvgl.widget.update:
+  - &id497
+    lvgl.widget.update:
       id: g2d
       text_color: 0xF2F5FA
-  - lvgl.widget.show: dv2_1
-  - lvgl.widget.show: dv2_2
-  - lvgl.widget.hide: sb2_tl
-  - lvgl.widget.hide: sb2_tr
-  - lvgl.widget.hide: sb2_bl
-  - lvgl.widget.hide: sb2_br
-  - lvgl.widget.update:
+  - &id498
+    lvgl.widget.show: dv2_1
+  - &id499
+    lvgl.widget.show: dv2_2
+  - &id500
+    lvgl.widget.hide: sb2_tl
+  - &id501
+    lvgl.widget.hide: sb2_tr
+  - &id502
+    lvgl.widget.hide: sb2_bl
+  - &id503
+    lvgl.widget.hide: sb2_br
+  - &id504
+    lvgl.widget.update:
       id: sb2_tl
       border_color: 0x6F85B0
-  - lvgl.widget.update:
+  - &id505
+    lvgl.widget.update:
       id: sb2_tr
       border_color: 0x6F85B0
-  - lvgl.widget.update:
+  - &id506
+    lvgl.widget.update:
       id: sb2_bl
       border_color: 0x6F85B0
-  - lvgl.widget.update:
+  - &id507
+    lvgl.widget.update:
       id: sb2_br
       border_color: 0x6F85B0
-  - lvgl.widget.show: bar3
-  - lvgl.widget.hide: lb3_0
-  - lvgl.widget.hide: lb3_1
-  - lvgl.widget.hide: lb3_2
-  - lvgl.widget.hide: lb3_3
-  - lvgl.widget.hide: lb3_4
-  - lvgl.widget.hide: lb3_5
-  - lvgl.widget.hide: lb3_6
-  - lvgl.widget.hide: hb3_tl
-  - lvgl.widget.hide: hb3_tr
-  - lvgl.widget.hide: hb3_bl
-  - lvgl.widget.hide: hb3_br
-  - lvgl.widget.hide: hs3
-  - lvgl.widget.update:
+  - &id005
+    lvgl.widget.show: bar3
+  - &id006
+    lvgl.widget.hide: lb3_0
+  - &id007
+    lvgl.widget.hide: lb3_1
+  - &id008
+    lvgl.widget.hide: lb3_2
+  - &id009
+    lvgl.widget.hide: lb3_3
+  - &id010
+    lvgl.widget.hide: lb3_4
+  - &id011
+    lvgl.widget.hide: lb3_5
+  - &id012
+    lvgl.widget.hide: lb3_6
+  - &id013
+    lvgl.widget.hide: hb3_tl
+  - &id014
+    lvgl.widget.hide: hb3_tr
+  - &id015
+    lvgl.widget.hide: hb3_bl
+  - &id016
+    lvgl.widget.hide: hb3_br
+  - &id017
+    lvgl.widget.hide: hs3
+  - &id018
+    lvgl.widget.update:
       id: name3
       y: -22
-  - lvgl.widget.update:
+  - &id019
+    lvgl.widget.update:
       id: stat3
       y: 38
-  - if:
+  - &id020
+    if:
       condition:
         lambda: return id(lon3);
       then:
@@ -1611,26 +1661,42 @@ script:
       - lvgl.label.update:
           id: stat3
           text: יובכ
-  - lvgl.widget.show: bar4
-  - lvgl.widget.hide: lb4_0
-  - lvgl.widget.hide: lb4_1
-  - lvgl.widget.hide: lb4_2
-  - lvgl.widget.hide: lb4_3
-  - lvgl.widget.hide: lb4_4
-  - lvgl.widget.hide: lb4_5
-  - lvgl.widget.hide: lb4_6
-  - lvgl.widget.hide: hb4_tl
-  - lvgl.widget.hide: hb4_tr
-  - lvgl.widget.hide: hb4_bl
-  - lvgl.widget.hide: hb4_br
-  - lvgl.widget.hide: hs4
-  - lvgl.widget.update:
+  - &id101
+    lvgl.widget.show: bar4
+  - &id102
+    lvgl.widget.hide: lb4_0
+  - &id103
+    lvgl.widget.hide: lb4_1
+  - &id104
+    lvgl.widget.hide: lb4_2
+  - &id105
+    lvgl.widget.hide: lb4_3
+  - &id106
+    lvgl.widget.hide: lb4_4
+  - &id107
+    lvgl.widget.hide: lb4_5
+  - &id108
+    lvgl.widget.hide: lb4_6
+  - &id109
+    lvgl.widget.hide: hb4_tl
+  - &id110
+    lvgl.widget.hide: hb4_tr
+  - &id111
+    lvgl.widget.hide: hb4_bl
+  - &id112
+    lvgl.widget.hide: hb4_br
+  - &id113
+    lvgl.widget.hide: hs4
+  - &id114
+    lvgl.widget.update:
       id: name4
       y: -22
-  - lvgl.widget.update:
+  - &id115
+    lvgl.widget.update:
       id: stat4
       y: 38
-  - if:
+  - &id116
+    if:
       condition:
         lambda: return id(lon4);
       then:
@@ -1673,26 +1739,42 @@ script:
       - lvgl.label.update:
           id: stat4
           text: יובכ
-  - lvgl.widget.show: bar5
-  - lvgl.widget.hide: lb5_0
-  - lvgl.widget.hide: lb5_1
-  - lvgl.widget.hide: lb5_2
-  - lvgl.widget.hide: lb5_3
-  - lvgl.widget.hide: lb5_4
-  - lvgl.widget.hide: lb5_5
-  - lvgl.widget.hide: lb5_6
-  - lvgl.widget.hide: hb5_tl
-  - lvgl.widget.hide: hb5_tr
-  - lvgl.widget.hide: hb5_bl
-  - lvgl.widget.hide: hb5_br
-  - lvgl.widget.hide: hs5
-  - lvgl.widget.update:
+  - &id197
+    lvgl.widget.show: bar5
+  - &id198
+    lvgl.widget.hide: lb5_0
+  - &id199
+    lvgl.widget.hide: lb5_1
+  - &id200
+    lvgl.widget.hide: lb5_2
+  - &id201
+    lvgl.widget.hide: lb5_3
+  - &id202
+    lvgl.widget.hide: lb5_4
+  - &id203
+    lvgl.widget.hide: lb5_5
+  - &id204
+    lvgl.widget.hide: lb5_6
+  - &id205
+    lvgl.widget.hide: hb5_tl
+  - &id206
+    lvgl.widget.hide: hb5_tr
+  - &id207
+    lvgl.widget.hide: hb5_bl
+  - &id208
+    lvgl.widget.hide: hb5_br
+  - &id209
+    lvgl.widget.hide: hs5
+  - &id210
+    lvgl.widget.update:
       id: name5
       y: -22
-  - lvgl.widget.update:
+  - &id211
+    lvgl.widget.update:
       id: stat5
       y: 38
-  - if:
+  - &id212
+    if:
       condition:
         lambda: return id(lon5);
       then:
@@ -1735,26 +1817,42 @@ script:
       - lvgl.label.update:
           id: stat5
           text: יובכ
-  - lvgl.widget.show: bar6
-  - lvgl.widget.hide: lb6_0
-  - lvgl.widget.hide: lb6_1
-  - lvgl.widget.hide: lb6_2
-  - lvgl.widget.hide: lb6_3
-  - lvgl.widget.hide: lb6_4
-  - lvgl.widget.hide: lb6_5
-  - lvgl.widget.hide: lb6_6
-  - lvgl.widget.hide: hb6_tl
-  - lvgl.widget.hide: hb6_tr
-  - lvgl.widget.hide: hb6_bl
-  - lvgl.widget.hide: hb6_br
-  - lvgl.widget.hide: hs6
-  - lvgl.widget.update:
+  - &id293
+    lvgl.widget.show: bar6
+  - &id294
+    lvgl.widget.hide: lb6_0
+  - &id295
+    lvgl.widget.hide: lb6_1
+  - &id296
+    lvgl.widget.hide: lb6_2
+  - &id297
+    lvgl.widget.hide: lb6_3
+  - &id298
+    lvgl.widget.hide: lb6_4
+  - &id299
+    lvgl.widget.hide: lb6_5
+  - &id300
+    lvgl.widget.hide: lb6_6
+  - &id301
+    lvgl.widget.hide: hb6_tl
+  - &id302
+    lvgl.widget.hide: hb6_tr
+  - &id303
+    lvgl.widget.hide: hb6_bl
+  - &id304
+    lvgl.widget.hide: hb6_br
+  - &id305
+    lvgl.widget.hide: hs6
+  - &id306
+    lvgl.widget.update:
       id: name6
       y: -22
-  - lvgl.widget.update:
+  - &id307
+    lvgl.widget.update:
       id: stat6
       y: 38
-  - if:
+  - &id308
+    if:
       condition:
         lambda: return id(lon6);
       then:
@@ -1838,112 +1936,162 @@ script:
   - lvgl.widget.update:
       id: tabl4
       text_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id406
+    lvgl.widget.update:
       id: card1
       bg_color: 0x202020
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0x303030
-  - lvgl.widget.update:
+  - &id407
+    lvgl.widget.update:
       id: name1
       text_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id408
+    lvgl.widget.update:
       id: dv1_1
       bg_color: 0x303030
-  - lvgl.widget.update:
+  - &id409
+    lvgl.widget.update:
       id: dv1_2
       bg_color: 0x303030
-  - lvgl.widget.update:
+  - &id410
+    lvgl.widget.update:
       id: g1u
       text_color: 0xFFFFFF
-  - lvgl.widget.update:
+  - &id411
+    lvgl.widget.update:
       id: g1s
       text_color: 0xFFFFFF
-  - lvgl.widget.update:
+  - &id412
+    lvgl.widget.update:
       id: g1d
       text_color: 0xFFFFFF
-  - lvgl.widget.show: dv1_1
-  - lvgl.widget.show: dv1_2
-  - lvgl.widget.hide: sb1_tl
-  - lvgl.widget.hide: sb1_tr
-  - lvgl.widget.hide: sb1_bl
-  - lvgl.widget.hide: sb1_br
-  - lvgl.widget.update:
+  - &id413
+    lvgl.widget.show: dv1_1
+  - &id414
+    lvgl.widget.show: dv1_2
+  - &id415
+    lvgl.widget.hide: sb1_tl
+  - &id416
+    lvgl.widget.hide: sb1_tr
+  - &id417
+    lvgl.widget.hide: sb1_bl
+  - &id418
+    lvgl.widget.hide: sb1_br
+  - &id419
+    lvgl.widget.update:
       id: sb1_tl
       border_color: 0x585858
-  - lvgl.widget.update:
+  - &id420
+    lvgl.widget.update:
       id: sb1_tr
       border_color: 0x585858
-  - lvgl.widget.update:
+  - &id421
+    lvgl.widget.update:
       id: sb1_bl
       border_color: 0x585858
-  - lvgl.widget.update:
+  - &id422
+    lvgl.widget.update:
       id: sb1_br
       border_color: 0x585858
-  - lvgl.widget.update:
+  - &id508
+    lvgl.widget.update:
       id: card2
       bg_color: 0x202020
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0x303030
-  - lvgl.widget.update:
+  - &id509
+    lvgl.widget.update:
       id: name2
       text_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id510
+    lvgl.widget.update:
       id: dv2_1
       bg_color: 0x303030
-  - lvgl.widget.update:
+  - &id511
+    lvgl.widget.update:
       id: dv2_2
       bg_color: 0x303030
-  - lvgl.widget.update:
+  - &id512
+    lvgl.widget.update:
       id: g2u
       text_color: 0xFFFFFF
-  - lvgl.widget.update:
+  - &id513
+    lvgl.widget.update:
       id: g2s
       text_color: 0xFFFFFF
-  - lvgl.widget.update:
+  - &id514
+    lvgl.widget.update:
       id: g2d
       text_color: 0xFFFFFF
-  - lvgl.widget.show: dv2_1
-  - lvgl.widget.show: dv2_2
-  - lvgl.widget.hide: sb2_tl
-  - lvgl.widget.hide: sb2_tr
-  - lvgl.widget.hide: sb2_bl
-  - lvgl.widget.hide: sb2_br
-  - lvgl.widget.update:
+  - &id515
+    lvgl.widget.show: dv2_1
+  - &id516
+    lvgl.widget.show: dv2_2
+  - &id517
+    lvgl.widget.hide: sb2_tl
+  - &id518
+    lvgl.widget.hide: sb2_tr
+  - &id519
+    lvgl.widget.hide: sb2_bl
+  - &id520
+    lvgl.widget.hide: sb2_br
+  - &id521
+    lvgl.widget.update:
       id: sb2_tl
       border_color: 0x585858
-  - lvgl.widget.update:
+  - &id522
+    lvgl.widget.update:
       id: sb2_tr
       border_color: 0x585858
-  - lvgl.widget.update:
+  - &id523
+    lvgl.widget.update:
       id: sb2_bl
       border_color: 0x585858
-  - lvgl.widget.update:
+  - &id524
+    lvgl.widget.update:
       id: sb2_br
       border_color: 0x585858
-  - lvgl.widget.show: bar3
-  - lvgl.widget.hide: lb3_0
-  - lvgl.widget.hide: lb3_1
-  - lvgl.widget.hide: lb3_2
-  - lvgl.widget.hide: lb3_3
-  - lvgl.widget.hide: lb3_4
-  - lvgl.widget.hide: lb3_5
-  - lvgl.widget.hide: lb3_6
-  - lvgl.widget.hide: hb3_tl
-  - lvgl.widget.hide: hb3_tr
-  - lvgl.widget.hide: hb3_bl
-  - lvgl.widget.hide: hb3_br
-  - lvgl.widget.hide: hs3
-  - lvgl.widget.update:
+  - &id021
+    lvgl.widget.show: bar3
+  - &id022
+    lvgl.widget.hide: lb3_0
+  - &id023
+    lvgl.widget.hide: lb3_1
+  - &id024
+    lvgl.widget.hide: lb3_2
+  - &id025
+    lvgl.widget.hide: lb3_3
+  - &id026
+    lvgl.widget.hide: lb3_4
+  - &id027
+    lvgl.widget.hide: lb3_5
+  - &id028
+    lvgl.widget.hide: lb3_6
+  - &id029
+    lvgl.widget.hide: hb3_tl
+  - &id030
+    lvgl.widget.hide: hb3_tr
+  - &id031
+    lvgl.widget.hide: hb3_bl
+  - &id032
+    lvgl.widget.hide: hb3_br
+  - &id033
+    lvgl.widget.hide: hs3
+  - &id034
+    lvgl.widget.update:
       id: name3
       y: -22
-  - lvgl.widget.update:
+  - &id035
+    lvgl.widget.update:
       id: stat3
       y: 38
-  - if:
+  - &id036
+    if:
       condition:
         lambda: return id(lon3);
       then:
@@ -1986,26 +2134,42 @@ script:
       - lvgl.label.update:
           id: stat3
           text: יובכ
-  - lvgl.widget.show: bar4
-  - lvgl.widget.hide: lb4_0
-  - lvgl.widget.hide: lb4_1
-  - lvgl.widget.hide: lb4_2
-  - lvgl.widget.hide: lb4_3
-  - lvgl.widget.hide: lb4_4
-  - lvgl.widget.hide: lb4_5
-  - lvgl.widget.hide: lb4_6
-  - lvgl.widget.hide: hb4_tl
-  - lvgl.widget.hide: hb4_tr
-  - lvgl.widget.hide: hb4_bl
-  - lvgl.widget.hide: hb4_br
-  - lvgl.widget.hide: hs4
-  - lvgl.widget.update:
+  - &id117
+    lvgl.widget.show: bar4
+  - &id118
+    lvgl.widget.hide: lb4_0
+  - &id119
+    lvgl.widget.hide: lb4_1
+  - &id120
+    lvgl.widget.hide: lb4_2
+  - &id121
+    lvgl.widget.hide: lb4_3
+  - &id122
+    lvgl.widget.hide: lb4_4
+  - &id123
+    lvgl.widget.hide: lb4_5
+  - &id124
+    lvgl.widget.hide: lb4_6
+  - &id125
+    lvgl.widget.hide: hb4_tl
+  - &id126
+    lvgl.widget.hide: hb4_tr
+  - &id127
+    lvgl.widget.hide: hb4_bl
+  - &id128
+    lvgl.widget.hide: hb4_br
+  - &id129
+    lvgl.widget.hide: hs4
+  - &id130
+    lvgl.widget.update:
       id: name4
       y: -22
-  - lvgl.widget.update:
+  - &id131
+    lvgl.widget.update:
       id: stat4
       y: 38
-  - if:
+  - &id132
+    if:
       condition:
         lambda: return id(lon4);
       then:
@@ -2048,26 +2212,42 @@ script:
       - lvgl.label.update:
           id: stat4
           text: יובכ
-  - lvgl.widget.show: bar5
-  - lvgl.widget.hide: lb5_0
-  - lvgl.widget.hide: lb5_1
-  - lvgl.widget.hide: lb5_2
-  - lvgl.widget.hide: lb5_3
-  - lvgl.widget.hide: lb5_4
-  - lvgl.widget.hide: lb5_5
-  - lvgl.widget.hide: lb5_6
-  - lvgl.widget.hide: hb5_tl
-  - lvgl.widget.hide: hb5_tr
-  - lvgl.widget.hide: hb5_bl
-  - lvgl.widget.hide: hb5_br
-  - lvgl.widget.hide: hs5
-  - lvgl.widget.update:
+  - &id213
+    lvgl.widget.show: bar5
+  - &id214
+    lvgl.widget.hide: lb5_0
+  - &id215
+    lvgl.widget.hide: lb5_1
+  - &id216
+    lvgl.widget.hide: lb5_2
+  - &id217
+    lvgl.widget.hide: lb5_3
+  - &id218
+    lvgl.widget.hide: lb5_4
+  - &id219
+    lvgl.widget.hide: lb5_5
+  - &id220
+    lvgl.widget.hide: lb5_6
+  - &id221
+    lvgl.widget.hide: hb5_tl
+  - &id222
+    lvgl.widget.hide: hb5_tr
+  - &id223
+    lvgl.widget.hide: hb5_bl
+  - &id224
+    lvgl.widget.hide: hb5_br
+  - &id225
+    lvgl.widget.hide: hs5
+  - &id226
+    lvgl.widget.update:
       id: name5
       y: -22
-  - lvgl.widget.update:
+  - &id227
+    lvgl.widget.update:
       id: stat5
       y: 38
-  - if:
+  - &id228
+    if:
       condition:
         lambda: return id(lon5);
       then:
@@ -2110,26 +2290,42 @@ script:
       - lvgl.label.update:
           id: stat5
           text: יובכ
-  - lvgl.widget.show: bar6
-  - lvgl.widget.hide: lb6_0
-  - lvgl.widget.hide: lb6_1
-  - lvgl.widget.hide: lb6_2
-  - lvgl.widget.hide: lb6_3
-  - lvgl.widget.hide: lb6_4
-  - lvgl.widget.hide: lb6_5
-  - lvgl.widget.hide: lb6_6
-  - lvgl.widget.hide: hb6_tl
-  - lvgl.widget.hide: hb6_tr
-  - lvgl.widget.hide: hb6_bl
-  - lvgl.widget.hide: hb6_br
-  - lvgl.widget.hide: hs6
-  - lvgl.widget.update:
+  - &id309
+    lvgl.widget.show: bar6
+  - &id310
+    lvgl.widget.hide: lb6_0
+  - &id311
+    lvgl.widget.hide: lb6_1
+  - &id312
+    lvgl.widget.hide: lb6_2
+  - &id313
+    lvgl.widget.hide: lb6_3
+  - &id314
+    lvgl.widget.hide: lb6_4
+  - &id315
+    lvgl.widget.hide: lb6_5
+  - &id316
+    lvgl.widget.hide: lb6_6
+  - &id317
+    lvgl.widget.hide: hb6_tl
+  - &id318
+    lvgl.widget.hide: hb6_tr
+  - &id319
+    lvgl.widget.hide: hb6_bl
+  - &id320
+    lvgl.widget.hide: hb6_br
+  - &id321
+    lvgl.widget.hide: hs6
+  - &id322
+    lvgl.widget.update:
       id: name6
       y: -22
-  - lvgl.widget.update:
+  - &id323
+    lvgl.widget.update:
       id: stat6
       y: 38
-  - if:
+  - &id324
+    if:
       condition:
         lambda: return id(lon6);
       then:
@@ -2213,112 +2409,162 @@ script:
   - lvgl.widget.update:
       id: tabl4
       text_color: 0x686868
-  - lvgl.widget.update:
+  - &id423
+    lvgl.widget.update:
       id: card1
       bg_color: 0xF0F0F0
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0xD8D8D8
-  - lvgl.widget.update:
+  - &id424
+    lvgl.widget.update:
       id: name1
       text_color: 0x686868
-  - lvgl.widget.update:
+  - &id425
+    lvgl.widget.update:
       id: dv1_1
       bg_color: 0xD8D8D8
-  - lvgl.widget.update:
+  - &id426
+    lvgl.widget.update:
       id: dv1_2
       bg_color: 0xD8D8D8
-  - lvgl.widget.update:
+  - &id427
+    lvgl.widget.update:
       id: g1u
       text_color: 0x101010
-  - lvgl.widget.update:
+  - &id428
+    lvgl.widget.update:
       id: g1s
       text_color: 0x101010
-  - lvgl.widget.update:
+  - &id429
+    lvgl.widget.update:
       id: g1d
       text_color: 0x101010
-  - lvgl.widget.show: dv1_1
-  - lvgl.widget.show: dv1_2
-  - lvgl.widget.hide: sb1_tl
-  - lvgl.widget.hide: sb1_tr
-  - lvgl.widget.hide: sb1_bl
-  - lvgl.widget.hide: sb1_br
-  - lvgl.widget.update:
+  - &id430
+    lvgl.widget.show: dv1_1
+  - &id431
+    lvgl.widget.show: dv1_2
+  - &id432
+    lvgl.widget.hide: sb1_tl
+  - &id433
+    lvgl.widget.hide: sb1_tr
+  - &id434
+    lvgl.widget.hide: sb1_bl
+  - &id435
+    lvgl.widget.hide: sb1_br
+  - &id436
+    lvgl.widget.update:
       id: sb1_tl
       border_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id437
+    lvgl.widget.update:
       id: sb1_tr
       border_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id438
+    lvgl.widget.update:
       id: sb1_bl
       border_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id439
+    lvgl.widget.update:
       id: sb1_br
       border_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id525
+    lvgl.widget.update:
       id: card2
       bg_color: 0xF0F0F0
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0xD8D8D8
-  - lvgl.widget.update:
+  - &id526
+    lvgl.widget.update:
       id: name2
       text_color: 0x686868
-  - lvgl.widget.update:
+  - &id527
+    lvgl.widget.update:
       id: dv2_1
       bg_color: 0xD8D8D8
-  - lvgl.widget.update:
+  - &id528
+    lvgl.widget.update:
       id: dv2_2
       bg_color: 0xD8D8D8
-  - lvgl.widget.update:
+  - &id529
+    lvgl.widget.update:
       id: g2u
       text_color: 0x101010
-  - lvgl.widget.update:
+  - &id530
+    lvgl.widget.update:
       id: g2s
       text_color: 0x101010
-  - lvgl.widget.update:
+  - &id531
+    lvgl.widget.update:
       id: g2d
       text_color: 0x101010
-  - lvgl.widget.show: dv2_1
-  - lvgl.widget.show: dv2_2
-  - lvgl.widget.hide: sb2_tl
-  - lvgl.widget.hide: sb2_tr
-  - lvgl.widget.hide: sb2_bl
-  - lvgl.widget.hide: sb2_br
-  - lvgl.widget.update:
+  - &id532
+    lvgl.widget.show: dv2_1
+  - &id533
+    lvgl.widget.show: dv2_2
+  - &id534
+    lvgl.widget.hide: sb2_tl
+  - &id535
+    lvgl.widget.hide: sb2_tr
+  - &id536
+    lvgl.widget.hide: sb2_bl
+  - &id537
+    lvgl.widget.hide: sb2_br
+  - &id538
+    lvgl.widget.update:
       id: sb2_tl
       border_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id539
+    lvgl.widget.update:
       id: sb2_tr
       border_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id540
+    lvgl.widget.update:
       id: sb2_bl
       border_color: 0xA0A0A0
-  - lvgl.widget.update:
+  - &id541
+    lvgl.widget.update:
       id: sb2_br
       border_color: 0xA0A0A0
-  - lvgl.widget.show: bar3
-  - lvgl.widget.hide: lb3_0
-  - lvgl.widget.hide: lb3_1
-  - lvgl.widget.hide: lb3_2
-  - lvgl.widget.hide: lb3_3
-  - lvgl.widget.hide: lb3_4
-  - lvgl.widget.hide: lb3_5
-  - lvgl.widget.hide: lb3_6
-  - lvgl.widget.hide: hb3_tl
-  - lvgl.widget.hide: hb3_tr
-  - lvgl.widget.hide: hb3_bl
-  - lvgl.widget.hide: hb3_br
-  - lvgl.widget.hide: hs3
-  - lvgl.widget.update:
+  - &id037
+    lvgl.widget.show: bar3
+  - &id038
+    lvgl.widget.hide: lb3_0
+  - &id039
+    lvgl.widget.hide: lb3_1
+  - &id040
+    lvgl.widget.hide: lb3_2
+  - &id041
+    lvgl.widget.hide: lb3_3
+  - &id042
+    lvgl.widget.hide: lb3_4
+  - &id043
+    lvgl.widget.hide: lb3_5
+  - &id044
+    lvgl.widget.hide: lb3_6
+  - &id045
+    lvgl.widget.hide: hb3_tl
+  - &id046
+    lvgl.widget.hide: hb3_tr
+  - &id047
+    lvgl.widget.hide: hb3_bl
+  - &id048
+    lvgl.widget.hide: hb3_br
+  - &id049
+    lvgl.widget.hide: hs3
+  - &id050
+    lvgl.widget.update:
       id: name3
       y: -22
-  - lvgl.widget.update:
+  - &id051
+    lvgl.widget.update:
       id: stat3
       y: 38
-  - if:
+  - &id052
+    if:
       condition:
         lambda: return id(lon3);
       then:
@@ -2361,26 +2607,42 @@ script:
       - lvgl.label.update:
           id: stat3
           text: יובכ
-  - lvgl.widget.show: bar4
-  - lvgl.widget.hide: lb4_0
-  - lvgl.widget.hide: lb4_1
-  - lvgl.widget.hide: lb4_2
-  - lvgl.widget.hide: lb4_3
-  - lvgl.widget.hide: lb4_4
-  - lvgl.widget.hide: lb4_5
-  - lvgl.widget.hide: lb4_6
-  - lvgl.widget.hide: hb4_tl
-  - lvgl.widget.hide: hb4_tr
-  - lvgl.widget.hide: hb4_bl
-  - lvgl.widget.hide: hb4_br
-  - lvgl.widget.hide: hs4
-  - lvgl.widget.update:
+  - &id133
+    lvgl.widget.show: bar4
+  - &id134
+    lvgl.widget.hide: lb4_0
+  - &id135
+    lvgl.widget.hide: lb4_1
+  - &id136
+    lvgl.widget.hide: lb4_2
+  - &id137
+    lvgl.widget.hide: lb4_3
+  - &id138
+    lvgl.widget.hide: lb4_4
+  - &id139
+    lvgl.widget.hide: lb4_5
+  - &id140
+    lvgl.widget.hide: lb4_6
+  - &id141
+    lvgl.widget.hide: hb4_tl
+  - &id142
+    lvgl.widget.hide: hb4_tr
+  - &id143
+    lvgl.widget.hide: hb4_bl
+  - &id144
+    lvgl.widget.hide: hb4_br
+  - &id145
+    lvgl.widget.hide: hs4
+  - &id146
+    lvgl.widget.update:
       id: name4
       y: -22
-  - lvgl.widget.update:
+  - &id147
+    lvgl.widget.update:
       id: stat4
       y: 38
-  - if:
+  - &id148
+    if:
       condition:
         lambda: return id(lon4);
       then:
@@ -2423,26 +2685,42 @@ script:
       - lvgl.label.update:
           id: stat4
           text: יובכ
-  - lvgl.widget.show: bar5
-  - lvgl.widget.hide: lb5_0
-  - lvgl.widget.hide: lb5_1
-  - lvgl.widget.hide: lb5_2
-  - lvgl.widget.hide: lb5_3
-  - lvgl.widget.hide: lb5_4
-  - lvgl.widget.hide: lb5_5
-  - lvgl.widget.hide: lb5_6
-  - lvgl.widget.hide: hb5_tl
-  - lvgl.widget.hide: hb5_tr
-  - lvgl.widget.hide: hb5_bl
-  - lvgl.widget.hide: hb5_br
-  - lvgl.widget.hide: hs5
-  - lvgl.widget.update:
+  - &id229
+    lvgl.widget.show: bar5
+  - &id230
+    lvgl.widget.hide: lb5_0
+  - &id231
+    lvgl.widget.hide: lb5_1
+  - &id232
+    lvgl.widget.hide: lb5_2
+  - &id233
+    lvgl.widget.hide: lb5_3
+  - &id234
+    lvgl.widget.hide: lb5_4
+  - &id235
+    lvgl.widget.hide: lb5_5
+  - &id236
+    lvgl.widget.hide: lb5_6
+  - &id237
+    lvgl.widget.hide: hb5_tl
+  - &id238
+    lvgl.widget.hide: hb5_tr
+  - &id239
+    lvgl.widget.hide: hb5_bl
+  - &id240
+    lvgl.widget.hide: hb5_br
+  - &id241
+    lvgl.widget.hide: hs5
+  - &id242
+    lvgl.widget.update:
       id: name5
       y: -22
-  - lvgl.widget.update:
+  - &id243
+    lvgl.widget.update:
       id: stat5
       y: 38
-  - if:
+  - &id244
+    if:
       condition:
         lambda: return id(lon5);
       then:
@@ -2485,26 +2763,42 @@ script:
       - lvgl.label.update:
           id: stat5
           text: יובכ
-  - lvgl.widget.show: bar6
-  - lvgl.widget.hide: lb6_0
-  - lvgl.widget.hide: lb6_1
-  - lvgl.widget.hide: lb6_2
-  - lvgl.widget.hide: lb6_3
-  - lvgl.widget.hide: lb6_4
-  - lvgl.widget.hide: lb6_5
-  - lvgl.widget.hide: lb6_6
-  - lvgl.widget.hide: hb6_tl
-  - lvgl.widget.hide: hb6_tr
-  - lvgl.widget.hide: hb6_bl
-  - lvgl.widget.hide: hb6_br
-  - lvgl.widget.hide: hs6
-  - lvgl.widget.update:
+  - &id325
+    lvgl.widget.show: bar6
+  - &id326
+    lvgl.widget.hide: lb6_0
+  - &id327
+    lvgl.widget.hide: lb6_1
+  - &id328
+    lvgl.widget.hide: lb6_2
+  - &id329
+    lvgl.widget.hide: lb6_3
+  - &id330
+    lvgl.widget.hide: lb6_4
+  - &id331
+    lvgl.widget.hide: lb6_5
+  - &id332
+    lvgl.widget.hide: lb6_6
+  - &id333
+    lvgl.widget.hide: hb6_tl
+  - &id334
+    lvgl.widget.hide: hb6_tr
+  - &id335
+    lvgl.widget.hide: hb6_bl
+  - &id336
+    lvgl.widget.hide: hb6_br
+  - &id337
+    lvgl.widget.hide: hs6
+  - &id338
+    lvgl.widget.update:
       id: name6
       y: -22
-  - lvgl.widget.update:
+  - &id339
+    lvgl.widget.update:
       id: stat6
       y: 38
-  - if:
+  - &id340
+    if:
       condition:
         lambda: return id(lon6);
       then:
@@ -2588,112 +2882,162 @@ script:
   - lvgl.widget.update:
       id: tabl4
       text_color: 0x7B8397
-  - lvgl.widget.update:
+  - &id440
+    lvgl.widget.update:
       id: card1
       bg_color: 0xF8F9FB
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id441
+    lvgl.widget.update:
       id: name1
       text_color: 0x7B8397
-  - lvgl.widget.update:
+  - &id442
+    lvgl.widget.update:
       id: dv1_1
       bg_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id443
+    lvgl.widget.update:
       id: dv1_2
       bg_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id444
+    lvgl.widget.update:
       id: g1u
       text_color: 0x1B2030
-  - lvgl.widget.update:
+  - &id445
+    lvgl.widget.update:
       id: g1s
       text_color: 0x1B2030
-  - lvgl.widget.update:
+  - &id446
+    lvgl.widget.update:
       id: g1d
       text_color: 0x1B2030
-  - lvgl.widget.show: dv1_1
-  - lvgl.widget.show: dv1_2
-  - lvgl.widget.hide: sb1_tl
-  - lvgl.widget.hide: sb1_tr
-  - lvgl.widget.hide: sb1_bl
-  - lvgl.widget.hide: sb1_br
-  - lvgl.widget.update:
+  - &id447
+    lvgl.widget.show: dv1_1
+  - &id448
+    lvgl.widget.show: dv1_2
+  - &id449
+    lvgl.widget.hide: sb1_tl
+  - &id450
+    lvgl.widget.hide: sb1_tr
+  - &id451
+    lvgl.widget.hide: sb1_bl
+  - &id452
+    lvgl.widget.hide: sb1_br
+  - &id453
+    lvgl.widget.update:
       id: sb1_tl
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id454
+    lvgl.widget.update:
       id: sb1_tr
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id455
+    lvgl.widget.update:
       id: sb1_bl
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id456
+    lvgl.widget.update:
       id: sb1_br
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id542
+    lvgl.widget.update:
       id: card2
       bg_color: 0xF8F9FB
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id543
+    lvgl.widget.update:
       id: name2
       text_color: 0x7B8397
-  - lvgl.widget.update:
+  - &id544
+    lvgl.widget.update:
       id: dv2_1
       bg_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id545
+    lvgl.widget.update:
       id: dv2_2
       bg_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id546
+    lvgl.widget.update:
       id: g2u
       text_color: 0x1B2030
-  - lvgl.widget.update:
+  - &id547
+    lvgl.widget.update:
       id: g2s
       text_color: 0x1B2030
-  - lvgl.widget.update:
+  - &id548
+    lvgl.widget.update:
       id: g2d
       text_color: 0x1B2030
-  - lvgl.widget.show: dv2_1
-  - lvgl.widget.show: dv2_2
-  - lvgl.widget.hide: sb2_tl
-  - lvgl.widget.hide: sb2_tr
-  - lvgl.widget.hide: sb2_bl
-  - lvgl.widget.hide: sb2_br
-  - lvgl.widget.update:
+  - &id549
+    lvgl.widget.show: dv2_1
+  - &id550
+    lvgl.widget.show: dv2_2
+  - &id551
+    lvgl.widget.hide: sb2_tl
+  - &id552
+    lvgl.widget.hide: sb2_tr
+  - &id553
+    lvgl.widget.hide: sb2_bl
+  - &id554
+    lvgl.widget.hide: sb2_br
+  - &id555
+    lvgl.widget.update:
       id: sb2_tl
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id556
+    lvgl.widget.update:
       id: sb2_tr
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id557
+    lvgl.widget.update:
       id: sb2_bl
       border_color: 0xD2D7E0
-  - lvgl.widget.update:
+  - &id558
+    lvgl.widget.update:
       id: sb2_br
       border_color: 0xD2D7E0
-  - lvgl.widget.show: bar3
-  - lvgl.widget.hide: lb3_0
-  - lvgl.widget.hide: lb3_1
-  - lvgl.widget.hide: lb3_2
-  - lvgl.widget.hide: lb3_3
-  - lvgl.widget.hide: lb3_4
-  - lvgl.widget.hide: lb3_5
-  - lvgl.widget.hide: lb3_6
-  - lvgl.widget.hide: hb3_tl
-  - lvgl.widget.hide: hb3_tr
-  - lvgl.widget.hide: hb3_bl
-  - lvgl.widget.hide: hb3_br
-  - lvgl.widget.hide: hs3
-  - lvgl.widget.update:
+  - &id053
+    lvgl.widget.show: bar3
+  - &id054
+    lvgl.widget.hide: lb3_0
+  - &id055
+    lvgl.widget.hide: lb3_1
+  - &id056
+    lvgl.widget.hide: lb3_2
+  - &id057
+    lvgl.widget.hide: lb3_3
+  - &id058
+    lvgl.widget.hide: lb3_4
+  - &id059
+    lvgl.widget.hide: lb3_5
+  - &id060
+    lvgl.widget.hide: lb3_6
+  - &id061
+    lvgl.widget.hide: hb3_tl
+  - &id062
+    lvgl.widget.hide: hb3_tr
+  - &id063
+    lvgl.widget.hide: hb3_bl
+  - &id064
+    lvgl.widget.hide: hb3_br
+  - &id065
+    lvgl.widget.hide: hs3
+  - &id066
+    lvgl.widget.update:
       id: name3
       y: -22
-  - lvgl.widget.update:
+  - &id067
+    lvgl.widget.update:
       id: stat3
       y: 38
-  - if:
+  - &id068
+    if:
       condition:
         lambda: return id(lon3);
       then:
@@ -2736,26 +3080,42 @@ script:
       - lvgl.label.update:
           id: stat3
           text: יובכ
-  - lvgl.widget.show: bar4
-  - lvgl.widget.hide: lb4_0
-  - lvgl.widget.hide: lb4_1
-  - lvgl.widget.hide: lb4_2
-  - lvgl.widget.hide: lb4_3
-  - lvgl.widget.hide: lb4_4
-  - lvgl.widget.hide: lb4_5
-  - lvgl.widget.hide: lb4_6
-  - lvgl.widget.hide: hb4_tl
-  - lvgl.widget.hide: hb4_tr
-  - lvgl.widget.hide: hb4_bl
-  - lvgl.widget.hide: hb4_br
-  - lvgl.widget.hide: hs4
-  - lvgl.widget.update:
+  - &id149
+    lvgl.widget.show: bar4
+  - &id150
+    lvgl.widget.hide: lb4_0
+  - &id151
+    lvgl.widget.hide: lb4_1
+  - &id152
+    lvgl.widget.hide: lb4_2
+  - &id153
+    lvgl.widget.hide: lb4_3
+  - &id154
+    lvgl.widget.hide: lb4_4
+  - &id155
+    lvgl.widget.hide: lb4_5
+  - &id156
+    lvgl.widget.hide: lb4_6
+  - &id157
+    lvgl.widget.hide: hb4_tl
+  - &id158
+    lvgl.widget.hide: hb4_tr
+  - &id159
+    lvgl.widget.hide: hb4_bl
+  - &id160
+    lvgl.widget.hide: hb4_br
+  - &id161
+    lvgl.widget.hide: hs4
+  - &id162
+    lvgl.widget.update:
       id: name4
       y: -22
-  - lvgl.widget.update:
+  - &id163
+    lvgl.widget.update:
       id: stat4
       y: 38
-  - if:
+  - &id164
+    if:
       condition:
         lambda: return id(lon4);
       then:
@@ -2798,26 +3158,42 @@ script:
       - lvgl.label.update:
           id: stat4
           text: יובכ
-  - lvgl.widget.show: bar5
-  - lvgl.widget.hide: lb5_0
-  - lvgl.widget.hide: lb5_1
-  - lvgl.widget.hide: lb5_2
-  - lvgl.widget.hide: lb5_3
-  - lvgl.widget.hide: lb5_4
-  - lvgl.widget.hide: lb5_5
-  - lvgl.widget.hide: lb5_6
-  - lvgl.widget.hide: hb5_tl
-  - lvgl.widget.hide: hb5_tr
-  - lvgl.widget.hide: hb5_bl
-  - lvgl.widget.hide: hb5_br
-  - lvgl.widget.hide: hs5
-  - lvgl.widget.update:
+  - &id245
+    lvgl.widget.show: bar5
+  - &id246
+    lvgl.widget.hide: lb5_0
+  - &id247
+    lvgl.widget.hide: lb5_1
+  - &id248
+    lvgl.widget.hide: lb5_2
+  - &id249
+    lvgl.widget.hide: lb5_3
+  - &id250
+    lvgl.widget.hide: lb5_4
+  - &id251
+    lvgl.widget.hide: lb5_5
+  - &id252
+    lvgl.widget.hide: lb5_6
+  - &id253
+    lvgl.widget.hide: hb5_tl
+  - &id254
+    lvgl.widget.hide: hb5_tr
+  - &id255
+    lvgl.widget.hide: hb5_bl
+  - &id256
+    lvgl.widget.hide: hb5_br
+  - &id257
+    lvgl.widget.hide: hs5
+  - &id258
+    lvgl.widget.update:
       id: name5
       y: -22
-  - lvgl.widget.update:
+  - &id259
+    lvgl.widget.update:
       id: stat5
       y: 38
-  - if:
+  - &id260
+    if:
       condition:
         lambda: return id(lon5);
       then:
@@ -2860,26 +3236,42 @@ script:
       - lvgl.label.update:
           id: stat5
           text: יובכ
-  - lvgl.widget.show: bar6
-  - lvgl.widget.hide: lb6_0
-  - lvgl.widget.hide: lb6_1
-  - lvgl.widget.hide: lb6_2
-  - lvgl.widget.hide: lb6_3
-  - lvgl.widget.hide: lb6_4
-  - lvgl.widget.hide: lb6_5
-  - lvgl.widget.hide: lb6_6
-  - lvgl.widget.hide: hb6_tl
-  - lvgl.widget.hide: hb6_tr
-  - lvgl.widget.hide: hb6_bl
-  - lvgl.widget.hide: hb6_br
-  - lvgl.widget.hide: hs6
-  - lvgl.widget.update:
+  - &id341
+    lvgl.widget.show: bar6
+  - &id342
+    lvgl.widget.hide: lb6_0
+  - &id343
+    lvgl.widget.hide: lb6_1
+  - &id344
+    lvgl.widget.hide: lb6_2
+  - &id345
+    lvgl.widget.hide: lb6_3
+  - &id346
+    lvgl.widget.hide: lb6_4
+  - &id347
+    lvgl.widget.hide: lb6_5
+  - &id348
+    lvgl.widget.hide: lb6_6
+  - &id349
+    lvgl.widget.hide: hb6_tl
+  - &id350
+    lvgl.widget.hide: hb6_tr
+  - &id351
+    lvgl.widget.hide: hb6_bl
+  - &id352
+    lvgl.widget.hide: hb6_br
+  - &id353
+    lvgl.widget.hide: hs6
+  - &id354
+    lvgl.widget.update:
       id: name6
       y: -22
-  - lvgl.widget.update:
+  - &id355
+    lvgl.widget.update:
       id: stat6
       y: 38
-  - if:
+  - &id356
+    if:
       condition:
         lambda: return id(lon6);
       then:
@@ -2963,112 +3355,162 @@ script:
   - lvgl.widget.update:
       id: tabl4
       text_color: 0x4C8791
-  - lvgl.widget.update:
+  - &id457
+    lvgl.widget.update:
       id: card1
       bg_color: 0x02080C
       bg_opa: TRANSP
       radius: 0
       border_width: 0
       border_color: 0x12353D
-  - lvgl.widget.update:
+  - &id458
+    lvgl.widget.update:
       id: name1
       text_color: 0x4C8791
-  - lvgl.widget.update:
+  - &id459
+    lvgl.widget.update:
       id: dv1_1
       bg_color: 0x12353D
-  - lvgl.widget.update:
+  - &id460
+    lvgl.widget.update:
       id: dv1_2
       bg_color: 0x12353D
-  - lvgl.widget.update:
+  - &id461
+    lvgl.widget.update:
       id: g1u
       text_color: 0xD8F7FB
-  - lvgl.widget.update:
+  - &id462
+    lvgl.widget.update:
       id: g1s
       text_color: 0xD8F7FB
-  - lvgl.widget.update:
+  - &id463
+    lvgl.widget.update:
       id: g1d
       text_color: 0xD8F7FB
-  - lvgl.widget.hide: dv1_1
-  - lvgl.widget.hide: dv1_2
-  - lvgl.widget.show: sb1_tl
-  - lvgl.widget.show: sb1_tr
-  - lvgl.widget.show: sb1_bl
-  - lvgl.widget.show: sb1_br
-  - lvgl.widget.update:
+  - &id464
+    lvgl.widget.hide: dv1_1
+  - &id465
+    lvgl.widget.hide: dv1_2
+  - &id466
+    lvgl.widget.show: sb1_tl
+  - &id467
+    lvgl.widget.show: sb1_tr
+  - &id468
+    lvgl.widget.show: sb1_bl
+  - &id469
+    lvgl.widget.show: sb1_br
+  - &id470
+    lvgl.widget.update:
       id: sb1_tl
       border_color: 0x1B5560
-  - lvgl.widget.update:
+  - &id471
+    lvgl.widget.update:
       id: sb1_tr
       border_color: 0x1B5560
-  - lvgl.widget.update:
+  - &id472
+    lvgl.widget.update:
       id: sb1_bl
       border_color: 0x1B5560
-  - lvgl.widget.update:
+  - &id473
+    lvgl.widget.update:
       id: sb1_br
       border_color: 0x1B5560
-  - lvgl.widget.update:
+  - &id559
+    lvgl.widget.update:
       id: card2
       bg_color: 0x02080C
       bg_opa: TRANSP
       radius: 0
       border_width: 0
       border_color: 0x12353D
-  - lvgl.widget.update:
+  - &id560
+    lvgl.widget.update:
       id: name2
       text_color: 0x4C8791
-  - lvgl.widget.update:
+  - &id561
+    lvgl.widget.update:
       id: dv2_1
       bg_color: 0x12353D
-  - lvgl.widget.update:
+  - &id562
+    lvgl.widget.update:
       id: dv2_2
       bg_color: 0x12353D
-  - lvgl.widget.update:
+  - &id563
+    lvgl.widget.update:
       id: g2u
       text_color: 0xD8F7FB
-  - lvgl.widget.update:
+  - &id564
+    lvgl.widget.update:
       id: g2s
       text_color: 0xD8F7FB
-  - lvgl.widget.update:
+  - &id565
+    lvgl.widget.update:
       id: g2d
       text_color: 0xD8F7FB
-  - lvgl.widget.hide: dv2_1
-  - lvgl.widget.hide: dv2_2
-  - lvgl.widget.show: sb2_tl
-  - lvgl.widget.show: sb2_tr
-  - lvgl.widget.show: sb2_bl
-  - lvgl.widget.show: sb2_br
-  - lvgl.widget.update:
+  - &id566
+    lvgl.widget.hide: dv2_1
+  - &id567
+    lvgl.widget.hide: dv2_2
+  - &id568
+    lvgl.widget.show: sb2_tl
+  - &id569
+    lvgl.widget.show: sb2_tr
+  - &id570
+    lvgl.widget.show: sb2_bl
+  - &id571
+    lvgl.widget.show: sb2_br
+  - &id572
+    lvgl.widget.update:
       id: sb2_tl
       border_color: 0x1B5560
-  - lvgl.widget.update:
+  - &id573
+    lvgl.widget.update:
       id: sb2_tr
       border_color: 0x1B5560
-  - lvgl.widget.update:
+  - &id574
+    lvgl.widget.update:
       id: sb2_bl
       border_color: 0x1B5560
-  - lvgl.widget.update:
+  - &id575
+    lvgl.widget.update:
       id: sb2_br
       border_color: 0x1B5560
-  - lvgl.widget.hide: bar3
-  - lvgl.widget.hide: lb3_0
-  - lvgl.widget.hide: lb3_1
-  - lvgl.widget.hide: lb3_2
-  - lvgl.widget.hide: lb3_3
-  - lvgl.widget.hide: lb3_4
-  - lvgl.widget.hide: lb3_5
-  - lvgl.widget.hide: lb3_6
-  - lvgl.widget.show: hb3_tl
-  - lvgl.widget.show: hb3_tr
-  - lvgl.widget.show: hb3_bl
-  - lvgl.widget.show: hb3_br
-  - lvgl.widget.show: hs3
-  - lvgl.widget.update:
+  - &id069
+    lvgl.widget.hide: bar3
+  - &id070
+    lvgl.widget.hide: lb3_0
+  - &id071
+    lvgl.widget.hide: lb3_1
+  - &id072
+    lvgl.widget.hide: lb3_2
+  - &id073
+    lvgl.widget.hide: lb3_3
+  - &id074
+    lvgl.widget.hide: lb3_4
+  - &id075
+    lvgl.widget.hide: lb3_5
+  - &id076
+    lvgl.widget.hide: lb3_6
+  - &id077
+    lvgl.widget.show: hb3_tl
+  - &id078
+    lvgl.widget.show: hb3_tr
+  - &id079
+    lvgl.widget.show: hb3_bl
+  - &id080
+    lvgl.widget.show: hb3_br
+  - &id081
+    lvgl.widget.show: hs3
+  - &id082
+    lvgl.widget.update:
       id: name3
       y: 0
-  - lvgl.widget.update:
+  - &id083
+    lvgl.widget.update:
       id: stat3
       y: 80
-  - if:
+  - &id084
+    if:
       condition:
         lambda: return id(lon3);
       then:
@@ -3139,26 +3581,42 @@ script:
       - lvgl.label.update:
           id: stat3
           text: יובכ
-  - lvgl.widget.hide: bar4
-  - lvgl.widget.hide: lb4_0
-  - lvgl.widget.hide: lb4_1
-  - lvgl.widget.hide: lb4_2
-  - lvgl.widget.hide: lb4_3
-  - lvgl.widget.hide: lb4_4
-  - lvgl.widget.hide: lb4_5
-  - lvgl.widget.hide: lb4_6
-  - lvgl.widget.show: hb4_tl
-  - lvgl.widget.show: hb4_tr
-  - lvgl.widget.show: hb4_bl
-  - lvgl.widget.show: hb4_br
-  - lvgl.widget.show: hs4
-  - lvgl.widget.update:
+  - &id165
+    lvgl.widget.hide: bar4
+  - &id166
+    lvgl.widget.hide: lb4_0
+  - &id167
+    lvgl.widget.hide: lb4_1
+  - &id168
+    lvgl.widget.hide: lb4_2
+  - &id169
+    lvgl.widget.hide: lb4_3
+  - &id170
+    lvgl.widget.hide: lb4_4
+  - &id171
+    lvgl.widget.hide: lb4_5
+  - &id172
+    lvgl.widget.hide: lb4_6
+  - &id173
+    lvgl.widget.show: hb4_tl
+  - &id174
+    lvgl.widget.show: hb4_tr
+  - &id175
+    lvgl.widget.show: hb4_bl
+  - &id176
+    lvgl.widget.show: hb4_br
+  - &id177
+    lvgl.widget.show: hs4
+  - &id178
+    lvgl.widget.update:
       id: name4
       y: 0
-  - lvgl.widget.update:
+  - &id179
+    lvgl.widget.update:
       id: stat4
       y: 80
-  - if:
+  - &id180
+    if:
       condition:
         lambda: return id(lon4);
       then:
@@ -3229,26 +3687,42 @@ script:
       - lvgl.label.update:
           id: stat4
           text: יובכ
-  - lvgl.widget.hide: bar5
-  - lvgl.widget.hide: lb5_0
-  - lvgl.widget.hide: lb5_1
-  - lvgl.widget.hide: lb5_2
-  - lvgl.widget.hide: lb5_3
-  - lvgl.widget.hide: lb5_4
-  - lvgl.widget.hide: lb5_5
-  - lvgl.widget.hide: lb5_6
-  - lvgl.widget.show: hb5_tl
-  - lvgl.widget.show: hb5_tr
-  - lvgl.widget.show: hb5_bl
-  - lvgl.widget.show: hb5_br
-  - lvgl.widget.show: hs5
-  - lvgl.widget.update:
+  - &id261
+    lvgl.widget.hide: bar5
+  - &id262
+    lvgl.widget.hide: lb5_0
+  - &id263
+    lvgl.widget.hide: lb5_1
+  - &id264
+    lvgl.widget.hide: lb5_2
+  - &id265
+    lvgl.widget.hide: lb5_3
+  - &id266
+    lvgl.widget.hide: lb5_4
+  - &id267
+    lvgl.widget.hide: lb5_5
+  - &id268
+    lvgl.widget.hide: lb5_6
+  - &id269
+    lvgl.widget.show: hb5_tl
+  - &id270
+    lvgl.widget.show: hb5_tr
+  - &id271
+    lvgl.widget.show: hb5_bl
+  - &id272
+    lvgl.widget.show: hb5_br
+  - &id273
+    lvgl.widget.show: hs5
+  - &id274
+    lvgl.widget.update:
       id: name5
       y: 0
-  - lvgl.widget.update:
+  - &id275
+    lvgl.widget.update:
       id: stat5
       y: 80
-  - if:
+  - &id276
+    if:
       condition:
         lambda: return id(lon5);
       then:
@@ -3319,26 +3793,42 @@ script:
       - lvgl.label.update:
           id: stat5
           text: יובכ
-  - lvgl.widget.hide: bar6
-  - lvgl.widget.hide: lb6_0
-  - lvgl.widget.hide: lb6_1
-  - lvgl.widget.hide: lb6_2
-  - lvgl.widget.hide: lb6_3
-  - lvgl.widget.hide: lb6_4
-  - lvgl.widget.hide: lb6_5
-  - lvgl.widget.hide: lb6_6
-  - lvgl.widget.show: hb6_tl
-  - lvgl.widget.show: hb6_tr
-  - lvgl.widget.show: hb6_bl
-  - lvgl.widget.show: hb6_br
-  - lvgl.widget.show: hs6
-  - lvgl.widget.update:
+  - &id357
+    lvgl.widget.hide: bar6
+  - &id358
+    lvgl.widget.hide: lb6_0
+  - &id359
+    lvgl.widget.hide: lb6_1
+  - &id360
+    lvgl.widget.hide: lb6_2
+  - &id361
+    lvgl.widget.hide: lb6_3
+  - &id362
+    lvgl.widget.hide: lb6_4
+  - &id363
+    lvgl.widget.hide: lb6_5
+  - &id364
+    lvgl.widget.hide: lb6_6
+  - &id365
+    lvgl.widget.show: hb6_tl
+  - &id366
+    lvgl.widget.show: hb6_tr
+  - &id367
+    lvgl.widget.show: hb6_bl
+  - &id368
+    lvgl.widget.show: hb6_br
+  - &id369
+    lvgl.widget.show: hs6
+  - &id370
+    lvgl.widget.update:
       id: name6
       y: 0
-  - lvgl.widget.update:
+  - &id371
+    lvgl.widget.update:
       id: stat6
       y: 80
-  - if:
+  - &id372
+    if:
       condition:
         lambda: return id(lon6);
       then:
@@ -3450,112 +3940,162 @@ script:
   - lvgl.widget.update:
       id: tabl4
       text_color: 0x80848F
-  - lvgl.widget.update:
+  - &id474
+    lvgl.widget.update:
       id: card1
       bg_color: 0x17181D
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id475
+    lvgl.widget.update:
       id: name1
       text_color: 0x80848F
-  - lvgl.widget.update:
+  - &id476
+    lvgl.widget.update:
       id: dv1_1
       bg_color: 0x25272E
-  - lvgl.widget.update:
+  - &id477
+    lvgl.widget.update:
       id: dv1_2
       bg_color: 0x25272E
-  - lvgl.widget.update:
+  - &id478
+    lvgl.widget.update:
       id: g1u
       text_color: 0xF0F1F3
-  - lvgl.widget.update:
+  - &id479
+    lvgl.widget.update:
       id: g1s
       text_color: 0xF0F1F3
-  - lvgl.widget.update:
+  - &id480
+    lvgl.widget.update:
       id: g1d
       text_color: 0xF0F1F3
-  - lvgl.widget.show: dv1_1
-  - lvgl.widget.show: dv1_2
-  - lvgl.widget.hide: sb1_tl
-  - lvgl.widget.hide: sb1_tr
-  - lvgl.widget.hide: sb1_bl
-  - lvgl.widget.hide: sb1_br
-  - lvgl.widget.update:
+  - &id481
+    lvgl.widget.show: dv1_1
+  - &id482
+    lvgl.widget.show: dv1_2
+  - &id483
+    lvgl.widget.hide: sb1_tl
+  - &id484
+    lvgl.widget.hide: sb1_tr
+  - &id485
+    lvgl.widget.hide: sb1_bl
+  - &id486
+    lvgl.widget.hide: sb1_br
+  - &id487
+    lvgl.widget.update:
       id: sb1_tl
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id488
+    lvgl.widget.update:
       id: sb1_tr
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id489
+    lvgl.widget.update:
       id: sb1_bl
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id490
+    lvgl.widget.update:
       id: sb1_br
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id576
+    lvgl.widget.update:
       id: card2
       bg_color: 0x17181D
       bg_opa: COVER
       radius: 24
       border_width: 1
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id577
+    lvgl.widget.update:
       id: name2
       text_color: 0x80848F
-  - lvgl.widget.update:
+  - &id578
+    lvgl.widget.update:
       id: dv2_1
       bg_color: 0x25272E
-  - lvgl.widget.update:
+  - &id579
+    lvgl.widget.update:
       id: dv2_2
       bg_color: 0x25272E
-  - lvgl.widget.update:
+  - &id580
+    lvgl.widget.update:
       id: g2u
       text_color: 0xF0F1F3
-  - lvgl.widget.update:
+  - &id581
+    lvgl.widget.update:
       id: g2s
       text_color: 0xF0F1F3
-  - lvgl.widget.update:
+  - &id582
+    lvgl.widget.update:
       id: g2d
       text_color: 0xF0F1F3
-  - lvgl.widget.show: dv2_1
-  - lvgl.widget.show: dv2_2
-  - lvgl.widget.hide: sb2_tl
-  - lvgl.widget.hide: sb2_tr
-  - lvgl.widget.hide: sb2_bl
-  - lvgl.widget.hide: sb2_br
-  - lvgl.widget.update:
+  - &id583
+    lvgl.widget.show: dv2_1
+  - &id584
+    lvgl.widget.show: dv2_2
+  - &id585
+    lvgl.widget.hide: sb2_tl
+  - &id586
+    lvgl.widget.hide: sb2_tr
+  - &id587
+    lvgl.widget.hide: sb2_bl
+  - &id588
+    lvgl.widget.hide: sb2_br
+  - &id589
+    lvgl.widget.update:
       id: sb2_tl
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id590
+    lvgl.widget.update:
       id: sb2_tr
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id591
+    lvgl.widget.update:
       id: sb2_bl
       border_color: 0x25272E
-  - lvgl.widget.update:
+  - &id592
+    lvgl.widget.update:
       id: sb2_br
       border_color: 0x25272E
-  - lvgl.widget.hide: bar3
-  - lvgl.widget.show: lb3_0
-  - lvgl.widget.show: lb3_1
-  - lvgl.widget.show: lb3_2
-  - lvgl.widget.show: lb3_3
-  - lvgl.widget.show: lb3_4
-  - lvgl.widget.show: lb3_5
-  - lvgl.widget.show: lb3_6
-  - lvgl.widget.hide: hb3_tl
-  - lvgl.widget.hide: hb3_tr
-  - lvgl.widget.hide: hb3_bl
-  - lvgl.widget.hide: hb3_br
-  - lvgl.widget.hide: hs3
-  - lvgl.widget.update:
+  - &id085
+    lvgl.widget.hide: bar3
+  - &id086
+    lvgl.widget.show: lb3_0
+  - &id087
+    lvgl.widget.show: lb3_1
+  - &id088
+    lvgl.widget.show: lb3_2
+  - &id089
+    lvgl.widget.show: lb3_3
+  - &id090
+    lvgl.widget.show: lb3_4
+  - &id091
+    lvgl.widget.show: lb3_5
+  - &id092
+    lvgl.widget.show: lb3_6
+  - &id093
+    lvgl.widget.hide: hb3_tl
+  - &id094
+    lvgl.widget.hide: hb3_tr
+  - &id095
+    lvgl.widget.hide: hb3_bl
+  - &id096
+    lvgl.widget.hide: hb3_br
+  - &id097
+    lvgl.widget.hide: hs3
+  - &id098
+    lvgl.widget.update:
       id: name3
       y: 42
-  - lvgl.widget.update:
+  - &id099
+    lvgl.widget.update:
       id: stat3
       y: 120
-  - if:
+  - &id100
+    if:
       condition:
         lambda: return id(lon3);
       then:
@@ -3634,26 +4174,42 @@ script:
       - lvgl.label.update:
           id: stat3
           text: יובכ
-  - lvgl.widget.hide: bar4
-  - lvgl.widget.show: lb4_0
-  - lvgl.widget.show: lb4_1
-  - lvgl.widget.show: lb4_2
-  - lvgl.widget.show: lb4_3
-  - lvgl.widget.show: lb4_4
-  - lvgl.widget.show: lb4_5
-  - lvgl.widget.show: lb4_6
-  - lvgl.widget.hide: hb4_tl
-  - lvgl.widget.hide: hb4_tr
-  - lvgl.widget.hide: hb4_bl
-  - lvgl.widget.hide: hb4_br
-  - lvgl.widget.hide: hs4
-  - lvgl.widget.update:
+  - &id181
+    lvgl.widget.hide: bar4
+  - &id182
+    lvgl.widget.show: lb4_0
+  - &id183
+    lvgl.widget.show: lb4_1
+  - &id184
+    lvgl.widget.show: lb4_2
+  - &id185
+    lvgl.widget.show: lb4_3
+  - &id186
+    lvgl.widget.show: lb4_4
+  - &id187
+    lvgl.widget.show: lb4_5
+  - &id188
+    lvgl.widget.show: lb4_6
+  - &id189
+    lvgl.widget.hide: hb4_tl
+  - &id190
+    lvgl.widget.hide: hb4_tr
+  - &id191
+    lvgl.widget.hide: hb4_bl
+  - &id192
+    lvgl.widget.hide: hb4_br
+  - &id193
+    lvgl.widget.hide: hs4
+  - &id194
+    lvgl.widget.update:
       id: name4
       y: 42
-  - lvgl.widget.update:
+  - &id195
+    lvgl.widget.update:
       id: stat4
       y: 120
-  - if:
+  - &id196
+    if:
       condition:
         lambda: return id(lon4);
       then:
@@ -3732,26 +4288,42 @@ script:
       - lvgl.label.update:
           id: stat4
           text: יובכ
-  - lvgl.widget.hide: bar5
-  - lvgl.widget.show: lb5_0
-  - lvgl.widget.show: lb5_1
-  - lvgl.widget.show: lb5_2
-  - lvgl.widget.show: lb5_3
-  - lvgl.widget.show: lb5_4
-  - lvgl.widget.show: lb5_5
-  - lvgl.widget.show: lb5_6
-  - lvgl.widget.hide: hb5_tl
-  - lvgl.widget.hide: hb5_tr
-  - lvgl.widget.hide: hb5_bl
-  - lvgl.widget.hide: hb5_br
-  - lvgl.widget.hide: hs5
-  - lvgl.widget.update:
+  - &id277
+    lvgl.widget.hide: bar5
+  - &id278
+    lvgl.widget.show: lb5_0
+  - &id279
+    lvgl.widget.show: lb5_1
+  - &id280
+    lvgl.widget.show: lb5_2
+  - &id281
+    lvgl.widget.show: lb5_3
+  - &id282
+    lvgl.widget.show: lb5_4
+  - &id283
+    lvgl.widget.show: lb5_5
+  - &id284
+    lvgl.widget.show: lb5_6
+  - &id285
+    lvgl.widget.hide: hb5_tl
+  - &id286
+    lvgl.widget.hide: hb5_tr
+  - &id287
+    lvgl.widget.hide: hb5_bl
+  - &id288
+    lvgl.widget.hide: hb5_br
+  - &id289
+    lvgl.widget.hide: hs5
+  - &id290
+    lvgl.widget.update:
       id: name5
       y: 42
-  - lvgl.widget.update:
+  - &id291
+    lvgl.widget.update:
       id: stat5
       y: 120
-  - if:
+  - &id292
+    if:
       condition:
         lambda: return id(lon5);
       then:
@@ -3830,26 +4402,42 @@ script:
       - lvgl.label.update:
           id: stat5
           text: יובכ
-  - lvgl.widget.hide: bar6
-  - lvgl.widget.show: lb6_0
-  - lvgl.widget.show: lb6_1
-  - lvgl.widget.show: lb6_2
-  - lvgl.widget.show: lb6_3
-  - lvgl.widget.show: lb6_4
-  - lvgl.widget.show: lb6_5
-  - lvgl.widget.show: lb6_6
-  - lvgl.widget.hide: hb6_tl
-  - lvgl.widget.hide: hb6_tr
-  - lvgl.widget.hide: hb6_bl
-  - lvgl.widget.hide: hb6_br
-  - lvgl.widget.hide: hs6
-  - lvgl.widget.update:
+  - &id373
+    lvgl.widget.hide: bar6
+  - &id374
+    lvgl.widget.show: lb6_0
+  - &id375
+    lvgl.widget.show: lb6_1
+  - &id376
+    lvgl.widget.show: lb6_2
+  - &id377
+    lvgl.widget.show: lb6_3
+  - &id378
+    lvgl.widget.show: lb6_4
+  - &id379
+    lvgl.widget.show: lb6_5
+  - &id380
+    lvgl.widget.show: lb6_6
+  - &id381
+    lvgl.widget.hide: hb6_tl
+  - &id382
+    lvgl.widget.hide: hb6_tr
+  - &id383
+    lvgl.widget.hide: hb6_bl
+  - &id384
+    lvgl.widget.hide: hb6_br
+  - &id385
+    lvgl.widget.hide: hs6
+  - &id386
+    lvgl.widget.update:
       id: name6
       y: 42
-  - lvgl.widget.update:
+  - &id387
+    lvgl.widget.update:
       id: stat6
       y: 120
-  - if:
+  - &id388
+    if:
       condition:
         lambda: return id(lon6);
       then:
@@ -3960,6 +4548,750 @@ script:
         lambda: return id(theme_sel).current_option() == "ladder";
       then:
       - script.execute: ui_theme_ladder
+- id: ui_tile3
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - *id005
+      - *id006
+      - *id007
+      - *id008
+      - *id009
+      - *id010
+      - *id011
+      - *id012
+      - *id013
+      - *id014
+      - *id015
+      - *id016
+      - *id017
+      - *id018
+      - *id019
+      - *id020
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - *id021
+      - *id022
+      - *id023
+      - *id024
+      - *id025
+      - *id026
+      - *id027
+      - *id028
+      - *id029
+      - *id030
+      - *id031
+      - *id032
+      - *id033
+      - *id034
+      - *id035
+      - *id036
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - *id037
+      - *id038
+      - *id039
+      - *id040
+      - *id041
+      - *id042
+      - *id043
+      - *id044
+      - *id045
+      - *id046
+      - *id047
+      - *id048
+      - *id049
+      - *id050
+      - *id051
+      - *id052
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - *id053
+      - *id054
+      - *id055
+      - *id056
+      - *id057
+      - *id058
+      - *id059
+      - *id060
+      - *id061
+      - *id062
+      - *id063
+      - *id064
+      - *id065
+      - *id066
+      - *id067
+      - *id068
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - *id069
+      - *id070
+      - *id071
+      - *id072
+      - *id073
+      - *id074
+      - *id075
+      - *id076
+      - *id077
+      - *id078
+      - *id079
+      - *id080
+      - *id081
+      - *id082
+      - *id083
+      - *id084
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - *id085
+      - *id086
+      - *id087
+      - *id088
+      - *id089
+      - *id090
+      - *id091
+      - *id092
+      - *id093
+      - *id094
+      - *id095
+      - *id096
+      - *id097
+      - *id098
+      - *id099
+      - *id100
+- id: ui_tile4
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - *id101
+      - *id102
+      - *id103
+      - *id104
+      - *id105
+      - *id106
+      - *id107
+      - *id108
+      - *id109
+      - *id110
+      - *id111
+      - *id112
+      - *id113
+      - *id114
+      - *id115
+      - *id116
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - *id117
+      - *id118
+      - *id119
+      - *id120
+      - *id121
+      - *id122
+      - *id123
+      - *id124
+      - *id125
+      - *id126
+      - *id127
+      - *id128
+      - *id129
+      - *id130
+      - *id131
+      - *id132
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - *id133
+      - *id134
+      - *id135
+      - *id136
+      - *id137
+      - *id138
+      - *id139
+      - *id140
+      - *id141
+      - *id142
+      - *id143
+      - *id144
+      - *id145
+      - *id146
+      - *id147
+      - *id148
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - *id149
+      - *id150
+      - *id151
+      - *id152
+      - *id153
+      - *id154
+      - *id155
+      - *id156
+      - *id157
+      - *id158
+      - *id159
+      - *id160
+      - *id161
+      - *id162
+      - *id163
+      - *id164
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - *id165
+      - *id166
+      - *id167
+      - *id168
+      - *id169
+      - *id170
+      - *id171
+      - *id172
+      - *id173
+      - *id174
+      - *id175
+      - *id176
+      - *id177
+      - *id178
+      - *id179
+      - *id180
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - *id181
+      - *id182
+      - *id183
+      - *id184
+      - *id185
+      - *id186
+      - *id187
+      - *id188
+      - *id189
+      - *id190
+      - *id191
+      - *id192
+      - *id193
+      - *id194
+      - *id195
+      - *id196
+- id: ui_tile5
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - *id197
+      - *id198
+      - *id199
+      - *id200
+      - *id201
+      - *id202
+      - *id203
+      - *id204
+      - *id205
+      - *id206
+      - *id207
+      - *id208
+      - *id209
+      - *id210
+      - *id211
+      - *id212
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - *id213
+      - *id214
+      - *id215
+      - *id216
+      - *id217
+      - *id218
+      - *id219
+      - *id220
+      - *id221
+      - *id222
+      - *id223
+      - *id224
+      - *id225
+      - *id226
+      - *id227
+      - *id228
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - *id229
+      - *id230
+      - *id231
+      - *id232
+      - *id233
+      - *id234
+      - *id235
+      - *id236
+      - *id237
+      - *id238
+      - *id239
+      - *id240
+      - *id241
+      - *id242
+      - *id243
+      - *id244
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - *id245
+      - *id246
+      - *id247
+      - *id248
+      - *id249
+      - *id250
+      - *id251
+      - *id252
+      - *id253
+      - *id254
+      - *id255
+      - *id256
+      - *id257
+      - *id258
+      - *id259
+      - *id260
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - *id261
+      - *id262
+      - *id263
+      - *id264
+      - *id265
+      - *id266
+      - *id267
+      - *id268
+      - *id269
+      - *id270
+      - *id271
+      - *id272
+      - *id273
+      - *id274
+      - *id275
+      - *id276
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - *id277
+      - *id278
+      - *id279
+      - *id280
+      - *id281
+      - *id282
+      - *id283
+      - *id284
+      - *id285
+      - *id286
+      - *id287
+      - *id288
+      - *id289
+      - *id290
+      - *id291
+      - *id292
+- id: ui_tile6
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - *id293
+      - *id294
+      - *id295
+      - *id296
+      - *id297
+      - *id298
+      - *id299
+      - *id300
+      - *id301
+      - *id302
+      - *id303
+      - *id304
+      - *id305
+      - *id306
+      - *id307
+      - *id308
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - *id309
+      - *id310
+      - *id311
+      - *id312
+      - *id313
+      - *id314
+      - *id315
+      - *id316
+      - *id317
+      - *id318
+      - *id319
+      - *id320
+      - *id321
+      - *id322
+      - *id323
+      - *id324
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - *id325
+      - *id326
+      - *id327
+      - *id328
+      - *id329
+      - *id330
+      - *id331
+      - *id332
+      - *id333
+      - *id334
+      - *id335
+      - *id336
+      - *id337
+      - *id338
+      - *id339
+      - *id340
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - *id341
+      - *id342
+      - *id343
+      - *id344
+      - *id345
+      - *id346
+      - *id347
+      - *id348
+      - *id349
+      - *id350
+      - *id351
+      - *id352
+      - *id353
+      - *id354
+      - *id355
+      - *id356
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - *id357
+      - *id358
+      - *id359
+      - *id360
+      - *id361
+      - *id362
+      - *id363
+      - *id364
+      - *id365
+      - *id366
+      - *id367
+      - *id368
+      - *id369
+      - *id370
+      - *id371
+      - *id372
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - *id373
+      - *id374
+      - *id375
+      - *id376
+      - *id377
+      - *id378
+      - *id379
+      - *id380
+      - *id381
+      - *id382
+      - *id383
+      - *id384
+      - *id385
+      - *id386
+      - *id387
+      - *id388
+- id: ui_tile1
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - *id389
+      - *id390
+      - *id391
+      - *id392
+      - *id393
+      - *id394
+      - *id395
+      - *id396
+      - *id397
+      - *id398
+      - *id399
+      - *id400
+      - *id401
+      - *id402
+      - *id403
+      - *id404
+      - *id405
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - *id406
+      - *id407
+      - *id408
+      - *id409
+      - *id410
+      - *id411
+      - *id412
+      - *id413
+      - *id414
+      - *id415
+      - *id416
+      - *id417
+      - *id418
+      - *id419
+      - *id420
+      - *id421
+      - *id422
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - *id423
+      - *id424
+      - *id425
+      - *id426
+      - *id427
+      - *id428
+      - *id429
+      - *id430
+      - *id431
+      - *id432
+      - *id433
+      - *id434
+      - *id435
+      - *id436
+      - *id437
+      - *id438
+      - *id439
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - *id440
+      - *id441
+      - *id442
+      - *id443
+      - *id444
+      - *id445
+      - *id446
+      - *id447
+      - *id448
+      - *id449
+      - *id450
+      - *id451
+      - *id452
+      - *id453
+      - *id454
+      - *id455
+      - *id456
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - *id457
+      - *id458
+      - *id459
+      - *id460
+      - *id461
+      - *id462
+      - *id463
+      - *id464
+      - *id465
+      - *id466
+      - *id467
+      - *id468
+      - *id469
+      - *id470
+      - *id471
+      - *id472
+      - *id473
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - *id474
+      - *id475
+      - *id476
+      - *id477
+      - *id478
+      - *id479
+      - *id480
+      - *id481
+      - *id482
+      - *id483
+      - *id484
+      - *id485
+      - *id486
+      - *id487
+      - *id488
+      - *id489
+      - *id490
+- id: ui_tile2
+  then:
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "navy";
+      then:
+      - *id491
+      - *id492
+      - *id493
+      - *id494
+      - *id495
+      - *id496
+      - *id497
+      - *id498
+      - *id499
+      - *id500
+      - *id501
+      - *id502
+      - *id503
+      - *id504
+      - *id505
+      - *id506
+      - *id507
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "black";
+      then:
+      - *id508
+      - *id509
+      - *id510
+      - *id511
+      - *id512
+      - *id513
+      - *id514
+      - *id515
+      - *id516
+      - *id517
+      - *id518
+      - *id519
+      - *id520
+      - *id521
+      - *id522
+      - *id523
+      - *id524
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "white";
+      then:
+      - *id525
+      - *id526
+      - *id527
+      - *id528
+      - *id529
+      - *id530
+      - *id531
+      - *id532
+      - *id533
+      - *id534
+      - *id535
+      - *id536
+      - *id537
+      - *id538
+      - *id539
+      - *id540
+      - *id541
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "lunar";
+      then:
+      - *id542
+      - *id543
+      - *id544
+      - *id545
+      - *id546
+      - *id547
+      - *id548
+      - *id549
+      - *id550
+      - *id551
+      - *id552
+      - *id553
+      - *id554
+      - *id555
+      - *id556
+      - *id557
+      - *id558
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "hud";
+      then:
+      - *id559
+      - *id560
+      - *id561
+      - *id562
+      - *id563
+      - *id564
+      - *id565
+      - *id566
+      - *id567
+      - *id568
+      - *id569
+      - *id570
+      - *id571
+      - *id572
+      - *id573
+      - *id574
+      - *id575
+  - if:
+      condition:
+        lambda: return id(theme_sel).current_option() == "ladder";
+      then:
+      - *id576
+      - *id577
+      - *id578
+      - *id579
+      - *id580
+      - *id581
+      - *id582
+      - *id583
+      - *id584
+      - *id585
+      - *id586
+      - *id587
+      - *id588
+      - *id589
+      - *id590
+      - *id591
+      - *id592
 - id: ui_press_c3
   then:
   - if:
